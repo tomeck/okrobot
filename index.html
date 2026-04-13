@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OK ROBOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-subtle: #111111;
+    --text-primary: #e8e8e8;
+    --text-secondary: #888888;
+    --text-dim: #555555;
+    --accent: #00ff88;
+    --accent-dim: #00ff8822;
+    --accent-glow: #00ff8844;
+    --border: #1a1a1a;
+    --font-display: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-dim) var(--bg);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- PARTICLE CANVAS ---- */
+  #particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ---- NAVIGATION ---- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, var(--bg) 60%, transparent);
+  }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-left: 2.5rem;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ---- SECTIONS ---- */
+  section {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 3rem;
+  }
+
+  .section-inner {
+    max-width: 900px;
+    width: 100%;
+  }
+
+  /* ---- HERO ---- */
+  #hero {
+    min-height: 100vh;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .hero-chat {
+    display: inline-block;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2.5rem;
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.8;
+    min-width: 280px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+
+  .chat-line {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .chat-role-user {
+    color: var(--accent);
+  }
+
+  .chat-role-assistant {
+    color: var(--accent);
+  }
+
+  .chat-text {
+    color: var(--text-primary);
+  }
+
+  .chat-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    vertical-align: text-bottom;
+    margin-left: 2px;
+    animation: blink 0.6s step-end infinite;
+  }
+
+  .thinking-dots span {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin: 0 2px;
+    opacity: 0;
+    vertical-align: middle;
+  }
+
+  .thinking-dots span:nth-child(1) { animation: dot-pulse 1.2s 0s infinite; }
+  .thinking-dots span:nth-child(2) { animation: dot-pulse 1.2s 0.2s infinite; }
+  .thinking-dots span:nth-child(3) { animation: dot-pulse 1.2s 0.4s infinite; }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes dot-pulse {
+    0%, 60%, 100% { opacity: 0; transform: scale(0.8); }
+    30% { opacity: 1; transform: scale(1); }
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.5s forwards;
+  }
+
+  .hero-name .ok {
+    color: var(--text-primary);
+  }
+
+  .hero-name .robot {
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-mono);
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    color: var(--text-secondary);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-tagline em {
+    color: var(--text-primary);
+    font-style: normal;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.2s forwards;
+  }
+
+  .scroll-hint span {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ---- MISSION ---- */
+  #mission {
+    border-top: 1px solid var(--border);
+  }
+
+  .mission-content {
+    max-width: 700px;
+  }
+
+  .mission-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  .mission-text {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .mission-text strong {
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .mission-closer {
+    margin-top: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+
+  /* ---- PRINCIPLES ---- */
+  #principles {
+    border-top: 1px solid var(--border);
+  }
+
+  .principles-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3rem;
+  }
+
+  .principle {
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem 2rem;
+    align-items: baseline;
+  }
+
+  .principle:first-of-type {
+    border-top: 1px solid var(--border);
+  }
+
+  .principle-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    padding-top: 0.15rem;
+  }
+
+  .principle-headline {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .principle-body {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ---- TEAM ---- */
+  #team {
+    border-top: 1px solid var(--border);
+  }
+
+  .team-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3rem;
+  }
+
+  .founder-card {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .founder-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--bg-subtle);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .founder-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid var(--accent-dim);
+  }
+
+  .founder-avatar svg {
+    width: 40px;
+    height: 40px;
+    opacity: 0.3;
+  }
+
+  .founder-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #ffffff;
+    margin-bottom: 0.3rem;
+  }
+
+  .founder-title {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.2rem;
+  }
+
+  .founder-credential {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+
+  /* ---- CTA ---- */
+  #cta {
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .cta-headline {
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+
+  .cta-sub {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .cta-button {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .cta-button:hover {
+    box-shadow: 0 0 30px var(--accent-glow), 0 0 60px var(--accent-dim);
+    transform: translateY(-2px);
+  }
+
+  /* ---- MODAL ---- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 460px;
+    position: relative;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s ease;
+  }
+
+  .modal-overlay.active .modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+    font-family: var(--font-mono);
+  }
+
+  .modal-close:hover { color: var(--accent); }
+
+  .modal-title {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+  }
+
+  .modal-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-dim);
+  }
+
+  .form-group input::placeholder {
+    color: var(--text-dim);
+  }
+
+  .form-group select option {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+
+  .form-submit {
+    width: 100%;
+    margin-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 0.9rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .form-submit:hover {
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  .form-submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .form-success {
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .form-success .checkmark {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+
+  .form-success p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .form-success p strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  footer a:hover { color: var(--accent); }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- MOBILE ---- */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .principle {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .principle-number { display: none; }
+    .founder-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    footer {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">OK ROBOT</div>
+  <div class="nav-links">
+    <a href="#mission">Mission</a>
+    <a href="#principles">Principles</a>
+    <a href="#team">Team</a>
+    <a href="#cta">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="section-inner" style="text-align:center;">
+    <div class="hero-chat" id="heroChat">
+      <div class="chat-line" id="chatLineUser">
+        <span class="chat-role-user">User: </span><span class="chat-text" id="chatUserText"></span><span class="chat-cursor" id="cursorUser"></span>
+      </div>
+      <div class="chat-line" id="chatLineAssistant" style="display:none;">
+        <span class="chat-role-assistant">OK ROBOT: </span><span class="thinking-dots" id="thinkingDots"><span></span><span></span><span></span></span><span class="chat-text" id="chatAssistantText"></span><span class="chat-cursor" id="cursorAssistant" style="display:none;"></span>
+      </div>
+    </div>
+    <h1 class="hero-name">
+      <span class="ok">OK </span><span class="robot">ROBOT</span>
+    </h1>
+    <p class="hero-tagline">We taught the machines. <em>Now we'll teach you.</em></p>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section id="mission">
+  <div class="section-inner">
+    <div class="mission-content reveal">
+      <div class="mission-label">// What we do</div>
+      <p class="mission-text">
+        <strong>We build AI systems. We make teams better at AI.</strong>
+        Forged by operators, not observers.
+      </p>
+      <p class="mission-closer">One side builds. The other elevates. Both deliver.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="section-inner">
+    <div class="principles-label reveal">// What we believe</div>
+
+    <div class="principle reveal">
+      <div class="principle-number">01</div>
+      <div>
+        <div class="principle-headline">Built by builders.</div>
+        <div class="principle-body">We don't advise from the sidelines. We've shipped production AI with scars to prove it.</div>
+      </div>
+    </div>
+
+    <div class="principle reveal">
+      <div class="principle-number">02</div>
+      <div>
+        <div class="principle-headline">AI is a tool, not a strategy.</div>
+        <div class="principle-body">Tools solve problems. Strategies without tools are just slide decks.</div>
+      </div>
+    </div>
+
+    <div class="principle reveal">
+      <div class="principle-number">03</div>
+      <div>
+        <div class="principle-headline">Outcomes, not demos.</div>
+        <div class="principle-body">A model that dazzles in a notebook and fails in production isn't AI. It's a magic trick.</div>
+      </div>
+    </div>
+
+    <div class="principle reveal">
+      <div class="principle-number">04</div>
+      <div>
+        <div class="principle-headline">Train the people, not just the models.</div>
+        <div class="principle-body">The best AI strategy is a team that doesn't need us forever.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-inner">
+    <div class="team-label reveal">// Who we are</div>
+    <div class="founder-card reveal">
+      <div class="founder-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="founder-name">[Founder Name]</div>
+        <div class="founder-title">Founder</div>
+        <div class="founder-credential">[One-line credential — e.g., "Ex-Google · 10 years shipping ML at scale"]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="section-inner reveal">
+    <h2 class="cta-headline">Be the first to know.</h2>
+    <p class="cta-sub">We're building something worth paying attention to.</p>
+    <a href="#" onclick="openModal(event)" class="cta-button">Get Notified</a>
+  </div>
+</section>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="signupModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="formContent">
+      <div class="modal-title">Get on the list.</div>
+      <div class="modal-subtitle">We'll let you know when we're ready to talk.</div>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="formName" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="formEmail" placeholder="you@company.com" />
+      </div>
+      <div class="form-group">
+        <label>Interested in</label>
+        <select id="formInterest">
+          <option value="" disabled selected>Select one...</option>
+          <option value="Training &amp; Workshops">Training &amp; Workshops</option>
+          <option value="Consulting &amp; Advisory">Consulting &amp; Advisory</option>
+          <option value="AI-Powered Products">AI-Powered Products</option>
+          <option value="General Interest">General Interest</option>
+        </select>
+      </div>
+      <button class="form-submit" id="formSubmit" onclick="submitForm()">Submit</button>
+    </div>
+    <div id="formSuccess" class="form-success" style="display:none;">
+      <div class="checkmark">&#10003;</div>
+      <p><strong>You're on the list.</strong><br/>We'll be in touch when there's something worth sharing.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>&copy; 2026 OK ROBOT. All rights reserved.</div>
+  <div><a href="mailto:hello@placeholder.com">hello@placeholder.com</a></div>
+</footer>
+
+<script>
+// ---- PARTICLE NETWORK ----
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouse = { x: null, y: null };
+const PARTICLE_COUNT = 80;
+const CONNECTION_DIST = 150;
+const MOUSE_DIST = 200;
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function createParticles() {
+  particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 1.5 + 0.5,
+    });
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < CONNECTION_DIST) {
+        const alpha = (1 - dist / CONNECTION_DIST) * 0.15;
+        ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // particles
+  for (const p of particles) {
+    // mouse interaction
+    if (mouse.x !== null) {
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_DIST) {
+        const alpha = (1 - dist / MOUSE_DIST) * 0.4;
+        ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`;
+        ctx.lineWidth = 0.3;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    }
+
+    ctx.fillStyle = `rgba(0, 255, 136, 0.6)`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', () => { resize(); createParticles(); });
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+resize();
+createParticles();
+draw();
+
+// ---- SCROLL REVEAL ----
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ---- CHAT ANIMATION ----
+(function() {
+  const conversations = [
+    { user: 'What is this about?',   reply: 'Launching soon.' },
+    { user: 'What do you build?',    reply: 'Things that think.' },
+    { user: 'Can you help my team?', reply: 'We already started.' },
+    { user: 'Are you hiring?',       reply: 'Always looking for builders.' },
+    { user: 'When do you launch?',   reply: 'Sooner than you think.' },
+  ];
+  let currentIndex = 0;
+
+  const typeSpeed = 65;
+  const thinkingDuration = 1500;
+  const startDelay = 1200;
+  const loopPause = 5000;
+
+  const userTextEl = document.getElementById('chatUserText');
+  const assistantTextEl = document.getElementById('chatAssistantText');
+  const assistantLine = document.getElementById('chatLineAssistant');
+  const cursorUser = document.getElementById('cursorUser');
+  const cursorAssistant = document.getElementById('cursorAssistant');
+  const thinkingDots = document.getElementById('thinkingDots');
+
+  function reset() {
+    userTextEl.textContent = '';
+    assistantTextEl.textContent = '';
+    assistantLine.style.display = 'none';
+    cursorUser.style.display = 'inline-block';
+    cursorAssistant.style.display = 'none';
+    thinkingDots.style.display = 'none';
+  }
+
+  function typeText(el, text, speed, callback) {
+    let i = 0;
+    function tick() {
+      if (i < text.length) {
+        el.textContent += text[i];
+        i++;
+        setTimeout(tick, speed + (Math.random() * 30 - 15));
+      } else if (callback) {
+        callback();
+      }
+    }
+    tick();
+  }
+
+  function runAnimation() {
+    reset();
+    const convo = conversations[currentIndex];
+    currentIndex = (currentIndex + 1) % conversations.length;
+
+    // Step 1: Type user message
+    typeText(userTextEl, convo.user, typeSpeed, () => {
+      // Step 2: Hide user cursor, show assistant line with thinking dots
+      cursorUser.style.display = 'none';
+      assistantLine.style.display = 'block';
+      thinkingDots.style.display = 'inline';
+
+      // Step 3: After thinking, hide dots and type assistant response
+      setTimeout(() => {
+        thinkingDots.style.display = 'none';
+        cursorAssistant.style.display = 'inline-block';
+        typeText(assistantTextEl, convo.reply, typeSpeed, () => {
+          // Step 4: Wait, then loop to next
+          setTimeout(runAnimation, loopPause);
+        });
+      }, thinkingDuration);
+    });
+  }
+
+  setTimeout(runAnimation, startDelay);
+})();
+
+// ---- MODAL ----
+const NOTIFY_EMAIL = 'hello@placeholder.com'; // <-- REPLACE WITH YOUR EMAIL
+
+function openModal(e) {
+  e.preventDefault();
+  document.getElementById('signupModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('signupModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// close on overlay click
+document.getElementById('signupModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+function submitForm() {
+  const name = document.getElementById('formName').value.trim();
+  const email = document.getElementById('formEmail').value.trim();
+  const interest = document.getElementById('formInterest').value;
+
+  if (!name || !email || !interest) {
+    // subtle validation — highlight empty fields
+    if (!name) flashField('formName');
+    if (!email) flashField('formEmail');
+    if (!interest) flashField('formInterest');
+    return;
+  }
+
+  const subject = encodeURIComponent(`OK ROBOT — New Signup: ${name}`);
+  const body = encodeURIComponent(
+    `New signup from the OK ROBOT website:\n\n` +
+    `Name: ${name}\n` +
+    `Email: ${email}\n` +
+    `Interested in: ${interest}\n`
+  );
+
+  // Open mailto
+  window.location.href = `mailto:${NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
+
+  // Show success state
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+function flashField(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = '#ff4444';
+  setTimeout(() => { el.style.borderColor = ''; }, 1500);
+}
+</script>
+
+</body>
+</html>
