@@ -118,8 +118,8 @@
   }
 
   .chat-line {
-    white-space: nowrap;
-    overflow: hidden;
+    white-space: normal;
+    word-wrap: break-word;
   }
 
   .chat-role-user {
@@ -941,11 +941,11 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // ---- CHAT ANIMATION ----
 (function() {
   const conversations = [
-    { user: 'What is this about?',   reply: 'Launching soon.' },
-    { user: 'What do you build?',    reply: 'Things that think.' },
-    { user: 'Can you help my team?', reply: 'We already started.' },
-    { user: 'Are you hiring?',       reply: 'Always looking for builders.' },
-    { user: 'When do you launch?',   reply: 'Sooner than you think.' },
+    { user: 'Who is this company?',   reply: 'We are OK Robot.' },
+    { user: 'I\'ve never heard about you.',    reply: 'Oh, you will soon.' },
+    { user: 'What do you do?', reply: 'We help executives and teams understand AI and how best to use it safely.' },
+    { user: 'What qualifies you to do this?',       reply: 'The Team has extensive experience in AI research, safety and applications.' },
+    { user: 'How can I get involved or find out more?',   reply: 'Just fill in the form at the bottom of the page.' },
   ];
   let currentIndex = 0;
 
