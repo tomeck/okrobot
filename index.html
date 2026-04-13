@@ -86,7 +86,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6rem 3rem;
+    padding: 3rem 3rem;
   }
 
   .section-inner {
@@ -666,6 +666,8 @@
     }
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('yDr_cdCk4D20-NkBj');</script>
 </head>
 <body>
 
@@ -1010,8 +1012,6 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 })();
 
 // ---- MODAL ----
-const NOTIFY_EMAIL = 'okrobot@bio-teck.com'; // <-- REPLACE WITH YOUR EMAIL
-
 function openModal(e) {
   e.preventDefault();
   document.getElementById('signupModal').classList.add('active');
@@ -1039,27 +1039,29 @@ function submitForm() {
   const interest = document.getElementById('formInterest').value;
 
   if (!name || !email || !interest) {
-    // subtle validation — highlight empty fields
     if (!name) flashField('formName');
     if (!email) flashField('formEmail');
     if (!interest) flashField('formInterest');
     return;
   }
 
-  const subject = encodeURIComponent(`OK ROBOT — New Signup: ${name}`);
-  const body = encodeURIComponent(
-    `New signup from the OK ROBOT website:\n\n` +
-    `Name: ${name}\n` +
-    `Email: ${email}\n` +
-    `Interested in: ${interest}\n`
-  );
+  const btn = document.getElementById('formSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
 
-  // Open mailto
-  window.location.href = `mailto:${NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
-
-  // Show success state
-  document.getElementById('formContent').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
+  emailjs.send('service_ul775rq', 'template_w2zvaqb', {
+    from_name: name,
+    from_email: email,
+    interest: interest
+  }).then(function() {
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }, function(error) {
+    btn.disabled = false;
+    btn.textContent = 'Submit';
+    alert('Something went wrong. Please try again.');
+    console.error('EmailJS error:', error);
+  });
 }
 
 function flashField(id) {
