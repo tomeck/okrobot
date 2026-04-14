@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samples — OK ROBOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-subtle: #111111;
+    --text-primary: #e8e8e8;
+    --text-secondary: #888888;
+    --text-dim: #555555;
+    --accent: #00ff88;
+    --accent-dim: #00ff8822;
+    --accent-glow: #00ff8844;
+    --border: #1a1a1a;
+    --font-display: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-dim) var(--bg);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- NAVIGATION ---- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, var(--bg) 60%, transparent);
+  }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+
+  .nav-logo a {
+    text-decoration: none;
+  }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-left: 2.5rem;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-links a.active { color: var(--accent); }
+
+  /* ---- PAGE CONTENT ---- */
+  .page-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8rem 3rem 4rem;
+  }
+
+  .page-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  /* ---- SAMPLE CARDS ---- */
+  .samples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .sample-card {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .sample-card:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-2px);
+  }
+
+  .sample-card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
+
+  .sample-card-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .sample-card-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    margin-top: 1rem;
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 4rem;
+  }
+
+  footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  footer a:hover { color: var(--accent); }
+
+  /* ---- MOBILE ---- */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-content { padding: 6rem 1.5rem 3rem; }
+    footer {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
+  <div class="nav-links">
+    <a href="index.html#mission">Mission</a>
+    <a href="index.html#principles">Principles</a>
+    <a href="samples.html" class="active">Samples</a>
+    <a href="index.html#team">Team</a>
+    <a href="index.html#cta">Contact</a>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div class="page-content">
+  <div class="page-label">// Samples</div>
+  <h1 class="page-title">Our Work</h1>
+  <p class="page-subtitle">A selection of projects and capabilities. More coming soon.</p>
+
+  <div class="samples-grid">
+    <div class="sample-card">
+      <div class="sample-card-title">Sample Project 1</div>
+      <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
+      <div class="sample-card-tag">Category</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-card-title">Sample Project 2</div>
+      <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
+      <div class="sample-card-tag">Category</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-card-title">Sample Project 3</div>
+      <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
+      <div class="sample-card-tag">Category</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>&copy; 2026 OK ROBOT LLC. All rights reserved.</div>
+  <div><a href="mailto:okrobot@bio-teck.com">okrobot@bio-teck.com</a></div>
+</footer>
+
+</body>
+</html>
