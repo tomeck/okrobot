@@ -122,9 +122,11 @@
   }
 
   .sample-card:hover {
-    border-color: var(--accent-dim);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-dim);
     transform: translateY(-2px);
   }
+
 
   .sample-card-title {
     font-weight: 700;
@@ -211,20 +213,20 @@
   <p class="page-subtitle">A selection of projects and capabilities. More coming soon.</p>
 
   <div class="samples-grid">
-    <div class="sample-card">
-      <div class="sample-card-title">Sample Project 1</div>
-      <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
-      <div class="sample-card-tag">Category</div>
+    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal()">
+      <div class="sample-card-title">AI Financial Advisor</div>
+      <div class="sample-card-desc">Provide a list of tickers or a portfolio to analyze and optimize.  Receive the industry's most comprehensive financial insights -- in minutes.</div>
+      <div class="sample-card-tag">View Sample &rarr;</div>
     </div>
     <div class="sample-card">
       <div class="sample-card-title">Sample Project 2</div>
       <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
-      <div class="sample-card-tag">Category</div>
+      <div class="sample-card-tag">View Sample &rarr;</div>
     </div>
     <div class="sample-card">
       <div class="sample-card-title">Sample Project 3</div>
       <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
-      <div class="sample-card-tag">Category</div>
+      <div class="sample-card-tag">View Sample &rarr;</div>
     </div>
   </div>
 </div>
@@ -234,6 +236,112 @@
   <div>&copy; 2026 OK ROBOT LLC. All rights reserved.</div>
   <div><a href="mailto:okrobot@bio-teck.com">okrobot@bio-teck.com</a></div>
 </footer>
+
+<!-- PDF MODAL -->
+<div class="pdf-modal-overlay" id="pdfModal" onclick="if(event.target===this)closePdfModal()">
+  <div class="pdf-modal">
+    <button class="pdf-modal-close" onclick="closePdfModal()">&times;</button>
+    <div id="pdfViewer" style="width:100%;height:100%;overflow-y:auto;"></div>
+  </div>
+</div>
+
+<style>
+  .pdf-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .pdf-modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .pdf-modal {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    width: 90%;
+    max-width: 900px;
+    height: 85vh;
+    position: relative;
+    padding: 1rem;
+    padding-top: 2.5rem;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s ease;
+  }
+
+  .pdf-modal-overlay.active .pdf-modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .pdf-modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+    font-family: var(--font-mono);
+    z-index: 1;
+  }
+
+  .pdf-modal-close:hover { color: var(--accent); }
+</style>
+
+<script type="module">
+const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs');
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+
+let pdfLoaded = false;
+
+async function renderPdf() {
+  if (pdfLoaded) return;
+  const viewer = document.getElementById('pdfViewer');
+  const pdf = await pdfjsLib.getDocument('assets/portfolio-digest-sample.pdf').promise;
+
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const scale = (viewer.clientWidth - 20) / page.getViewport({ scale: 1 }).width;
+    const viewport = page.getViewport({ scale: scale });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    canvas.style.display = 'block';
+    canvas.style.margin = '0 auto 10px';
+    viewer.appendChild(canvas);
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+  }
+  pdfLoaded = true;
+}
+
+window.openPdfModal = function() {
+  document.getElementById('pdfModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  renderPdf();
+};
+
+window.closePdfModal = function() {
+  document.getElementById('pdfModal').classList.remove('active');
+  document.body.style.overflow = '';
+};
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePdfModal();
+});
+</script>
 
 </body>
 </html>
