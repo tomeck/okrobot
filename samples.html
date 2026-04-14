@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Samples — OK ROBOT</title>
+<link rel="icon" type="image/png" href="images/ok_robot_logo_400.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -199,6 +200,7 @@
 <nav>
   <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
   <div class="nav-links">
+    <a href="index.html">Home</a>
     <a href="index.html#mission">Mission</a>
     <a href="index.html#principles">Principles</a>
     <a href="samples.html" class="active">Samples</a>
@@ -219,6 +221,7 @@
       <div class="sample-card-desc">Provide a list of tickers or a portfolio to analyze and optimize.  Receive the industry's most comprehensive financial insights -- in minutes.</div>
       <div class="sample-card-tag">View Sample &rarr;</div>
     </div>
+    <!--
     <div class="sample-card">
       <div class="sample-card-title">Sample Project 2</div>
       <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
@@ -229,6 +232,7 @@
       <div class="sample-card-desc">Description of this sample project goes here. Explain what was built and the impact it had.</div>
       <div class="sample-card-tag">View Sample &rarr;</div>
     </div>
+    -->
   </div>
 </div>
 
@@ -315,11 +319,14 @@ async function renderPdf() {
 
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
+    const dpr = window.devicePixelRatio || 2;
     const scale = (viewer.clientWidth - 20) / page.getViewport({ scale: 1 }).width;
-    const viewport = page.getViewport({ scale: scale });
+    const viewport = page.getViewport({ scale: scale * dpr });
     const canvas = document.createElement('canvas');
     canvas.width = viewport.width;
     canvas.height = viewport.height;
+    canvas.style.width = (viewport.width / dpr) + 'px';
+    canvas.style.height = (viewport.height / dpr) + 'px';
     canvas.style.display = 'block';
     canvas.style.margin = '0 auto 10px';
     viewer.appendChild(canvas);
