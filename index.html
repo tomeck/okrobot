@@ -771,9 +771,9 @@
         </svg>
       </div>
       <div>
-        <div class="founder-name">[Founder Name]</div>
+        <div class="founder-name">Tom Eck</div>
         <div class="founder-title">Founder</div>
-        <div class="founder-credential">[One-line credential — e.g., "Ex-Google · 10 years shipping ML at scale"]</div>
+        <div class="founder-credential">>30 years in AI</div>
       </div>
     </div>
   </div>
@@ -943,7 +943,8 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   const conversations = [
     { user: 'Who is this company?',   reply: 'We are OK Robot.' },
     { user: 'I\'ve never heard about you.',    reply: 'Oh, you will soon.' },
-    { user: 'What do you do?', reply: 'We help executives and teams understand AI and how best to use it safely.' },
+    { user: 'What do you do?', reply: 'We help executives and teams understand AI and how best to leverage it for significant impact.' },
+    { user: 'Do you offer anything else?', reply: 'Yes!  For example we can take on any AI-related project for you.' },
     { user: 'What qualifies you to do this?',       reply: 'The Team has extensive experience in AI research, safety and applications.' },
     { user: 'How can I get involved or find out more?',   reply: 'Just fill in the form at the bottom of the page.' },
   ];
@@ -952,7 +953,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   const typeSpeed = 65;
   const thinkingDuration = 1500;
   const startDelay = 1200;
-  const loopPause = 5000;
+  const loopPause = 4000;
 
   const userTextEl = document.getElementById('chatUserText');
   const assistantTextEl = document.getElementById('chatAssistantText');
@@ -1042,6 +1043,12 @@ function submitForm() {
     if (!name) flashField('formName');
     if (!email) flashField('formEmail');
     if (!interest) flashField('formInterest');
+    return;
+  }
+
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    flashField('formEmail');
     return;
   }
 
