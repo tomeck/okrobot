@@ -107,7 +107,7 @@
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 1.5rem 2rem;
-    margin-bottom: 9rem;
+    margin-bottom: 4rem;
     text-align: left;
     font-family: var(--font-mono);
     font-size: clamp(0.85rem, 2vw, 1.1rem);
@@ -676,7 +676,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">OK ROBOT</div>
+  <div class="nav-logo"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></div>
   <div class="nav-links">
     <a href="#mission">Mission</a>
     <a href="#principles">Principles</a>
@@ -697,7 +697,7 @@
       </div>
     </div>
     <h1 class="hero-name">
-      <span class="ok">OK </span><span class="robot">ROBOT</span>
+      <img src="images/ok_robot_logo_400.png" alt="OK ROBOT" style="max-width:400px;width:100%;height:auto;">
     </h1>
     <p class="hero-tagline">We taught the machines. <em>Now we'll teach you.</em></p>
   </div>
@@ -933,7 +933,7 @@ draw();
 function syncChatWidth() {
   const heroName = document.querySelector('.hero-name');
   const heroChat = document.getElementById('heroChat');
-  heroChat.style.width = (heroName.offsetWidth * 0.8) + 'px';
+  heroChat.style.width = (heroName.offsetWidth * 1.5) + 'px';
 }
 syncChatWidth();
 window.addEventListener('resize', syncChatWidth);
