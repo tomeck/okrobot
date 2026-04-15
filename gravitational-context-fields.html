@@ -69,12 +69,6 @@ html, body {
   pointer-events: none;
 }
 
-/* Edge hit areas opt back in to receive clicks */
-.edge-hit-area {
-  pointer-events: stroke !important;
-  cursor: pointer;
-}
-
 #node-layer {
   position: absolute;
   top: 0; left: 0;
@@ -254,6 +248,88 @@ html, body {
 
 .edge-line.animating {
   animation: draw-arrow 0.4s ease-out forwards;
+}
+
+/* ── Edge context menu ── */
+#edge-menu {
+  position: fixed;
+  display: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 4px;
+  z-index: 400;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  min-width: 130px;
+}
+
+#edge-menu.open { display: block; }
+
+.edge-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.1s, color 0.1s;
+}
+
+.edge-menu-item:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.edge-menu-item.danger:hover {
+  background: rgba(255,107,107,0.1);
+  color: var(--danger);
+}
+
+.edge-menu-item .menu-icon {
+  font-size: 13px;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Edge label on canvas */
+.edge-label {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--accent);
+  background: var(--bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  letter-spacing: 0.3px;
+  border: 1px solid var(--border);
+}
+
+/* Edge label edit input (inline) */
+#edge-label-input {
+  position: fixed;
+  display: none;
+  z-index: 500;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 10px;
+  outline: none;
+  min-width: 160px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 .node-action-btn {
@@ -725,6 +801,17 @@ kbd {
   <kbd>Ctrl+S</kbd> save
 </div>
 
+<div id="edge-menu">
+  <button class="edge-menu-item" data-action="edit">
+    <span class="menu-icon">&#9998;</span> Edit label
+  </button>
+  <button class="edge-menu-item danger" data-action="delete">
+    <span class="menu-icon">&times;</span> Delete
+  </button>
+</div>
+
+<input id="edge-label-input" type="text" placeholder="Edge label..." />
+
 <script>
 // ═══════════════════════════════════════════════════════
 //  CONFIG & CONSTANTS
@@ -1113,6 +1200,9 @@ function drawConnections() {
   }
 
   // --- Manual directed edges (arrows) ---
+  // Build screen-space hit geometry for click/hover detection
+  edgeHitSegments = [];
+
   for (const edge of state.edges) {
     const fromNode = getNode(edge.from);
     const toNode = getNode(edge.to);
@@ -1130,43 +1220,21 @@ function drawConnections() {
     const uy = dy / len;
     const arrowTip = { x: to.x - ux * 4, y: to.y - uy * 4 };
 
-    // Invisible fat hit area for clicking
-    const hitLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    hitLine.setAttribute('x1', from.x);
-    hitLine.setAttribute('y1', from.y);
-    hitLine.setAttribute('x2', arrowTip.x);
-    hitLine.setAttribute('y2', arrowTip.y);
-    hitLine.setAttribute('stroke', 'rgba(0,0,0,0.001)');
-    hitLine.setAttribute('stroke-width', '14');
-    hitLine.classList.add('edge-hit-area');
-    hitLine.dataset.edgeId = edge.id;
-    hitLine.addEventListener('click', (ev) => {
-      ev.stopPropagation();
-      onEdgeClick(edge.id);
-    });
-    svg.appendChild(hitLine);
+    // Store segment for hit testing
+    edgeHitSegments.push({ id: edge.id, x1: from.x, y1: from.y, x2: arrowTip.x, y2: arrowTip.y });
 
     // Visible arrow line
+    const isHovered = edge.id === hoveredEdgeId;
+    const isSelected = edge.id === activeEdgeMenuId;
+    const highlight = isSelected || isHovered;
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('x1', from.x);
     line.setAttribute('y1', from.y);
     line.setAttribute('x2', arrowTip.x);
     line.setAttribute('y2', arrowTip.y);
-    line.setAttribute('stroke', 'var(--accent)');
-    line.setAttribute('stroke-width', '1.5');
+    line.setAttribute('stroke', highlight ? '#fff' : 'var(--accent)');
+    line.setAttribute('stroke-width', highlight ? '2.5' : '1.5');
     line.setAttribute('marker-end', 'url(#arrowhead)');
-    line.style.pointerEvents = 'none';
-    line.dataset.edgeId = edge.id;
-
-    // Highlight on hover via the hit area
-    hitLine.addEventListener('mouseenter', () => {
-      line.setAttribute('stroke', 'var(--danger)');
-      line.setAttribute('stroke-width', '2.5');
-    });
-    hitLine.addEventListener('mouseleave', () => {
-      line.setAttribute('stroke', 'var(--accent)');
-      line.setAttribute('stroke-width', '1.5');
-    });
 
     // Animate new edges
     const age = Date.now() - (edge.createdAt || 0);
@@ -1177,6 +1245,34 @@ function drawConnections() {
     }
 
     svg.appendChild(line);
+
+    // Edge label at midpoint
+    if (edge.label) {
+      const midX = (from.x + arrowTip.x) / 2;
+      const midY = (from.y + arrowTip.y) / 2;
+
+      const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      const textLen = edge.label.length * 6.5;
+      bg.setAttribute('x', midX - textLen / 2 - 4);
+      bg.setAttribute('y', midY - 18);
+      bg.setAttribute('width', textLen + 8);
+      bg.setAttribute('height', 16);
+      bg.setAttribute('rx', '3');
+      bg.setAttribute('fill', 'var(--bg)');
+      bg.setAttribute('stroke', 'var(--border)');
+      bg.setAttribute('stroke-width', '0.5');
+      svg.appendChild(bg);
+
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', midX);
+      text.setAttribute('y', midY - 6);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('fill', 'var(--accent)');
+      text.setAttribute('font-family', 'var(--font-mono)');
+      text.setAttribute('font-size', '10');
+      text.textContent = edge.label;
+      svg.appendChild(text);
+    }
   }
 
   // --- Temp line while dragging a connection ---
@@ -1338,9 +1434,111 @@ function deleteEdge(edgeId) {
   scheduleSave();
 }
 
-function onEdgeClick(edgeId) {
-  deleteEdge(edgeId);
-  showToast('Edge removed');
+// ═══════════════════════════════════════════════════════
+//  EDGE HIT TESTING (geometric, no SVG pointer events)
+// ═══════════════════════════════════════════════════════
+
+let edgeHitSegments = []; // rebuilt each frame by drawConnections
+let hoveredEdgeId = null;
+const EDGE_HIT_DIST = 10; // pixels
+
+function pointToSegmentDist(px, py, x1, y1, x2, y2) {
+  const dx = x2 - x1, dy = y2 - y1;
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq === 0) return Math.hypot(px - x1, py - y1);
+  let t = ((px - x1) * dx + (py - y1) * dy) / lenSq;
+  t = Math.max(0, Math.min(1, t));
+  return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+}
+
+function edgeAtPoint(sx, sy) {
+  let best = null, bestDist = EDGE_HIT_DIST;
+  for (const seg of edgeHitSegments) {
+    const d = pointToSegmentDist(sx, sy, seg.x1, seg.y1, seg.x2, seg.y2);
+    if (d < bestDist) { bestDist = d; best = seg.id; }
+  }
+  return best;
+}
+
+// ═══════════════════════════════════════════════════════
+//  EDGE CONTEXT MENU
+// ═══════════════════════════════════════════════════════
+
+let activeEdgeMenuId = null;
+
+function onEdgeClick(edgeId, ev) {
+  // Show the popup menu at click position
+  const menu = document.getElementById('edge-menu');
+  activeEdgeMenuId = edgeId;
+
+  // Position near the click, nudged to stay in viewport
+  let mx = ev.clientX;
+  let my = ev.clientY;
+  menu.classList.add('open');
+  const rect = menu.getBoundingClientRect();
+  if (mx + rect.width > window.innerWidth) mx = window.innerWidth - rect.width - 8;
+  if (my + rect.height > window.innerHeight) my = window.innerHeight - rect.height - 8;
+  menu.style.left = mx + 'px';
+  menu.style.top = my + 'px';
+}
+
+function closeEdgeMenu() {
+  const menu = document.getElementById('edge-menu');
+  menu.classList.remove('open');
+  activeEdgeMenuId = null;
+}
+
+function handleEdgeMenuAction(action) {
+  const edgeId = activeEdgeMenuId;
+  closeEdgeMenu();
+  if (!edgeId) return;
+
+  if (action === 'delete') {
+    deleteEdge(edgeId);
+    showToast('Edge removed');
+  } else if (action === 'edit') {
+    openEdgeLabelEdit(edgeId);
+  }
+}
+
+function openEdgeLabelEdit(edgeId) {
+  const edge = state.edges.find(e => e.id === edgeId);
+  if (!edge) return;
+
+  const fromNode = getNode(edge.from);
+  const toNode = getNode(edge.to);
+  if (!fromNode || !toNode) return;
+
+  // Position the input at the midpoint of the edge
+  const from = getConnectorScreenPos(fromNode, edge.fromSide);
+  const to = getConnectorScreenPos(toNode, edge.toSide);
+  const midX = (from.x + to.x) / 2;
+  const midY = (from.y + to.y) / 2;
+
+  const input = document.getElementById('edge-label-input');
+  input.value = edge.label || '';
+  input.style.display = 'block';
+  input.style.left = (midX - 80) + 'px';
+  input.style.top = (midY - 16) + 'px';
+  input.focus();
+  input.select();
+
+  function commit() {
+    const val = input.value.trim();
+    edge.label = val || '';
+    input.style.display = 'none';
+    input.removeEventListener('blur', commit);
+    input.removeEventListener('keydown', onKey);
+    scheduleSave();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Enter') { e.preventDefault(); commit(); }
+    if (e.key === 'Escape') { input.style.display = 'none'; input.removeEventListener('blur', commit); input.removeEventListener('keydown', onKey); }
+  }
+
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', onKey);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1767,7 +1965,8 @@ function saveState() {
     })),
     edges: state.edges.map(e => ({
       id: e.id, from: e.from, fromSide: e.fromSide,
-      to: e.to, toSide: e.toSide, createdAt: e.createdAt,
+      to: e.to, toSide: e.toSide,
+      label: e.label || '', createdAt: e.createdAt,
     })),
     conversationHistory: state.conversationHistory,
   };
@@ -1876,6 +2075,8 @@ function startNodeDrag(node, e) {
   draggingNode = node;
   node.pinned = true;
   dragHistory = [];
+  hoveredEdgeId = null;
+  container.style.cursor = '';
 
   const worldPos = screenToWorld(e.clientX, e.clientY);
   dragOffset.x = node.x - worldPos.x;
@@ -1910,6 +2111,14 @@ function onMouseMove(e) {
     view.x = viewStart.x + (e.clientX - panStart.x);
     view.y = viewStart.y + (e.clientY - panStart.y);
     applyViewTransform();
+    return;
+  }
+
+  // Edge hover detection (only when idle)
+  const hitEdge = edgeAtPoint(e.clientX, e.clientY);
+  if (hitEdge !== hoveredEdgeId) {
+    hoveredEdgeId = hitEdge;
+    container.style.cursor = hitEdge ? 'pointer' : '';
   }
 }
 
@@ -1953,8 +2162,20 @@ function onMouseUp(e) {
 }
 
 function onMouseDown(e) {
-  // Only pan from container background
+  // Only handle clicks on canvas background
   if (e.target !== container && e.target !== gridCanvas) return;
+
+  // Check if clicking on an edge first (left-click only)
+  if (e.button === 0) {
+    const hitEdge = edgeAtPoint(e.clientX, e.clientY);
+    if (hitEdge) {
+      e.preventDefault();
+      e.stopPropagation();
+      onEdgeClick(hitEdge, e);
+      return;
+    }
+  }
+
   if (e.button === 1 || (e.button === 0 && !e.target.closest('.node'))) {
     isPanning = true;
     panStart = { x: e.clientX, y: e.clientY };
@@ -2380,6 +2601,21 @@ function init() {
   container.addEventListener('wheel', onWheel, { passive: false });
   container.addEventListener('dblclick', onDblClick);
   window.addEventListener('keydown', onKeyDown);
+
+  // Edge context menu
+  document.querySelectorAll('#edge-menu .edge-menu-item').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleEdgeMenuAction(btn.dataset.action);
+    });
+  });
+
+  // Close edge menu on any outside click
+  window.addEventListener('mousedown', (e) => {
+    if (activeEdgeMenuId && !e.target.closest('#edge-menu')) {
+      closeEdgeMenu();
+    }
+  });
 
   // Chat input: Enter to send, Shift+Enter for newline
   chatInput.addEventListener('keydown', (e) => {
