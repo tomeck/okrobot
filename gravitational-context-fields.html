@@ -835,7 +835,7 @@ kbd {
   </div>
   <div class="edge-menu-field">
     <label class="edge-menu-field-label" for="edge-menu-weight">Weight</label>
-    <input id="edge-menu-weight" type="number" class="edge-menu-input" min="0" step="1" value="1" />
+    <input id="edge-menu-weight" type="number" class="edge-menu-input" min="1" step="1" value="10" required />
   </div>
   <div class="edge-menu-divider"></div>
   <button class="edge-menu-item danger" data-action="delete">
@@ -1022,8 +1022,66 @@ function countNearbyNodes(node, radius) {
 }
 
 function recomputeMasses() {
+  // Step 1: compute base masses from node properties
   for (const node of state.nodes) {
     node.mass = computeMass(node);
+  }
+
+  // Step 2: propagate edge weights via BFS from focal node
+  propagateEdgeWeights();
+}
+
+function propagateEdgeWeights() {
+  const focalNode = getNode(state.focalNodeId);
+  if (!focalNode || state.edges.length === 0) return;
+
+  // Snapshot masses before propagation (computed from computeMass)
+  const baseMasses = {};
+  for (const node of state.nodes) {
+    baseMasses[node.id] = node.mass;
+  }
+
+  // BFS from focal node, treating edges as undirected for traversal
+  // but computing val using directed from→to
+  const accum = {};       // nodeId → sum of incoming vals
+  const visitedEdges = new Set();
+  const visitedNodes = new Set();
+  const queue = [focalNode.id];
+  visitedNodes.add(focalNode.id);
+
+  while (queue.length > 0) {
+    const nodeId = queue.shift();
+
+    for (const edge of state.edges) {
+      if (visitedEdges.has(edge.id)) continue;
+
+      // Check if this edge touches the current node
+      let neighborId = null;
+      if (edge.from === nodeId) neighborId = edge.to;
+      else if (edge.to === nodeId) neighborId = edge.from;
+      else continue;
+
+      // Mark edge visited (once only)
+      visitedEdges.add(edge.id);
+
+      // val = source node's mass * edge weight → attributed to destination
+      const fromMass = baseMasses[edge.from] || 0;
+      if (!accum[edge.to]) accum[edge.to] = 0;
+      accum[edge.to] += fromMass * edge.weight;
+
+      // Enqueue neighbor for further traversal
+      if (!visitedNodes.has(neighborId)) {
+        visitedNodes.add(neighborId);
+        queue.push(neighborId);
+      }
+    }
+  }
+
+  // Update: nodes with incoming edge vals get mass = sum of weighted edges
+  for (const node of state.nodes) {
+    if (accum[node.id] !== undefined) {
+      node.mass = accum[node.id];
+    }
   }
 }
 
@@ -1255,6 +1313,11 @@ function drawConnections() {
     // Store segment for hit testing
     edgeHitSegments.push({ id: edge.id, x1: from.x, y1: from.y, x2: arrowTip.x, y2: arrowTip.y });
 
+    // Edge value = source mass * edge weight → drives stroke width
+    const edgeValue = fromNode.mass * (edge.weight ?? 10);
+    // Map to stroke width: log scale, clamped between 0.75 and 7.5
+    const strokeW = Math.max(0.34, Math.min(3.5, (1 + Math.log1p(edgeValue) * 0.8) * 0.345));
+
     // Visible arrow line
     const isHovered = edge.id === hoveredEdgeId;
     const isSelected = edge.id === activeEdgeMenuId;
@@ -1265,7 +1328,7 @@ function drawConnections() {
     line.setAttribute('x2', arrowTip.x);
     line.setAttribute('y2', arrowTip.y);
     line.setAttribute('stroke', highlight ? '#fff' : 'var(--accent)');
-    line.setAttribute('stroke-width', highlight ? '2.5' : '1.5');
+    line.setAttribute('stroke-width', highlight ? strokeW + 1 : strokeW);
     line.setAttribute('marker-end', 'url(#arrowhead)');
 
     // Animate new edges
@@ -1426,10 +1489,10 @@ function endConnectDrag(e) {
 
   // Check if we dropped on a valid target
   const activeTarget = document.querySelector('.connector-handle.drop-target-active');
+  let newEdge = null;
 
   if (activeTarget && activeTarget.dataset.nodeId !== connectDrag.fromNodeId) {
-    // Create the edge
-    createEdge(
+    newEdge = createEdge(
       connectDrag.fromNodeId,
       connectDrag.fromSide,
       activeTarget.dataset.nodeId,
@@ -1443,6 +1506,11 @@ function endConnectDrag(e) {
     .forEach(h => h.classList.remove('dragging-source'));
   document.body.classList.remove('connecting-active');
   connectDrag = null;
+
+  // Show popup menu for the new edge so user can set weight/label
+  if (newEdge) {
+    onEdgeClick(newEdge.id, e);
+  }
 }
 
 function clearDropTargets() {
@@ -1455,7 +1523,7 @@ function createEdge(fromId, fromSide, toId, toSide) {
   const exists = state.edges.some(e =>
     e.from === fromId && e.fromSide === fromSide &&
     e.to === toId && e.toSide === toSide);
-  if (exists) return;
+  if (exists) return null;
 
   const edge = {
     id: 'e_' + Date.now() + '_' + (edgeIdCounter++),
@@ -1464,12 +1532,13 @@ function createEdge(fromId, fromSide, toId, toSide) {
     to: toId,
     toSide,
     label: '',
-    weight: 1,
+    weight: 10,
     createdAt: Date.now(),
   };
   state.edges.push(edge);
   recomputeMasses();
   scheduleSave();
+  return edge;
 }
 
 function deleteEdge(edgeId) {
@@ -1556,10 +1625,16 @@ function commitEdgeMenuFields() {
   const newLabel = labelInput.value.trim();
   const newWeight = parseInt(weightInput.value, 10);
 
+  // Weight is mandatory — fall back to current value if invalid
+  const validWeight = (!isNaN(newWeight) && newWeight >= 1) ? newWeight : edge.weight;
+
   let changed = false;
   if (edge.label !== newLabel) { edge.label = newLabel; changed = true; }
-  if (!isNaN(newWeight) && edge.weight !== newWeight) { edge.weight = newWeight; changed = true; }
-  if (changed) scheduleSave();
+  if (edge.weight !== validWeight) { edge.weight = validWeight; changed = true; }
+  if (changed) {
+    recomputeMasses();
+    scheduleSave();
+  }
 }
 
 function handleEdgeMenuAction(action) {
@@ -2601,28 +2676,28 @@ function init() {
 
   const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
   marker.setAttribute('id', 'arrowhead');
-  marker.setAttribute('markerWidth', '10');
-  marker.setAttribute('markerHeight', '7');
-  marker.setAttribute('refX', '9');
-  marker.setAttribute('refY', '3.5');
+  marker.setAttribute('markerWidth', '4.25');
+  marker.setAttribute('markerHeight', '2.9');
+  marker.setAttribute('refX', '4');
+  marker.setAttribute('refY', '1.45');
   marker.setAttribute('orient', 'auto');
   marker.setAttribute('markerUnits', 'strokeWidth');
   const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-  poly.setAttribute('points', '0 0, 10 3.5, 0 7');
+  poly.setAttribute('points', '0 0, 4.25 1.45, 0 2.9');
   poly.setAttribute('fill', '#c8a2ff');
   marker.appendChild(poly);
   defs.appendChild(marker);
 
   const ghostMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
   ghostMarker.setAttribute('id', 'arrowhead-ghost');
-  ghostMarker.setAttribute('markerWidth', '10');
-  ghostMarker.setAttribute('markerHeight', '7');
-  ghostMarker.setAttribute('refX', '9');
-  ghostMarker.setAttribute('refY', '3.5');
+  ghostMarker.setAttribute('markerWidth', '4.25');
+  ghostMarker.setAttribute('markerHeight', '2.9');
+  ghostMarker.setAttribute('refX', '4');
+  ghostMarker.setAttribute('refY', '1.45');
   ghostMarker.setAttribute('orient', 'auto');
   ghostMarker.setAttribute('markerUnits', 'strokeWidth');
   const ghostPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-  ghostPoly.setAttribute('points', '0 0, 10 3.5, 0 7');
+  ghostPoly.setAttribute('points', '0 0, 4.25 1.45, 0 2.9');
   ghostPoly.setAttribute('fill', 'rgba(200,162,255,0.4)');
   ghostMarker.appendChild(ghostPoly);
   defs.appendChild(ghostMarker);
