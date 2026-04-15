@@ -299,6 +299,50 @@ html, body {
   flex-shrink: 0;
 }
 
+.edge-menu-field {
+  padding: 6px 10px;
+}
+
+.edge-menu-field-label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.edge-menu-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.edge-menu-input:focus { border-color: var(--accent); }
+
+.edge-menu-input[type="number"] {
+  -moz-appearance: textfield;
+  width: 70px;
+}
+
+.edge-menu-input[type="number"]::-webkit-inner-spin-button,
+.edge-menu-input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.edge-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 8px;
+}
+
 /* Edge label on canvas */
 .edge-label {
   position: absolute;
@@ -313,23 +357,6 @@ html, body {
   transform: translate(-50%, -50%);
   letter-spacing: 0.3px;
   border: 1px solid var(--border);
-}
-
-/* Edge label edit input (inline) */
-#edge-label-input {
-  position: fixed;
-  display: none;
-  z-index: 500;
-  background: var(--bg-surface);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 6px 10px;
-  outline: none;
-  min-width: 160px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 .node-action-btn {
@@ -802,15 +829,19 @@ kbd {
 </div>
 
 <div id="edge-menu">
-  <button class="edge-menu-item" data-action="edit">
-    <span class="menu-icon">&#9998;</span> Edit label
-  </button>
+  <div class="edge-menu-field">
+    <label class="edge-menu-field-label" for="edge-menu-label">Label</label>
+    <input id="edge-menu-label" type="text" class="edge-menu-input" placeholder="optional" />
+  </div>
+  <div class="edge-menu-field">
+    <label class="edge-menu-field-label" for="edge-menu-weight">Weight</label>
+    <input id="edge-menu-weight" type="number" class="edge-menu-input" min="0" step="1" value="1" />
+  </div>
+  <div class="edge-menu-divider"></div>
   <button class="edge-menu-item danger" data-action="delete">
     <span class="menu-icon">&times;</span> Delete
   </button>
 </div>
-
-<input id="edge-label-input" type="text" placeholder="Edge label..." />
 
 <script>
 // ═══════════════════════════════════════════════════════
@@ -925,7 +956,8 @@ function createNode(x, y, title = '', body = '') {
     prevX: x,
     prevY: y,
     pinned: false,
-    mass: CONFIG.BASE_MASS,
+    baseMass: Math.floor(Math.random() * 100) + 1,
+    mass: 0,
     title: title || '',
     body: body || '',
     references: 0,
@@ -975,7 +1007,7 @@ function computeMass(node) {
   const refMass = node.references * 0.5;
   const age = (Date.now() - node.createdAt) / (1000 * 60 * 60 * 24);
   const ageMass = Math.min(age * 0.1, 1.0);
-  return CONFIG.BASE_MASS + textMass + connectionMass + refMass + ageMass;
+  return node.baseMass + textMass + connectionMass + refMass + ageMass;
 }
 
 function countNearbyNodes(node, radius) {
@@ -1246,16 +1278,26 @@ function drawConnections() {
 
     svg.appendChild(line);
 
-    // Edge label at midpoint
-    if (edge.label) {
+    // Edge label + weight badge at midpoint
+    const edgeWeight = edge.weight ?? 1;
+    const hasLabel = edge.label && edge.label.length > 0;
+    const showWeight = edgeWeight !== 1;
+
+    if (hasLabel || showWeight) {
       const midX = (from.x + arrowTip.x) / 2;
       const midY = (from.y + arrowTip.y) / 2;
 
+      const displayText = [
+        hasLabel ? edge.label : '',
+        showWeight ? `w:${edgeWeight}` : '',
+      ].filter(Boolean).join(' \u00b7 ');
+
+      const textLen = displayText.length * 6.2;
+
       const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      const textLen = edge.label.length * 6.5;
-      bg.setAttribute('x', midX - textLen / 2 - 4);
+      bg.setAttribute('x', midX - textLen / 2 - 5);
       bg.setAttribute('y', midY - 18);
-      bg.setAttribute('width', textLen + 8);
+      bg.setAttribute('width', textLen + 10);
       bg.setAttribute('height', 16);
       bg.setAttribute('rx', '3');
       bg.setAttribute('fill', 'var(--bg)');
@@ -1270,7 +1312,7 @@ function drawConnections() {
       text.setAttribute('fill', 'var(--accent)');
       text.setAttribute('font-family', 'var(--font-mono)');
       text.setAttribute('font-size', '10');
-      text.textContent = edge.label;
+      text.textContent = displayText;
       svg.appendChild(text);
     }
   }
@@ -1421,6 +1463,8 @@ function createEdge(fromId, fromSide, toId, toSide) {
     fromSide,
     to: toId,
     toSide,
+    label: '',
+    weight: 1,
     createdAt: Date.now(),
   };
   state.edges.push(edge);
@@ -1467,9 +1511,17 @@ function edgeAtPoint(sx, sy) {
 let activeEdgeMenuId = null;
 
 function onEdgeClick(edgeId, ev) {
-  // Show the popup menu at click position
+  const edge = state.edges.find(e => e.id === edgeId);
+  if (!edge) return;
+
   const menu = document.getElementById('edge-menu');
   activeEdgeMenuId = edgeId;
+
+  // Populate fields with current values
+  const labelInput = document.getElementById('edge-menu-label');
+  const weightInput = document.getElementById('edge-menu-weight');
+  labelInput.value = edge.label || '';
+  weightInput.value = edge.weight ?? 1;
 
   // Position near the click, nudged to stay in viewport
   let mx = ev.clientX;
@@ -1480,65 +1532,48 @@ function onEdgeClick(edgeId, ev) {
   if (my + rect.height > window.innerHeight) my = window.innerHeight - rect.height - 8;
   menu.style.left = mx + 'px';
   menu.style.top = my + 'px';
+
+  // Focus the label field for quick editing
+  requestAnimationFrame(() => labelInput.focus());
 }
 
 function closeEdgeMenu() {
+  // Commit any pending changes before closing
+  commitEdgeMenuFields();
   const menu = document.getElementById('edge-menu');
   menu.classList.remove('open');
   activeEdgeMenuId = null;
 }
 
+function commitEdgeMenuFields() {
+  if (!activeEdgeMenuId) return;
+  const edge = state.edges.find(e => e.id === activeEdgeMenuId);
+  if (!edge) return;
+
+  const labelInput = document.getElementById('edge-menu-label');
+  const weightInput = document.getElementById('edge-menu-weight');
+
+  const newLabel = labelInput.value.trim();
+  const newWeight = parseInt(weightInput.value, 10);
+
+  let changed = false;
+  if (edge.label !== newLabel) { edge.label = newLabel; changed = true; }
+  if (!isNaN(newWeight) && edge.weight !== newWeight) { edge.weight = newWeight; changed = true; }
+  if (changed) scheduleSave();
+}
+
 function handleEdgeMenuAction(action) {
   const edgeId = activeEdgeMenuId;
-  closeEdgeMenu();
   if (!edgeId) return;
 
   if (action === 'delete') {
+    // Close without committing since we're deleting
+    const menu = document.getElementById('edge-menu');
+    menu.classList.remove('open');
+    activeEdgeMenuId = null;
     deleteEdge(edgeId);
     showToast('Edge removed');
-  } else if (action === 'edit') {
-    openEdgeLabelEdit(edgeId);
   }
-}
-
-function openEdgeLabelEdit(edgeId) {
-  const edge = state.edges.find(e => e.id === edgeId);
-  if (!edge) return;
-
-  const fromNode = getNode(edge.from);
-  const toNode = getNode(edge.to);
-  if (!fromNode || !toNode) return;
-
-  // Position the input at the midpoint of the edge
-  const from = getConnectorScreenPos(fromNode, edge.fromSide);
-  const to = getConnectorScreenPos(toNode, edge.toSide);
-  const midX = (from.x + to.x) / 2;
-  const midY = (from.y + to.y) / 2;
-
-  const input = document.getElementById('edge-label-input');
-  input.value = edge.label || '';
-  input.style.display = 'block';
-  input.style.left = (midX - 80) + 'px';
-  input.style.top = (midY - 16) + 'px';
-  input.focus();
-  input.select();
-
-  function commit() {
-    const val = input.value.trim();
-    edge.label = val || '';
-    input.style.display = 'none';
-    input.removeEventListener('blur', commit);
-    input.removeEventListener('keydown', onKey);
-    scheduleSave();
-  }
-
-  function onKey(e) {
-    if (e.key === 'Enter') { e.preventDefault(); commit(); }
-    if (e.key === 'Escape') { input.style.display = 'none'; input.removeEventListener('blur', commit); input.removeEventListener('keydown', onKey); }
-  }
-
-  input.addEventListener('blur', commit);
-  input.addEventListener('keydown', onKey);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1565,7 +1600,6 @@ function renderNodeDOM(node) {
     <div class="context-weight-bar"><div class="fill" style="width:0%"></div></div>
     <div class="meta">
       <span class="mass-label">mass: ${node.mass.toFixed(1)}</span>
-      <span class="weight-label">weight: 0%</span>
     </div>
   `;
 
@@ -1779,8 +1813,6 @@ function updateContextWeights() {
     const fill = el.querySelector('.context-weight-bar .fill');
     if (fill) fill.style.width = (weight * 100) + '%';
 
-    const wLabel = el.querySelector('.weight-label');
-    if (wLabel) wLabel.textContent = `weight: ${Math.round(weight * 100)}%`;
   }
 
   // Update context sidebar
@@ -1958,6 +1990,7 @@ function saveState() {
     nodes: state.nodes.map(n => ({
       id: n.id, x: n.x, y: n.y,
       title: n.title, body: n.body,
+      baseMass: n.baseMass,
       references: n.references,
       pinned: false,
       createdAt: n.createdAt,
@@ -1966,7 +1999,8 @@ function saveState() {
     edges: state.edges.map(e => ({
       id: e.id, from: e.from, fromSide: e.fromSide,
       to: e.to, toSide: e.toSide,
-      label: e.label || '', createdAt: e.createdAt,
+      label: e.label || '', weight: e.weight ?? 1,
+      createdAt: e.createdAt,
     })),
     conversationHistory: state.conversationHistory,
   };
@@ -2004,7 +2038,8 @@ function loadState(canvasId) {
         prevX: nd.x,
         prevY: nd.y,
         pinned: false,
-        mass: CONFIG.BASE_MASS,
+        baseMass: nd.baseMass ?? Math.floor(Math.random() * 100) + 1,
+        mass: 0,
       };
       state.nodes.push(node);
       renderNodeDOM(node);
@@ -2602,11 +2637,26 @@ function init() {
   container.addEventListener('dblclick', onDblClick);
   window.addEventListener('keydown', onKeyDown);
 
-  // Edge context menu
+  // Edge context menu — delete button
   document.querySelectorAll('#edge-menu .edge-menu-item').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       handleEdgeMenuAction(btn.dataset.action);
+    });
+  });
+
+  // Edge menu inputs — prevent mousedown from closing the menu
+  document.querySelectorAll('#edge-menu .edge-menu-input').forEach(input => {
+    input.addEventListener('mousedown', (e) => e.stopPropagation());
+    input.addEventListener('keydown', (e) => {
+      e.stopPropagation(); // don't trigger canvas keyboard shortcuts
+      if (e.key === 'Enter') closeEdgeMenu();
+      if (e.key === 'Escape') {
+        // Revert and close
+        const menu = document.getElementById('edge-menu');
+        menu.classList.remove('open');
+        activeEdgeMenuId = null;
+      }
     });
   });
 
