@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Samples — OK ROBOT</title>
+<title>Blog — OK ROBOT</title>
 <link rel="icon" type="image/png" href="images/ok_robot_logo_400.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
@@ -59,9 +59,7 @@
     color: var(--accent);
   }
 
-  .nav-logo a {
-    text-decoration: none;
-  }
+  .nav-logo a { text-decoration: none; }
 
   .nav-links a {
     color: var(--text-secondary);
@@ -74,7 +72,6 @@
   }
 
   .nav-links a:hover { color: var(--accent); }
-
   .nav-links a.active { color: var(--accent); }
 
   /* ---- PAGE CONTENT ---- */
@@ -108,53 +105,85 @@
     margin-bottom: 3rem;
   }
 
-  /* ---- SAMPLE CARDS ---- */
-  .samples-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* ---- BLOG CARDS ---- */
+  .blog-list {
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
   }
 
-  .sample-card {
+  .blog-card {
+    display: block;
     background: var(--bg-subtle);
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 2rem;
+    text-decoration: none;
     transition: border-color 0.3s, transform 0.3s;
+    cursor: pointer;
   }
 
-  .sample-card:hover {
+  .blog-card:hover {
     border-color: var(--accent);
     box-shadow: 0 0 20px var(--accent-dim);
     transform: translateY(-2px);
   }
 
+  .blog-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
 
-  .sample-card-title {
+  .blog-card-date { color: var(--text-secondary); }
+
+  .blog-card-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .blog-card-title {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     color: #ffffff;
     margin-bottom: 0.5rem;
   }
 
-  .sample-card-desc {
+  .blog-card-desc {
     font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.6;
     font-weight: 300;
   }
 
-  .sample-card-tag {
+  .blog-card-read {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--accent);
-    background: var(--accent-dim);
-    padding: 0.25rem 0.6rem;
-    border-radius: 2px;
     margin-top: 1rem;
+  }
+
+  /* ---- EMPTY STATE ---- */
+  .blog-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-dim);
+    font-size: 0.95rem;
   }
 
   /* ---- FOOTER ---- */
@@ -199,17 +228,9 @@
     transition: all 0.3s;
   }
 
-  .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
   /* ---- MOBILE ---- */
   @media (max-width: 768px) {
@@ -218,10 +239,7 @@
     .nav-links {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: var(--bg);
       flex-direction: column;
       align-items: center;
@@ -229,13 +247,8 @@
       gap: 2rem;
       z-index: 100;
     }
-    .nav-links.open {
-      display: flex;
-    }
-    .nav-links a {
-      margin-left: 0;
-      font-size: 1.2rem;
-    }
+    .nav-links.open { display: flex; }
+    .nav-links a { margin-left: 0; font-size: 1.2rem; }
     .page-content { padding: 6rem 1.5rem 3rem; }
     footer {
       flex-direction: column;
@@ -258,8 +271,8 @@
     <a href="index.html">Home</a>
     <a href="index.html#mission">Mission</a>
     <a href="index.html#principles">Principles</a>
-    <a href="samples.html" class="active">Samples</a>
-    <a href="blog.html">Blog</a>
+    <a href="samples.html">Samples</a>
+    <a href="blog.html" class="active">Blog</a>
     <a href="index.html#team">Team</a>
     <a href="index.html#cta">Contact</a>
   </div>
@@ -267,21 +280,12 @@
 
 <!-- PAGE CONTENT -->
 <div class="page-content">
-  <div class="page-label">// Samples</div>
-  <h1 class="page-title">Our Work</h1>
-  <p class="page-subtitle">A selection of projects and capabilities. More coming soon.</p>
+  <div class="page-label">// Blog</div>
+  <h1 class="page-title">From the Field</h1>
+  <p class="page-subtitle">Lessons, insights, and hard-won knowledge from building AI systems that work.</p>
 
-  <div class="samples-grid">
-    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/portfolio-digest-sample.pdf')">
-      <div class="sample-card-title">AI Financial Advisor</div>
-      <div class="sample-card-desc">Given a list of tickers or a portfolio to analyze and optimize, we will send you the industry's most comprehensive financial insights -- in minutes.</div>
-      <div class="sample-card-tag">View Sample &rarr;</div>
-    </div>
-    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/wp_rm_daily_briefing.pdf')">
-      <div class="sample-card-title">Account Manager Daily Briefing</div>
-      <div class="sample-card-desc">Our technology can provide account managers with a comprehensive daily briefing, highlighting key metrics and actionable insights for each client.</div>
-      <div class="sample-card-tag">View Sample &rarr;</div>
-    </div>
+  <div class="blog-list" id="blogList">
+    <div class="blog-empty">Loading posts...</div>
   </div>
 </div>
 
@@ -291,116 +295,56 @@
   <div><a href="mailto:okrobot@bio-teck.com">okrobot@bio-teck.com</a></div>
 </footer>
 
-<!-- PDF MODAL -->
-<div class="pdf-modal-overlay" id="pdfModal" onclick="if(event.target===this)closePdfModal()">
-  <div class="pdf-modal">
-    <button class="pdf-modal-close" onclick="closePdfModal()">&times;</button>
-    <div id="pdfViewer" style="width:100%;height:100%;overflow-y:auto;"></div>
-  </div>
-</div>
+<script>
+(async function() {
+  const listEl = document.getElementById('blogList');
 
-<style>
-  .pdf-modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+  try {
+    const res = await fetch('blog/posts/index.json');
+    const posts = await res.json();
+
+    posts.sort(function(a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+
+    if (posts.length === 0) {
+      listEl.innerHTML = '<div class="blog-empty">No posts yet. Check back soon.</div>';
+      return;
+    }
+
+    listEl.innerHTML = '';
+
+    posts.forEach(function(post) {
+      var card = document.createElement('a');
+      card.className = 'blog-card';
+      card.href = 'blog-post.html?post=' + encodeURIComponent(post.slug);
+
+      var dateObj = new Date(post.date + 'T00:00:00');
+      var dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      var tagsHtml = '';
+      if (post.tags && post.tags.length) {
+        tagsHtml = post.tags.map(function(t) {
+          return '<span class="blog-card-tag">' + t + '</span>';
+        }).join(' ');
+      }
+
+      card.innerHTML =
+        '<div class="blog-card-meta">' +
+          '<span class="blog-card-date">' + dateStr + '</span>' +
+          (post.author ? '<span>' + post.author + '</span>' : '') +
+          tagsHtml +
+        '</div>' +
+        '<div class="blog-card-title">' + post.title + '</div>' +
+        '<div class="blog-card-desc">' + post.description + '</div>' +
+        '<div class="blog-card-read">Read more &rarr;</div>';
+
+      listEl.appendChild(card);
+    });
+  } catch (e) {
+    listEl.innerHTML = '<div class="blog-empty">Could not load posts.</div>';
   }
-
-  .pdf-modal-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .pdf-modal {
-    background: var(--bg-subtle);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    width: 90%;
-    max-width: 900px;
-    height: 85vh;
-    position: relative;
-    padding: 1rem;
-    padding-top: 2.5rem;
-    transform: translateY(20px) scale(0.97);
-    transition: transform 0.3s ease;
-  }
-
-  .pdf-modal-overlay.active .pdf-modal {
-    transform: translateY(0) scale(1);
-  }
-
-  .pdf-modal-close {
-    position: absolute;
-    top: 0.5rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    font-size: 1.5rem;
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.3s;
-    font-family: var(--font-mono);
-    z-index: 1;
-  }
-
-  .pdf-modal-close:hover { color: var(--accent); }
-</style>
-
-<script type="module">
-const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs');
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
-
-let pdfLoaded = false;
-
-async function renderPdf(pdfPath) {
-  if (pdfLoaded && window.currentPdfPath === pdfPath) return;
-  const viewer = document.getElementById('pdfViewer');
-  viewer.innerHTML = '';
-  pdfLoaded = false;
-  window.currentPdfPath = pdfPath;
-  const pdf = await pdfjsLib.getDocument(pdfPath).promise;
-
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const dpr = window.devicePixelRatio || 2;
-    const scale = (viewer.clientWidth - 20) / page.getViewport({ scale: 1 }).width;
-    const viewport = page.getViewport({ scale: scale * dpr });
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    canvas.style.width = (viewport.width / dpr) + 'px';
-    canvas.style.height = (viewport.height / dpr) + 'px';
-    canvas.style.display = 'block';
-    canvas.style.margin = '0 auto 10px';
-    viewer.appendChild(canvas);
-    await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
-  }
-  pdfLoaded = true;
-}
-
-window.openPdfModal = function(pdfPath) {
-  document.getElementById('pdfModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-  renderPdf(pdfPath);
-};
-
-window.closePdfModal = function() {
-  document.getElementById('pdfModal').classList.remove('active');
-  document.body.style.overflow = '';
-};
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closePdfModal();
-});
+})();
 </script>
 
 </body>
