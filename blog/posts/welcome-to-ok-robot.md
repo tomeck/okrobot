@@ -26,4 +26,4 @@ We have a lot to share. If you want to know when we publish something new, [get 
 
 ---
 
-*— Tom Eck, Founder*
+*— Teckxx, Founder*

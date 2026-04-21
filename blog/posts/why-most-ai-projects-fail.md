@@ -91,4 +91,4 @@ Get those right, and the AI part is the easy part.
 
 ---
 
-*— Tom Eck, Founder of OK ROBOT*
+*— Teckxx, Founder of OK ROBOT*

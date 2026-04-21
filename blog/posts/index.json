@@ -4,7 +4,7 @@
     "title": "Have We Reached Peak Attention?",
     "date": "2026-04-21",
     "description": "The Transformer's attention mechanism has dominated AI for a decade. Now a wave of new architectures — SSMs, linear attention, xLSTM, and hybrids — is challenging its reign. Here's where the research stands.",
-    "author": "Tom Eck",
+    "author": "Teckxx",
     "tags": ["ai", "research", "architecture"]
   },
   {
@@ -12,7 +12,7 @@
     "title": "Why Most AI Projects Fail (And How to Be the Exception)",
     "date": "2026-03-12",
     "description": "The failure rate for enterprise AI is around 80%. After 30 years in the field, here are the five patterns I see over and over — and what to do instead.",
-    "author": "Tom Eck",
+    "author": "Teckxx",
     "tags": ["ai", "strategy", "lessons"]
   },
   {
@@ -20,7 +20,7 @@
     "title": "Welcome to OK ROBOT",
     "date": "2026-02-01",
     "description": "Introducing our blog — where we share what we've learned building AI systems that actually work.",
-    "author": "Tom Eck",
+    "author": "Teckxx",
     "tags": ["company", "announcement"],
     "pinned": true
   }

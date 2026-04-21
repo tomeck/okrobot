@@ -118,4 +118,4 @@ We're watching a fundamental shift in how we think about sequence modeling. The 
 
 ---
 
-*— Tom Eck, Founder of OK ROBOT*
+*— Teckxx, Founder of OK ROBOT*
