@@ -271,14 +271,14 @@
   <p class="page-subtitle">A selection of projects and capabilities. More coming soon.</p>
 
   <div class="samples-grid">
-    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal()">
+    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/portfolio-digest-sample.pdf')">
       <div class="sample-card-title">AI Financial Advisor</div>
-      <div class="sample-card-desc">Given a list of tickers or a portfolio to analyze and optimize, you will receive the industry's most comprehensive financial insights -- in minutes.</div>
+      <div class="sample-card-desc">Given a list of tickers or a portfolio to analyze and optimize, we will send you the industry's most comprehensive financial insights -- in minutes.</div>
       <div class="sample-card-tag">View Sample &rarr;</div>
     </div>
-    <div class="sample-card">
+    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/wp_rm_daily_briefing.pdf')">
       <div class="sample-card-title">Account Manager Daily Briefing</div>
-      <div class="sample-card-desc">This sample demonstrates how our AI-powered tool can provide account managers with a comprehensive daily briefing, highlighting key metrics and actionable insights for each client.</div>
+      <div class="sample-card-desc">Our technology can provide account managers with a comprehensive daily briefing, highlighting key metrics and actionable insights for each client.</div>
       <div class="sample-card-tag">View Sample &rarr;</div>
     </div>
   </div>
@@ -360,10 +360,13 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 
 let pdfLoaded = false;
 
-async function renderPdf() {
-  if (pdfLoaded) return;
+async function renderPdf(pdfPath) {
+  if (pdfLoaded && window.currentPdfPath === pdfPath) return;
   const viewer = document.getElementById('pdfViewer');
-  const pdf = await pdfjsLib.getDocument('assets/portfolio-digest-sample.pdf').promise;
+  viewer.innerHTML = '';
+  pdfLoaded = false;
+  window.currentPdfPath = pdfPath;
+  const pdf = await pdfjsLib.getDocument(pdfPath).promise;
 
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
@@ -383,10 +386,10 @@ async function renderPdf() {
   pdfLoaded = true;
 }
 
-window.openPdfModal = function() {
+window.openPdfModal = function(pdfPath) {
   document.getElementById('pdfModal').classList.add('active');
   document.body.style.overflow = 'hidden';
-  renderPdf();
+  renderPdf(pdfPath);
 };
 
 window.closePdfModal = function() {
