@@ -1,0 +1,170 @@
+/* ---- SAMPLE CARDS ---- */
+.samples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.sample-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.sample-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+.sample-card-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.sample-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.sample-card-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  margin-top: 1rem;
+}
+
+/* ---- PDF MODAL ---- */
+.pdf-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.pdf-modal-overlay.active { opacity: 1; pointer-events: all; }
+
+.pdf-modal {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  width: 90%;
+  max-width: 900px;
+  height: 85vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s ease;
+}
+
+.pdf-modal-overlay.active .pdf-modal { transform: translateY(0) scale(1); }
+
+/* ---- PDF TOOLBAR ---- */
+.pdf-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #333;
+  background: #1a1a1a;
+  border-radius: 4px 4px 0 0;
+  flex-shrink: 0;
+  gap: 0.75rem;
+}
+
+.pdf-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pdf-toolbar-btn {
+  background: #252525;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pdf-toolbar-btn:hover {
+  color: #fff;
+  border-color: var(--accent);
+  background: #2a2a2a;
+}
+
+.pdf-zoom-level {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  min-width: 3.4rem;
+  text-align: center;
+  user-select: none;
+}
+
+.pdf-modal-close {
+  background: #252525;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem 0.6rem;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  font-family: var(--font-mono);
+}
+
+.pdf-modal-close:hover {
+  color: #fff;
+  border-color: var(--accent);
+  background: #2a2a2a;
+}
+
+/* ---- PDF VIEWER ---- */
+#pdfViewer {
+  flex: 1;
+  overflow: auto;
+  padding: 0.75rem;
+  cursor: grab;
+}
+
+#pdfViewer.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+#pdfViewer canvas {
+  pointer-events: none;
+}

@@ -1,0 +1,197 @@
+/* Override page-content max-width for narrower reading column */
+.page-content {
+  max-width: 760px;
+}
+
+/* ---- BACK LINK ---- */
+.back-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  margin-bottom: 2.5rem;
+  transition: opacity 0.3s;
+}
+
+.back-link:hover { opacity: 0.7; }
+
+/* ---- POST HEADER ---- */
+.post-header { margin-bottom: 3rem; }
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.post-meta-date { color: var(--text-secondary); }
+
+.post-meta-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+.post-title {
+  font-weight: 900;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.post-description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* ---- ARTICLE BODY (rendered markdown) ---- */
+.post-body {
+  line-height: 1.8;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.post-body h1 { display: none; }
+
+.post-body h2 {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin: 2.5rem 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+.post-body h3 {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin: 2rem 0 0.75rem;
+}
+
+.post-body h4 {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 1.5rem 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.post-body p { margin-bottom: 1.25rem; }
+
+.post-body a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-dim);
+  transition: border-color 0.3s;
+}
+
+.post-body a:hover { border-color: var(--accent); }
+.post-body strong { color: #ffffff; }
+.post-body em { font-style: italic; }
+
+.post-body ul, .post-body ol { margin: 1rem 0 1.5rem 1.5rem; }
+.post-body li { margin-bottom: 0.5rem; line-height: 1.7; }
+.post-body li::marker { color: var(--accent); }
+
+.post-body blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  background: var(--bg-subtle);
+  border-radius: 0 4px 4px 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.post-body blockquote p { margin-bottom: 0; }
+
+.post-body code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  color: var(--accent);
+}
+
+.post-body pre {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.post-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+
+.post-body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.88rem;
+}
+
+.post-body th, .post-body td {
+  border: 1px solid var(--border);
+  padding: 0.6rem 1rem;
+  text-align: left;
+}
+
+.post-body th {
+  background: var(--bg-subtle);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---- LOADING / ERROR ---- */
+.post-loading, .post-error {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
