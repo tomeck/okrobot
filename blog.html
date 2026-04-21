@@ -3,10 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog — OK ROBOT</title>
+<title>Blog — OK ROBOT | AI Insights &amp; Technical Deep-Dives</title>
+<meta name="description" content="Lessons, insights, and hard-won knowledge from building production AI systems. Written by operators, not observers.">
+<meta name="keywords" content="AI blog, artificial intelligence insights, machine learning articles, AI strategy, enterprise AI lessons, OK ROBOT blog">
+<meta name="author" content="OK ROBOT LLC">
+<link rel="canonical" href="https://ok-robot.co/blog.html">
+<!-- Open Graph -->
+<meta property="og:type" content="blog">
+<meta property="og:url" content="https://ok-robot.co/blog.html">
+<meta property="og:title" content="Blog — OK ROBOT | AI Insights &amp; Technical Deep-Dives">
+<meta property="og:description" content="Lessons, insights, and hard-won knowledge from building production AI systems.">
+<meta property="og:image" content="https://ok-robot.co/images/ok_robot_logo_400.png">
+<meta property="og:site_name" content="OK ROBOT">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blog — OK ROBOT">
+<meta name="twitter:description" content="Lessons, insights, and hard-won knowledge from building production AI systems.">
+<meta name="twitter:image" content="https://ok-robot.co/images/ok_robot_logo_400.png">
 <link rel="icon" type="image/png" href="images/ok_robot_logo_400.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "OK ROBOT Blog",
+  "description": "Lessons, insights, and hard-won knowledge from building production AI systems.",
+  "url": "https://ok-robot.co/blog.html",
+  "publisher": {
+    "@type": "Organization",
+    "name": "OK ROBOT",
+    "logo": { "@type": "ImageObject", "url": "https://ok-robot.co/images/ok_robot_logo_400.png" }
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "OK ROBOT",
+    "url": "https://ok-robot.co"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ok-robot.co/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ok-robot.co/blog.html" }
+    ]
+  }
+}
+</script>
 <style>
   :root {
     --bg: #0a0a0a;
@@ -23,6 +67,19 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .skip-to-content {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 999;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .skip-to-content:focus { left: 0; }
 
   html {
     font-size: 116%;
@@ -261,10 +318,12 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-to-content">Skip to content</a>
+
 <!-- NAV -->
-<nav>
-  <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
-  <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')">
+<nav aria-label="Main navigation">
+  <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT home" width="70" height="70" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
+  <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" onclick="this.classList.toggle('active');this.setAttribute('aria-expanded',this.classList.contains('active'));document.querySelector('.nav-links').classList.toggle('open')">
     <span></span><span></span><span></span>
   </button>
   <div class="nav-links">
@@ -272,22 +331,24 @@
     <a href="index.html#mission">Mission</a>
     <a href="index.html#principles">Principles</a>
     <a href="samples.html">Samples</a>
-    <a href="blog.html" class="active">Blog</a>
+    <a href="blog.html" class="active" aria-current="page">Blog</a>
     <a href="index.html#team">Team</a>
     <a href="index.html#cta">Contact</a>
   </div>
 </nav>
 
 <!-- PAGE CONTENT -->
+<main id="main-content">
 <div class="page-content">
   <div class="page-label">// Blog</div>
   <h1 class="page-title">From the Field</h1>
   <p class="page-subtitle">Lessons, insights, and hard-won knowledge from building AI systems that work.</p>
 
-  <div class="blog-list" id="blogList">
+  <div class="blog-list" id="blogList" aria-live="polite">
     <div class="blog-empty">Loading posts...</div>
   </div>
 </div>
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -315,9 +376,11 @@
     listEl.innerHTML = '';
 
     posts.forEach(function(post) {
-      var card = document.createElement('a');
-      card.className = 'blog-card';
-      card.href = 'blog-post.html?post=' + encodeURIComponent(post.slug);
+      var card = document.createElement('article');
+      var link = document.createElement('a');
+      link.className = 'blog-card';
+      link.href = 'blog-post.html?post=' + encodeURIComponent(post.slug);
+      link.setAttribute('aria-label', 'Read: ' + post.title);
 
       var dateObj = new Date(post.date + 'T00:00:00');
       var dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -329,16 +392,17 @@
         }).join(' ');
       }
 
-      card.innerHTML =
+      link.innerHTML =
         '<div class="blog-card-meta">' +
-          '<span class="blog-card-date">' + dateStr + '</span>' +
+          '<time class="blog-card-date" datetime="' + post.date + '">' + dateStr + '</time>' +
           (post.author ? '<span>' + post.author + '</span>' : '') +
           tagsHtml +
         '</div>' +
-        '<div class="blog-card-title">' + post.title + '</div>' +
-        '<div class="blog-card-desc">' + post.description + '</div>' +
+        '<h2 class="blog-card-title">' + post.title + '</h2>' +
+        '<p class="blog-card-desc">' + post.description + '</p>' +
         '<div class="blog-card-read">Read more &rarr;</div>';
 
+      card.appendChild(link);
       listEl.appendChild(card);
     });
   } catch (e) {

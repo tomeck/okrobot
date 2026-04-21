@@ -3,10 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Samples — OK ROBOT</title>
+<title>Work Samples — OK ROBOT | AI Projects &amp; Capabilities</title>
+<meta name="description" content="Explore OK ROBOT's AI project samples — from AI-powered financial analysis to automated daily briefings. See what production AI can deliver.">
+<meta name="keywords" content="AI portfolio, AI project samples, AI financial advisor, machine learning applications, OK ROBOT work">
+<meta name="author" content="OK ROBOT LLC">
+<link rel="canonical" href="https://ok-robot.co/samples.html">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ok-robot.co/samples.html">
+<meta property="og:title" content="Work Samples — OK ROBOT">
+<meta property="og:description" content="Explore OK ROBOT's AI project samples — from AI-powered financial analysis to automated daily briefings.">
+<meta property="og:image" content="https://ok-robot.co/images/ok_robot_logo_400.png">
+<meta property="og:site_name" content="OK ROBOT">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Work Samples — OK ROBOT">
+<meta name="twitter:description" content="Explore OK ROBOT's AI project samples — from AI-powered financial analysis to automated daily briefings.">
+<meta name="twitter:image" content="https://ok-robot.co/images/ok_robot_logo_400.png">
 <link rel="icon" type="image/png" href="images/ok_robot_logo_400.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Work Samples",
+  "description": "A selection of AI projects and capabilities from OK ROBOT.",
+  "url": "https://ok-robot.co/samples.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "OK ROBOT",
+    "url": "https://ok-robot.co"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ok-robot.co/" },
+      { "@type": "ListItem", "position": 2, "name": "Samples", "item": "https://ok-robot.co/samples.html" }
+    ]
+  }
+}
+</script>
 <style>
   :root {
     --bg: #0a0a0a;
@@ -23,6 +62,19 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .skip-to-content {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 999;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .skip-to-content:focus { left: 0; }
 
   html {
     font-size: 116%;
@@ -248,17 +300,19 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-to-content">Skip to content</a>
+
 <!-- NAV -->
-<nav>
-  <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
-  <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')">
+<nav aria-label="Main navigation">
+  <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT home" width="70" height="70" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
+  <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" onclick="this.classList.toggle('active');this.setAttribute('aria-expanded',this.classList.contains('active'));document.querySelector('.nav-links').classList.toggle('open')">
     <span></span><span></span><span></span>
   </button>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="index.html#mission">Mission</a>
     <a href="index.html#principles">Principles</a>
-    <a href="samples.html" class="active">Samples</a>
+    <a href="samples.html" class="active" aria-current="page">Samples</a>
     <a href="blog.html">Blog</a>
     <a href="index.html#team">Team</a>
     <a href="index.html#cta">Contact</a>
@@ -266,24 +320,26 @@
 </nav>
 
 <!-- PAGE CONTENT -->
+<main id="main-content">
 <div class="page-content">
   <div class="page-label">// Samples</div>
   <h1 class="page-title">Our Work</h1>
   <p class="page-subtitle">A selection of projects and capabilities. More coming soon.</p>
 
   <div class="samples-grid">
-    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/portfolio-digest-sample.pdf')">
-      <div class="sample-card-title">AI Financial Advisor</div>
-      <div class="sample-card-desc">Given a list of tickers or a portfolio to analyze and optimize, we will send you the industry's most comprehensive financial insights -- in minutes.</div>
+    <article class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/portfolio-digest-sample.pdf')" role="button" tabindex="0" aria-label="View AI Financial Advisor sample" onkeydown="if(event.key==='Enter')openPdfModal('assets/portfolio-digest-sample.pdf')">
+      <h2 class="sample-card-title">AI Financial Advisor</h2>
+      <p class="sample-card-desc">Given a list of tickers or a portfolio to analyze and optimize, we will send you the industry's most comprehensive financial insights -- in minutes.</p>
       <div class="sample-card-tag">View Sample &rarr;</div>
-    </div>
-    <div class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/wp_rm_daily_briefing.pdf')">
-      <div class="sample-card-title">Account Manager Daily Briefing</div>
-      <div class="sample-card-desc">Our technology can provide account managers with a comprehensive daily briefing, highlighting key metrics and actionable insights for each client.</div>
+    </article>
+    <article class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/wp_rm_daily_briefing.pdf')" role="button" tabindex="0" aria-label="View Account Manager Daily Briefing sample" onkeydown="if(event.key==='Enter')openPdfModal('assets/wp_rm_daily_briefing.pdf')">
+      <h2 class="sample-card-title">Account Manager Daily Briefing</h2>
+      <p class="sample-card-desc">Our technology can provide account managers with a comprehensive daily briefing, highlighting key metrics and actionable insights for each client.</p>
       <div class="sample-card-tag">View Sample &rarr;</div>
-    </div>
+    </article>
   </div>
 </div>
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -292,9 +348,9 @@
 </footer>
 
 <!-- PDF MODAL -->
-<div class="pdf-modal-overlay" id="pdfModal" onclick="if(event.target===this)closePdfModal()">
+<div class="pdf-modal-overlay" id="pdfModal" role="dialog" aria-modal="true" aria-label="PDF viewer" onclick="if(event.target===this)closePdfModal()">
   <div class="pdf-modal">
-    <button class="pdf-modal-close" onclick="closePdfModal()">&times;</button>
+    <button class="pdf-modal-close" onclick="closePdfModal()" aria-label="Close PDF viewer">&times;</button>
     <div id="pdfViewer" style="width:100%;height:100%;overflow-y:auto;"></div>
   </div>
 </div>

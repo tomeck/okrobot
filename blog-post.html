@@ -4,10 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog — OK ROBOT</title>
+<meta name="description" content="Read this article on the OK ROBOT blog — insights from operators who build production AI systems.">
+<meta name="author" content="OK ROBOT LLC">
+<link rel="canonical" href="https://ok-robot.co/blog-post.html">
+<!-- Open Graph (defaults, updated dynamically per post) -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ok-robot.co/blog-post.html">
+<meta property="og:title" content="Blog — OK ROBOT">
+<meta property="og:description" content="Read this article on the OK ROBOT blog — insights from operators who build production AI systems.">
+<meta property="og:image" content="https://ok-robot.co/images/ok_robot_logo_400.png">
+<meta property="og:site_name" content="OK ROBOT">
+<meta property="article:publisher" content="https://ok-robot.co">
+<!-- Twitter Card (defaults, updated dynamically per post) -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blog — OK ROBOT">
+<meta name="twitter:description" content="Read this article on the OK ROBOT blog.">
+<meta name="twitter:image" content="https://ok-robot.co/images/ok_robot_logo_400.png">
 <link rel="icon" type="image/png" href="images/ok_robot_logo_400.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&family=Instrument+Serif&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 <style>
   :root {
     --bg: #0a0a0a;
@@ -24,6 +41,19 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .skip-to-content {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 999;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .skip-to-content:focus { left: 0; }
 
   html {
     font-size: 116%;
@@ -365,10 +395,12 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-to-content">Skip to content</a>
+
 <!-- NAV -->
-<nav>
-  <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
-  <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')">
+<nav aria-label="Main navigation">
+  <div class="nav-logo"><a href="index.html"><img src="images/ok_robot_logo_400.png" alt="OK ROBOT home" width="70" height="70" style="height:70px;vertical-align:middle;background:#181818;border-radius:6px;padding:4px;"></a></div>
+  <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" onclick="this.classList.toggle('active');this.setAttribute('aria-expanded',this.classList.contains('active'));document.querySelector('.nav-links').classList.toggle('open')">
     <span></span><span></span><span></span>
   </button>
   <div class="nav-links">
@@ -376,20 +408,22 @@
     <a href="index.html#mission">Mission</a>
     <a href="index.html#principles">Principles</a>
     <a href="samples.html">Samples</a>
-    <a href="blog.html" class="active">Blog</a>
+    <a href="blog.html" class="active" aria-current="page">Blog</a>
     <a href="index.html#team">Team</a>
     <a href="index.html#cta">Contact</a>
   </div>
 </nav>
 
 <!-- PAGE CONTENT -->
+<main id="main-content">
 <div class="page-content">
   <a href="blog.html" class="back-link">&larr; All Posts</a>
 
-  <div id="postContainer">
+  <article id="postContainer" aria-live="polite">
     <div class="post-loading">Loading post...</div>
-  </div>
+  </article>
 </div>
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -420,6 +454,58 @@
 
     document.title = post.title + ' — OK ROBOT';
 
+    var postUrl = 'https://ok-robot.co/blog-post.html?post=' + encodeURIComponent(slug);
+
+    var setMeta = function(attr, key, value) {
+      var el = document.querySelector('meta[' + attr + '="' + key + '"]');
+      if (el) el.setAttribute('content', value);
+    };
+    setMeta('name', 'description', post.description);
+    setMeta('property', 'og:title', post.title + ' — OK ROBOT');
+    setMeta('property', 'og:description', post.description);
+    setMeta('property', 'og:url', postUrl);
+    setMeta('name', 'twitter:title', post.title + ' — OK ROBOT');
+    setMeta('name', 'twitter:description', post.description);
+
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', postUrl);
+
+    var ldJson = {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      'headline': post.title,
+      'description': post.description,
+      'datePublished': post.date,
+      'url': postUrl,
+      'author': { '@type': 'Person', 'name': post.author || 'OK ROBOT' },
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'OK ROBOT',
+        'logo': { '@type': 'ImageObject', 'url': 'https://ok-robot.co/images/ok_robot_logo_400.png' }
+      },
+      'image': 'https://ok-robot.co/images/ok_robot_logo_400.png',
+      'mainEntityOfPage': { '@type': 'WebPage', '@id': postUrl }
+    };
+    if (post.tags) ldJson.keywords = post.tags.join(', ');
+    var script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(ldJson);
+    document.head.appendChild(script);
+
+    var breadcrumbLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://ok-robot.co/' },
+        { '@type': 'ListItem', 'position': 2, 'name': 'Blog', 'item': 'https://ok-robot.co/blog.html' },
+        { '@type': 'ListItem', 'position': 3, 'name': post.title, 'item': postUrl }
+      ]
+    };
+    var breadcrumbScript = document.createElement('script');
+    breadcrumbScript.type = 'application/ld+json';
+    breadcrumbScript.textContent = JSON.stringify(breadcrumbLd);
+    document.head.appendChild(breadcrumbScript);
+
     var mdRes = await fetch('blog/posts/' + encodeURIComponent(slug) + '.md');
     if (!mdRes.ok) {
       container.innerHTML = '<div class="post-error">Could not load post content. <a href="blog.html" style="color:var(--accent)">Back to blog</a></div>';
@@ -440,15 +526,15 @@
     }
 
     container.innerHTML =
-      '<div class="post-header">' +
+      '<header class="post-header">' +
         '<div class="post-meta">' +
-          '<span class="post-meta-date">' + dateStr + '</span>' +
+          '<time class="post-meta-date" datetime="' + post.date + '">' + dateStr + '</time>' +
           (post.author ? '<span>' + post.author + '</span>' : '') +
           tagsHtml +
         '</div>' +
         '<h1 class="post-title">' + post.title + '</h1>' +
         '<p class="post-description">' + post.description + '</p>' +
-      '</div>' +
+      '</header>' +
       '<div class="post-body">' + html + '</div>';
 
   } catch (e) {
