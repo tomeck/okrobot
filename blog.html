@@ -235,6 +235,30 @@
     margin-top: 1rem;
   }
 
+  /* ---- PINNED ---- */
+  .blog-card.pinned {
+    border-color: var(--accent-dim);
+  }
+
+  .blog-card-pinned {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .blog-card-pinned::before {
+    content: "\25C6";
+    font-size: 0.5rem;
+  }
+
   /* ---- EMPTY STATE ---- */
   .blog-empty {
     text-align: center;
@@ -365,6 +389,8 @@
     const posts = await res.json();
 
     posts.sort(function(a, b) {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
       return new Date(b.date) - new Date(a.date);
     });
 
@@ -392,8 +418,13 @@
         }).join(' ');
       }
 
+      if (post.pinned) link.classList.add('pinned');
+
+      var pinnedBadge = post.pinned ? '<span class="blog-card-pinned">Pinned</span>' : '';
+
       link.innerHTML =
         '<div class="blog-card-meta">' +
+          pinnedBadge +
           '<time class="blog-card-date" datetime="' + post.date + '">' + dateStr + '</time>' +
           (post.author ? '<span>' + post.author + '</span>' : '') +
           tagsHtml +

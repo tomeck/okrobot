@@ -10,7 +10,7 @@
   {
     "slug": "why-most-ai-projects-fail",
     "title": "Why Most AI Projects Fail (And How to Be the Exception)",
-    "date": "2026-04-21",
+    "date": "2026-03-12",
     "description": "The failure rate for enterprise AI is around 80%. After 30 years in the field, here are the five patterns I see over and over — and what to do instead.",
     "author": "Tom Eck",
     "tags": ["ai", "strategy", "lessons"]
@@ -18,9 +18,10 @@
   {
     "slug": "welcome-to-ok-robot",
     "title": "Welcome to OK ROBOT",
-    "date": "2026-04-21",
+    "date": "2026-02-01",
     "description": "Introducing our blog — where we share what we've learned building AI systems that actually work.",
     "author": "Tom Eck",
-    "tags": ["company", "announcement"]
+    "tags": ["company", "announcement"],
+    "pinned": true
   }
 ]
