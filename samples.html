@@ -91,6 +91,11 @@
       <p class="sample-card-desc">Our technology can provide account managers with a comprehensive daily briefing, highlighting key metrics and actionable insights for each client.</p>
       <div class="sample-card-tag">View Sample &rarr;</div>
     </article>
+    <article class="sample-card" style="cursor:pointer;" onclick="openImgModal(['assets/cool_mediod_superposition.png','assets/cool2.png'])" role="button" tabindex="0" aria-label="View Protein Structure Superposition sample" onkeydown="if(event.key==='Enter')openImgModal(['assets/cool_mediod_superposition.png','assets/cool2.png'])">
+      <h2 class="sample-card-title">Protein Structure Superposition</h2>
+      <p class="sample-card-desc">AI-driven medoid-based structural alignment of protein conformations, visualizing shared folding patterns across multiple variants.</p>
+      <div class="sample-card-tag">View Sample &rarr;</div>
+    </article>
   </div>
 </div>
 </main>
@@ -123,7 +128,89 @@
   </div>
 </div>
 
+<!-- IMAGE MODAL -->
+<div class="img-modal-overlay" id="imgModal" role="dialog" aria-modal="true" aria-label="Image viewer" onclick="if(event.target===this)closeImgModal()">
+  <div class="img-modal">
+    <div class="img-toolbar">
+      <div class="img-toolbar-group">
+        <button class="pdf-toolbar-btn img-nav-btn" id="imgPrev" aria-label="Previous image" title="Previous">&lsaquo;</button>
+        <span class="img-counter" id="imgCounter"></span>
+        <button class="pdf-toolbar-btn img-nav-btn" id="imgNext" aria-label="Next image" title="Next">&rsaquo;</button>
+      </div>
+      <div class="img-toolbar-group">
+        <button class="pdf-toolbar-btn" id="imgDownload" aria-label="Download image" title="Download image">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8m0 0l-3-3m3 3l3-3M3 12h10"/></svg>
+          Download
+        </button>
+        <button class="pdf-modal-close" onclick="closeImgModal()" aria-label="Close image viewer">&times;</button>
+      </div>
+    </div>
+    <div class="img-viewer" id="imgViewer"></div>
+  </div>
+</div>
+
 <script type="module" src="js/pdf-viewer.mjs"></script>
+<script>
+var currentImages = [];
+var currentImgIndex = 0;
+
+function openImgModal(src) {
+  currentImages = Array.isArray(src) ? src : [src];
+  currentImgIndex = 0;
+  showImg(0);
+  var hasNav = currentImages.length > 1;
+  document.getElementById('imgPrev').style.display = hasNav ? '' : 'none';
+  document.getElementById('imgNext').style.display = hasNav ? '' : 'none';
+  document.getElementById('imgCounter').style.display = hasNav ? '' : 'none';
+  document.getElementById('imgModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function showImg(index) {
+  currentImgIndex = index;
+  var viewer = document.getElementById('imgViewer');
+  var img = new Image();
+  img.src = currentImages[index];
+  img.alt = 'Sample image ' + (index + 1);
+  img.draggable = false;
+  viewer.innerHTML = '';
+  viewer.appendChild(img);
+  document.getElementById('imgCounter').textContent = (index + 1) + ' / ' + currentImages.length;
+  document.getElementById('imgPrev').disabled = index === 0;
+  document.getElementById('imgNext').disabled = index === currentImages.length - 1;
+}
+
+function closeImgModal() {
+  document.getElementById('imgModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('imgPrev').addEventListener('click', function() {
+  if (currentImgIndex > 0) showImg(currentImgIndex - 1);
+});
+
+document.getElementById('imgNext').addEventListener('click', function() {
+  if (currentImgIndex < currentImages.length - 1) showImg(currentImgIndex + 1);
+});
+
+document.getElementById('imgDownload').addEventListener('click', function() {
+  var img = document.querySelector('#imgViewer img');
+  if (!img) return;
+  var a = document.createElement('a');
+  a.href = img.src;
+  a.download = img.src.split('/').pop();
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('imgModal').classList.contains('active')) return;
+  if (e.key === 'Escape') closeImgModal();
+  if (e.key === 'ArrowLeft' && currentImgIndex > 0) showImg(currentImgIndex - 1);
+  if (e.key === 'ArrowRight' && currentImgIndex < currentImages.length - 1) showImg(currentImgIndex + 1);
+});
+</script>
 
 </body>
 </html>
