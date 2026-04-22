@@ -81,17 +81,17 @@
   <p class="page-subtitle">A selection of projects and capabilities. More coming soon.</p>
 
   <div class="samples-grid">
-    <article class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/portfolio-digest-sample.pdf')" role="button" tabindex="0" aria-label="View AI Financial Advisor sample" onkeydown="if(event.key==='Enter')openPdfModal('assets/portfolio-digest-sample.pdf')">
+    <article class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/portfolio-digest-sample.pdf','AI S&P 500 Financial Advisor')" role="button" tabindex="0" aria-label="View AI Financial Advisor sample" onkeydown="if(event.key==='Enter')openPdfModal('assets/portfolio-digest-sample.pdf','AI Financial Advisor')">
       <h2 class="sample-card-title">AI Financial Advisor</h2>
       <p class="sample-card-desc">Given a list of tickers or a portfolio to analyze and optimize, we will send you the industry's most comprehensive financial insights -- in minutes.</p>
       <div class="sample-card-tag">View Sample &rarr;</div>
     </article>
-    <article class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/wp_rm_daily_briefing.pdf')" role="button" tabindex="0" aria-label="View Account Manager Daily Briefing sample" onkeydown="if(event.key==='Enter')openPdfModal('assets/wp_rm_daily_briefing.pdf')">
+    <article class="sample-card" style="cursor:pointer;" onclick="openPdfModal('assets/wp_rm_daily_briefing.pdf','Account Manager Daily Briefing')" role="button" tabindex="0" aria-label="View Account Manager Daily Briefing sample" onkeydown="if(event.key==='Enter')openPdfModal('assets/wp_rm_daily_briefing.pdf','Account Manager Daily Briefing')">
       <h2 class="sample-card-title">Account Manager Daily Briefing</h2>
       <p class="sample-card-desc">Our technology can provide account managers with a comprehensive daily briefing, highlighting key metrics and actionable insights for each client.</p>
       <div class="sample-card-tag">View Sample &rarr;</div>
     </article>
-    <article class="sample-card" style="cursor:pointer;" onclick="openImgModal(['assets/cool_mediod_superposition.png','assets/cool2.png'])" role="button" tabindex="0" aria-label="View Protein Structure Superposition sample" onkeydown="if(event.key==='Enter')openImgModal(['assets/cool_mediod_superposition.png','assets/cool2.png'])">
+    <article class="sample-card" style="cursor:pointer;" onclick="openImgModal(['assets/cool_mediod_superposition.png','assets/cool2.png'],'Protein Structure Superposition (HIV Capsid)')" role="button" tabindex="0" aria-label="View Protein Structure Superposition sample" onkeydown="if(event.key==='Enter')openImgModal(['assets/cool_mediod_superposition.png','assets/cool2.png'],'Protein Structure Superposition')">
       <h2 class="sample-card-title">Protein Structure Superposition</h2>
       <p class="sample-card-desc">AI-driven medoid-based structural alignment of protein conformations, visualizing shared folding patterns across multiple variants.</p>
       <div class="sample-card-tag">View Sample &rarr;</div>
@@ -109,14 +109,15 @@
 <!-- PDF MODAL -->
 <div class="pdf-modal-overlay" id="pdfModal" role="dialog" aria-modal="true" aria-label="PDF viewer" onclick="if(event.target===this)closePdfModal()">
   <div class="pdf-modal">
-    <div class="pdf-toolbar">
-      <div class="pdf-toolbar-group">
+    <div class="pdf-toolbar modal-toolbar">
+      <div class="toolbar-left">
         <button class="pdf-toolbar-btn" id="pdfZoomOut" aria-label="Zoom out" title="Zoom out">&minus;</button>
         <span class="pdf-zoom-level" id="pdfZoomLevel">100%</span>
         <button class="pdf-toolbar-btn" id="pdfZoomIn" aria-label="Zoom in" title="Zoom in">&plus;</button>
         <button class="pdf-toolbar-btn" id="pdfZoomFit" aria-label="Fit to width" title="Fit to width">Fit</button>
       </div>
-      <div class="pdf-toolbar-group">
+      <span class="modal-title-text" id="pdfTitle"></span>
+      <div class="toolbar-right">
         <button class="pdf-toolbar-btn" id="pdfDownload" aria-label="Download PDF" title="Download PDF">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8m0 0l-3-3m3 3l3-3M3 12h10"/></svg>
           Download
@@ -131,13 +132,14 @@
 <!-- IMAGE MODAL -->
 <div class="img-modal-overlay" id="imgModal" role="dialog" aria-modal="true" aria-label="Image viewer" onclick="if(event.target===this)closeImgModal()">
   <div class="img-modal">
-    <div class="img-toolbar">
-      <div class="img-toolbar-group">
+    <div class="img-toolbar modal-toolbar">
+      <div class="toolbar-left">
         <button class="pdf-toolbar-btn img-nav-btn" id="imgPrev" aria-label="Previous image" title="Previous">&lsaquo;</button>
         <span class="img-counter" id="imgCounter"></span>
         <button class="pdf-toolbar-btn img-nav-btn" id="imgNext" aria-label="Next image" title="Next">&rsaquo;</button>
       </div>
-      <div class="img-toolbar-group">
+      <span class="modal-title-text" id="imgTitle"></span>
+      <div class="toolbar-right">
         <button class="pdf-toolbar-btn" id="imgDownload" aria-label="Download image" title="Download image">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8m0 0l-3-3m3 3l3-3M3 12h10"/></svg>
           Download
@@ -149,14 +151,15 @@
   </div>
 </div>
 
-<script type="module" src="js/pdf-viewer.mjs"></script>
+<script type="module" src="js/pdf-viewer.mjs?v=2"></script>
 <script>
 var currentImages = [];
 var currentImgIndex = 0;
 
-function openImgModal(src) {
+function openImgModal(src, title) {
   currentImages = Array.isArray(src) ? src : [src];
   currentImgIndex = 0;
+  document.getElementById('imgTitle').textContent = title || '';
   showImg(0);
   var hasNav = currentImages.length > 1;
   document.getElementById('imgPrev').style.display = hasNav ? '' : 'none';

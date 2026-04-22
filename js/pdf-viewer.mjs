@@ -193,7 +193,8 @@ document.getElementById('pdfDownload').addEventListener('click', function() {
   document.body.removeChild(a);
 });
 
-window.openPdfModal = function(pdfPath) {
+window.openPdfModal = function(pdfPath, title) {
+  document.getElementById('pdfTitle').textContent = title || '';
   document.getElementById('pdfModal').classList.add('active');
   document.body.style.overflow = 'hidden';
   loadPdf(pdfPath);
