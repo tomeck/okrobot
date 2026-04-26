@@ -1,5 +1,13 @@
 [
   {
+    "slug": "how_language_models_think",
+    "title": "How Language Models \"Think\"",
+    "date": "2026-04-26",
+    "description": "A technical breakdown of what actually happens when a language model processes input — from the mechanics of the forward pass to chain-of-thought to trained extended reasoning models.",
+    "author": "Teckxx",
+    "tags": ["ai", "research", "technical"]
+  },
+  {
     "slug": "have-we-reached-peak-attention",
     "title": "Have We Reached Peak Attention?",
     "date": "2026-04-21",
