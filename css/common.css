@@ -77,6 +77,9 @@ nav {
 .nav-links a:hover { color: var(--accent); }
 .nav-links a.active { color: var(--accent); }
 
+/* ---- BRAND NAME ---- */
+.ok-robot { color: var(--accent); }
+
 /* ---- PAGE CONTENT (shared by subpages) ---- */
 .page-content {
   max-width: 900px;

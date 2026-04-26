@@ -3,6 +3,11 @@
   max-width: 1100px;
 }
 
+/* HTML posts carry their own internal padding */
+.page-content.html-post {
+  padding-top: 5rem;
+}
+
 /* ---- READING PROGRESS BAR ---- */
 .reading-progress {
   position: fixed;
@@ -110,7 +115,7 @@
 .post-body {
   max-width: 720px;
   line-height: 1.85;
-  font-size: 1rem;
+  font-size: 1.12rem;
   color: var(--text-primary);
 }
 

@@ -39,6 +39,8 @@
 
       var pinnedBadge = post.pinned ? '<span class="blog-card-pinned">Pinned</span>' : '';
 
+      var brandify = function(s) { return s.replace(/\bOK[- ]ROBOT\b/g, '<span class="ok-robot">$&</span>'); };
+
       link.innerHTML =
         '<div class="blog-card-meta">' +
           pinnedBadge +
@@ -46,8 +48,8 @@
           (post.author ? '<span>' + post.author + '</span>' : '') +
           tagsHtml +
         '</div>' +
-        '<h2 class="blog-card-title">' + post.title + '</h2>' +
-        '<p class="blog-card-desc">' + post.description + '</p>' +
+        '<h2 class="blog-card-title">' + brandify(post.title) + '</h2>' +
+        '<p class="blog-card-desc">' + brandify(post.description) + '</p>' +
         '<div class="blog-card-read">Read more &rarr;</div>';
 
       card.appendChild(link);

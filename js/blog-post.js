@@ -83,42 +83,77 @@
     breadcrumbScript.textContent = JSON.stringify(breadcrumbLd);
     document.head.appendChild(breadcrumbScript);
 
-    var mdRes = await fetch('blog/posts/' + encodeURIComponent(slug) + '.md');
-    if (!mdRes.ok) {
-      container.innerHTML = '<div class="post-error">Could not load post content. <a href="blog.html" style="color:var(--accent)">Back to blog</a></div>';
-      return;
+    if (post.format === 'html') {
+      var htmlRes = await fetch('blog/posts/' + encodeURIComponent(slug) + '.html');
+      if (!htmlRes.ok) {
+        container.innerHTML = '<div class="post-error">Could not load post content. <a href="blog.html" style="color:var(--accent)">Back to blog</a></div>';
+        return;
+      }
+      var htmlText = await htmlRes.text();
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(htmlText, 'text/html');
+
+      // Inject styles and font links from the post's <head>
+      doc.querySelectorAll('head link[rel="stylesheet"], head style').forEach(function(el) {
+        document.head.appendChild(el.cloneNode(true));
+      });
+
+      // Reduce page-content top padding — the HTML post has its own internal padding
+      var pageContent = document.querySelector('.page-content');
+      if (pageContent) pageContent.classList.add('html-post');
+
+      // Inject body content
+      container.innerHTML = doc.body.innerHTML;
+
+      // Re-execute scripts (innerHTML doesn't run them)
+      container.querySelectorAll('script').forEach(function(oldScript) {
+        var newScript = document.createElement('script');
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
+
+    } else {
+      var mdRes = await fetch('blog/posts/' + encodeURIComponent(slug) + '.md');
+      if (!mdRes.ok) {
+        container.innerHTML = '<div class="post-error">Could not load post content. <a href="blog.html" style="color:var(--accent)">Back to blog</a></div>';
+        return;
+      }
+
+      var markdown = await mdRes.text();
+      var html = marked.parse(markdown).replace(/\bOK[- ]ROBOT\b/g, '<span class="ok-robot">$&</span>');
+
+      var dateObj = new Date(post.date + 'T00:00:00');
+      var dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      var wordCount = markdown.trim().split(/\s+/).length;
+      var readMins = Math.max(1, Math.ceil(wordCount / 200));
+
+      var tagsHtml = '';
+      if (post.tags && post.tags.length) {
+        tagsHtml = '<span class="post-meta-sep">·</span>' +
+          post.tags.map(function(t) {
+            return '<span class="post-meta-tag">' + t + '</span>';
+          }).join(' ');
+      }
+
+      container.innerHTML =
+        '<header class="post-header">' +
+          '<div class="post-meta">' +
+            '<time class="post-meta-date" datetime="' + post.date + '">' + dateStr + '</time>' +
+            (post.author ? '<span class="post-meta-sep">·</span><span>' + post.author + '</span>' : '') +
+            '<span class="post-meta-sep">·</span>' +
+            '<span class="post-meta-readtime">' + readMins + ' min read</span>' +
+            tagsHtml +
+          '</div>' +
+          '<h1 class="post-title">' + post.title + '</h1>' +
+          '<p class="post-description">' + post.description + '</p>' +
+        '</header>' +
+        '<div class="post-body">' + html + '</div>';
     }
-
-    var markdown = await mdRes.text();
-    var html = marked.parse(markdown);
-
-    var dateObj = new Date(post.date + 'T00:00:00');
-    var dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-    var wordCount = markdown.trim().split(/\s+/).length;
-    var readMins = Math.max(1, Math.ceil(wordCount / 200));
-
-    var tagsHtml = '';
-    if (post.tags && post.tags.length) {
-      tagsHtml = '<span class="post-meta-sep">·</span>' +
-        post.tags.map(function(t) {
-          return '<span class="post-meta-tag">' + t + '</span>';
-        }).join(' ');
-    }
-
-    container.innerHTML =
-      '<header class="post-header">' +
-        '<div class="post-meta">' +
-          '<time class="post-meta-date" datetime="' + post.date + '">' + dateStr + '</time>' +
-          (post.author ? '<span class="post-meta-sep">·</span><span>' + post.author + '</span>' : '') +
-          '<span class="post-meta-sep">·</span>' +
-          '<span class="post-meta-readtime">' + readMins + ' min read</span>' +
-          tagsHtml +
-        '</div>' +
-        '<h1 class="post-title">' + post.title + '</h1>' +
-        '<p class="post-description">' + post.description + '</p>' +
-      '</header>' +
-      '<div class="post-body">' + html + '</div>';
 
   } catch (e) {
     container.innerHTML = '<div class="post-error">Something went wrong loading this post. <a href="blog.html" style="color:var(--accent)">Back to blog</a></div>';
