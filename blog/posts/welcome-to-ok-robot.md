@@ -26,4 +26,6 @@ We have a lot to share. If you want to know when we publish something new, [get 
 
 ---
 
-*— Teckxx, Founder*
+*— Teckxx, Founder of OK ROBOT*
+
+[Sign up here](/index.html#cta) to receive updates on new Blog posts and all things *OK-ROBOT*

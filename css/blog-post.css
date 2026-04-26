@@ -1,6 +1,6 @@
 /* Override page-content max-width for narrower reading column */
 .page-content {
-  max-width: 760px;
+  max-width: 1100px;
 }
 
 /* ---- BACK LINK ---- */

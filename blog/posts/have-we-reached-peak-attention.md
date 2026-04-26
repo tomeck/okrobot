@@ -119,3 +119,5 @@ We're watching a fundamental shift in how we think about sequence modeling. The 
 ---
 
 *— Teckxx, Founder of OK ROBOT*
+
+[Sign up here](/index.html#cta) to receive updates on new Blog posts and all things *OK-ROBOT*

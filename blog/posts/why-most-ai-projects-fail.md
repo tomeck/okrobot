@@ -92,3 +92,5 @@ Get those right, and the AI part is the easy part.
 ---
 
 *— Teckxx, Founder of OK ROBOT*
+
+[Sign up here](/index.html#cta) to receive updates on new Blog posts and all things *OK-ROBOT*
