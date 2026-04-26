@@ -1,3 +1,14 @@
+(function() {
+  var bar = document.getElementById('readingProgress');
+  if (bar) {
+    window.addEventListener('scroll', function() {
+      var scrolled = window.scrollY;
+      var total = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+    }, { passive: true });
+  }
+})();
+
 (async function() {
   var container = document.getElementById('postContainer');
   var params = new URLSearchParams(window.location.search);
@@ -84,18 +95,24 @@
     var dateObj = new Date(post.date + 'T00:00:00');
     var dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
+    var wordCount = markdown.trim().split(/\s+/).length;
+    var readMins = Math.max(1, Math.ceil(wordCount / 200));
+
     var tagsHtml = '';
     if (post.tags && post.tags.length) {
-      tagsHtml = post.tags.map(function(t) {
-        return '<span class="post-meta-tag">' + t + '</span>';
-      }).join(' ');
+      tagsHtml = '<span class="post-meta-sep">·</span>' +
+        post.tags.map(function(t) {
+          return '<span class="post-meta-tag">' + t + '</span>';
+        }).join(' ');
     }
 
     container.innerHTML =
       '<header class="post-header">' +
         '<div class="post-meta">' +
           '<time class="post-meta-date" datetime="' + post.date + '">' + dateStr + '</time>' +
-          (post.author ? '<span>' + post.author + '</span>' : '') +
+          (post.author ? '<span class="post-meta-sep">·</span><span>' + post.author + '</span>' : '') +
+          '<span class="post-meta-sep">·</span>' +
+          '<span class="post-meta-readtime">' + readMins + ' min read</span>' +
           tagsHtml +
         '</div>' +
         '<h1 class="post-title">' + post.title + '</h1>' +
