@@ -1,5 +1,14 @@
 [
   {
+    "slug": "rising-costs-of-proprietary-llms",
+    "title": "The Escalating Price of Intelligence: Rising Costs of Proprietary LLMs in 2026",
+    "date": "2026-04-30",
+    "description": "Per-token prices look stable, but real LLM bills are climbing fast. A breakdown of why agentic workloads, longer context, and tokenizer changes are inflating costs — and what to do about it.",
+    "author": "Teckxx",
+    "tags": ["ai", "economics", "strategy"],
+    "format": "html"
+  },
+  {
     "slug": "how-language-models-think",
     "title": "How Language Models \"Think\"",
     "date": "2026-04-26",

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Escalating Price of Intelligence — LLM Costs in 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --text: #1a1a18;
+  --text-secondary: #5F5E5A;
+  --border: #E2E0D8;
+  --accent: #534AB7;
+  --coral: #D85A30;
+  --teal: #0F6E56;
+  --blue: #185FA5;
+  --red: #A32D2D;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a18;
+    --surface: #242422;
+    --text: #E8E6DE;
+    --text-secondary: #B4B2A9;
+    --border: #3a3a38;
+    --accent: #AFA9EC;
+    --coral: #F0997B;
+    --teal: #5DCAA5;
+    --blue: #85B7EB;
+    --red: #F09595;
+  }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 17px;
+}
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+h1 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.dateline {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.55rem;
+  font-weight: 600;
+  margin: 2.8rem 0 1rem;
+  line-height: 1.3;
+}
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+}
+p { margin-bottom: 1.15rem; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0 1.8rem;
+  font-size: 0.88rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  background: var(--surface);
+}
+td { vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1.2rem 0 2rem;
+}
+.table-wrap table { margin: 0; }
+.table-caption {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 0.7rem 0.75rem 0;
+  background: var(--surface);
+}
+.chart-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.chart-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.chart-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.chart-legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.chart-legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.callout {
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.95rem;
+}
+.sources {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>The Escalating Price of Intelligence: Understanding and Managing the Rising Costs of Proprietary LLMs in 2026</h1>
+<div class="dateline">April 30, 2026</div>
+
+<p>The promise of AI-powered development was supposed to make everything cheaper, faster, and more efficient. And in many ways, it has. But there's a growing tension simmering beneath the surface of every enterprise AI deployment: <strong>the cost of using proprietary large language models is climbing — and climbing fast — even as per-token prices hold steady or drop on paper.</strong></p>
+
+<p>This isn't a story about sticker prices. It's a story about how the way we <em>use</em> these models has fundamentally changed, how agentic workloads have detonated token consumption, and how companies that aren't watching carefully are discovering the damage only when the invoice arrives.</p>
+
+<hr>
+
+<h2>The Headline: Anthropic's Claude Code Costs Just Doubled Overnight</h2>
+
+<p>On April 15, 2026, Anthropic quietly updated the costs page on its Claude Code documentation. The average estimated daily spend per developer jumped from <strong>$6 to $13</strong> — a 115% increase. The estimated ceiling for 90% of users climbed from $12 to $30 per active day. Enterprise deployments now budget between <strong>$150 and $250 per developer per month</strong>.</p>
+
+<p>Anthropic insists nothing changed under the hood. An Anthropic spokesperson stated that the update simply reflects more recent usage data from real customers. But the effect is the same: engineering leaders who had budgeted based on the old estimates are now staring at projections that look fundamentally different.</p>
+
+<p>As Anthropic's head of growth, Amol Avasare, acknowledged on X: engagement per subscriber has risen sharply, and current subscription plans weren't designed for this level of usage.</p>
+
+<p>The Claude Code story is a microcosm of a much larger trend. Real-world usage costs are climbing as agentic AI becomes more widely adopted. Customers are running more agents, working with much longer context windows, and chaining more tool calls together. All of that consumes more tokens, which means higher bills — even when the per-token price hasn't moved.</p>
+
+<h2>The Rate Card Illusion: When "Unchanged" Prices Cost More</h2>
+
+<p>One of the most insidious cost dynamics in the current LLM landscape is the gap between headline price and effective cost. The release of Claude Opus 4.7 on April 16, 2026 is the perfect case study.</p>
+
+<p>The official line from Anthropic was straightforward: prices are unchanged from Opus 4.6. Five dollars per million input tokens, twenty-five dollars per million output tokens. But buried in the release notes was a critical detail — Opus 4.7 ships with a new tokenizer that can produce <strong>up to 35% more tokens for the same input text</strong>. The same paragraph of prose, the same Python function, the same JSON payload all break into more tokens in 4.7 than they did in 4.6.</p>
+
+<p>A request that cost $0.10 on Opus 4.6 can now cost $0.135 on Opus 4.7. And because output tokens are priced 5x higher than input tokens, any increase in output verbosity compounds the effect on two axes at once: token density <em>and</em> token volume.</p>
+
+<p>OpenAI followed a similar playbook with GPT-5.5, released on April 23, 2026. The company doubled the per-token price compared to GPT-5.4 — input went from $2.50 to $5.00, output from $15.00 to $30.00 per million tokens. OpenAI argues that a roughly 20% net efficiency improvement offsets the higher rate card, but for teams processing tens of millions of tokens monthly, the math is unforgiving.</p>
+
+<h2>Current Pricing: A Side-by-Side Comparison</h2>
+
+<!-- CHART 1: Pricing Comparison -->
+<div class="chart-section">
+  <div class="chart-title">Flagship model pricing comparison</div>
+  <div class="chart-subtitle">Per million tokens, USD — Anthropic and OpenAI, April 2026</div>
+  <div class="chart-legend">
+    <span><span class="dot" style="background: #534AB7;"></span>Input (per MTok)</span>
+    <span><span class="dot" style="background: #D85A30;"></span>Output (per MTok)</span>
+  </div>
+  <svg id="pricingChart" role="img" aria-label="Bar chart comparing input and output pricing per million tokens across 7 LLM models" style="width:100%;height:auto;display:block;font-family:'DM Sans',sans-serif"></svg>
+</div>
+
+<div class="table-wrap">
+<div class="table-caption">Table 1 — Flagship model pricing (per million tokens, USD)</div>
+<table>
+<thead><tr><th>Model</th><th>Input</th><th>Cached Input</th><th>Output</th><th>Context</th></tr></thead>
+<tbody>
+<tr><td colspan="5" style="font-weight:600; color:var(--accent);">Anthropic</td></tr>
+<tr><td>Claude Opus 4.7</td><td>$5.00</td><td>$0.50</td><td>$25.00</td><td>1M tokens</td></tr>
+<tr><td>Claude Sonnet 4.6</td><td>$3.00</td><td>$0.30</td><td>$15.00</td><td>1M tokens</td></tr>
+<tr><td>Claude Haiku 4.5</td><td>$1.00</td><td>$0.10</td><td>$5.00</td><td>200K tokens</td></tr>
+<tr><td colspan="5" style="font-weight:600; color:var(--coral);">OpenAI</td></tr>
+<tr><td>GPT-5.5</td><td>$5.00</td><td>$1.25</td><td>$30.00</td><td>1.05M tokens</td></tr>
+<tr><td>GPT-5.4</td><td>$2.50</td><td>$0.25</td><td>$15.00</td><td>272K+ tokens</td></tr>
+<tr><td>GPT-5.4 Mini</td><td>$0.75</td><td>$0.075</td><td>$3.00</td><td>1.05M tokens</td></tr>
+<tr><td>GPT-5.4 Nano</td><td>$0.20</td><td>$0.020</td><td>$1.25</td><td>1.05M tokens</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="table-wrap">
+<div class="table-caption">Table 2 — Legacy model pricing: where the savings (and traps) hide</div>
+<table>
+<thead><tr><th>Model</th><th>Input / MTok</th><th>Output / MTok</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Claude Opus 4.1</td><td>$15.00</td><td>$75.00</td><td>3x costlier than Opus 4.6</td></tr>
+<tr><td>Claude Opus 3</td><td>$15.00</td><td>$75.00</td><td>Deprecated; still available</td></tr>
+<tr><td>GPT-5.4 Pro</td><td>$30.00</td><td>$180.00</td><td>Premium reasoning tier</td></tr>
+<tr><td>GPT-4.1</td><td>$2.00</td><td>$8.00</td><td>Still strong for many tasks</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Companies still running legacy Claude Opus 3 or Opus 4.1 models are paying three times what current-generation models charge for inferior performance. Migrating off legacy models is often the single highest-ROI change an organization can make to its AI budget.</p>
+
+<h2>What's Actually Driving Costs Higher</h2>
+
+<p>The per-token price is only one variable. What has fundamentally shifted is the <em>volume</em> of tokens that modern workloads consume. Several converging forces are responsible.</p>
+
+<h3>1. The agentic explosion</h3>
+
+<p>Gartner predicts that 40% of enterprise applications will embed task-specific AI agents by the end of 2026, up from less than 5% in 2025. These agents don't just answer questions — they plan multi-step approaches, call tools, chain API requests, and reason across long context windows. Every step consumes tokens.</p>
+
+<p>According to Datadog's April 2026 State of AI Engineering report, rate-limit errors accounted for nearly a third of all LLM call failures they observed in March 2026 — approximately 8.4 million rate-limit errors total. The demand for compute is already pressing against provider capacity ceilings.</p>
+
+<h3>2. Multi-agent architectures multiply everything</h3>
+
+<p>Claude Code's Agent Teams feature illustrates the math perfectly. A 3-agent team uses roughly <strong>7x more tokens</strong> than a standard single-agent session, because each agent maintains its own context window and runs as a separate Claude instance. Auto-accept mode, which lets Claude execute file edits without human confirmation, further increases both tool-call count and session length.</p>
+
+<h3>3. Longer context windows as a cost multiplier</h3>
+
+<p>Both Anthropic and OpenAI now offer 1M+ token context windows at standard pricing — a genuine engineering achievement. But the financial implication is that developers <em>use</em> those windows. OpenAI adds an explicit surcharge for long contexts on some models: GPT-5.5 prompts exceeding 272K input tokens are priced at 2x input and 1.5x output for the full session.</p>
+
+<h3>4. Tokenizer changes: the hidden price hike</h3>
+
+<p>Both providers have introduced new tokenizers with their latest models. Opus 4.7's tokenizer can generate up to 35% more tokens for identical input. This hits hardest on code, structured data, and non-English text.</p>
+
+<!-- CHART 2: Cost Multipliers -->
+<div class="chart-section">
+  <div class="chart-title">Effective cost multipliers vs. baseline single prompt</div>
+  <div class="chart-subtitle">How various factors inflate actual costs beyond the published rate card</div>
+  <svg id="multipliersChart" role="img" aria-label="Horizontal bar chart showing cost multipliers ranging from 1.35x for tokenizer changes up to 15x for full context window usage" style="width:100%;height:auto;display:block;font-family:'DM Sans',sans-serif"></svg>
+</div>
+
+<div class="callout">
+  <strong>The key insight:</strong> A single autonomous coding task can now burn through what used to be a full day's worth of tokens. At enterprise scale, agentic workloads have been reported to push LLM inference costs alone to $5,000–$25,000 per month per deployment.
+</div>
+
+<div class="table-wrap">
+<div class="table-caption">Table 3 — Cost drivers: per-token price vs. effective cost</div>
+<table>
+<thead><tr><th>Cost Factor</th><th>Rate Card Effect</th><th>Actual Bill Effect</th></tr></thead>
+<tbody>
+<tr><td>New tokenizer (Opus 4.7)</td><td>Unchanged</td><td>Up to +35%</td></tr>
+<tr><td>Multi-agent sessions (3 agents)</td><td>Unchanged</td><td>~7x token volume</td></tr>
+<tr><td>Auto-accept mode</td><td>Unchanged</td><td>Higher tool-call count</td></tr>
+<tr><td>1M context window usage</td><td>Unchanged / surcharge</td><td>10–100x vs. short prompts</td></tr>
+<tr><td>Agentic reasoning loops</td><td>Unchanged</td><td>3–4x tokens per task</td></tr>
+<tr><td>GPT-5.5 per-token increase</td><td>+100% (in and out)</td><td>Directly doubled</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>How Companies Can Observe, Understand, and Manage Token Costs</h2>
+
+<p>The gap between "we're using AI" and "we understand what AI costs us" is where most organizations lose money. The good news is that a mature set of practices and tooling has emerged over the past year.</p>
+
+<h3>Step 1: Instrument everything through a unified gateway</h3>
+<p>Route all LLM calls through a single gateway or proxy. Open-source tools like <strong>LiteLLM</strong> provide a unified interface to 100+ providers while automatically tracking tokens, latency, and costs. Commercial gateways like <strong>Bifrost</strong> add adaptive load balancing and semantic caching on top.</p>
+
+<h3>Step 2: Attribute costs to features, teams, and users</h3>
+<p>Tools built on <strong>OpenTelemetry</strong> — the industry standard for distributed tracing — can automatically link LLM costs to user journeys. Platforms like <strong>Langfuse</strong> (open-source) and <strong>Datadog LLM Observability</strong> (enterprise) provide per-trace cost breakdowns, custom tagging, and session-level spend analysis.</p>
+
+<h3>Step 3: Implement intelligent model routing</h3>
+<p>Not every request needs a frontier model. The price difference between GPT-5.4 Nano ($0.20/MTok input) and GPT-5.4 Standard ($2.50/MTok input) is 12x. A cascading architecture — where requests first route through a lightweight model and escalate only when complexity demands it — can reduce costs by 60–80%.</p>
+
+<h3>Step 4: Leverage prompt caching aggressively</h3>
+<p>Prompt caching is the single largest cost lever available to API users. Both providers charge only 10% of the standard input price for cache hits. Many chat applications achieve 30–50% cache-hit rates from the system prompt alone, with no architectural changes required.</p>
+
+<h3>Step 5: Use batch processing for non-urgent workloads</h3>
+<p>Both Anthropic and OpenAI offer Batch APIs at a 50% discount across all models for workloads that can tolerate up to 24 hours of latency.</p>
+
+<h3>Step 6: Set budgets, alerts, and hard limits</h3>
+<p>Set per-team or per-user budget caps with automatic alerting when thresholds are crossed. LiteLLM supports maximum budgets per API key with automatic enforcement. The goal is catching anomalies the same day — not at month-end.</p>
+
+<!-- CHART 3: Savings Potential -->
+<div class="chart-section">
+  <div class="chart-title">Cost optimization techniques: savings potential</div>
+  <div class="chart-subtitle">Typical vs. maximum potential savings by technique</div>
+  <div class="chart-legend">
+    <span><span class="dot" style="background: #0F6E56;"></span>Max potential savings</span>
+    <span><span class="dot" style="background: #9FE1CB;"></span>Typical savings</span>
+  </div>
+  <svg id="savingsChart" role="img" aria-label="Horizontal bar chart showing savings potential of six optimization techniques, from prompt caching at 90% max down to prompt optimization at 40% max" style="width:100%;height:auto;display:block;font-family:'DM Sans',sans-serif"></svg>
+</div>
+
+<div class="table-wrap">
+<div class="table-caption">Table 4 — Cost optimization techniques: impact and complexity</div>
+<table>
+<thead><tr><th>Technique</th><th>Potential Savings</th><th>Effort</th><th>Best For</th></tr></thead>
+<tbody>
+<tr><td>Prompt caching</td><td>Up to 90% on input</td><td>Low</td><td>Repeated prompts, multi-turn chat</td></tr>
+<tr><td>Batch API</td><td>50% on all tokens</td><td>Low–Medium</td><td>Offline processing, evaluations</td></tr>
+<tr><td>Model routing</td><td>60–80%</td><td>Medium</td><td>Mixed-complexity workloads</td></tr>
+<tr><td>Migrate off legacy</td><td>Up to 66%</td><td>Low</td><td>Teams on Opus 3/4.1</td></tr>
+<tr><td>Prompt optimization</td><td>20–40%</td><td>Medium</td><td>Verbose prompts, bloated context</td></tr>
+<tr><td>Semantic caching</td><td>Variable</td><td>Medium</td><td>FAQ bots, repeated queries</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="table-wrap">
+<div class="table-caption">Table 5 — LLM cost observability tooling landscape (2026)</div>
+<table>
+<thead><tr><th>Tool</th><th>Type</th><th>Key Strength</th><th>Pricing</th></tr></thead>
+<tbody>
+<tr><td>Langfuse</td><td>Open-source</td><td>Trace-level cost attribution</td><td>Free (self-hosted); $29+/mo</td></tr>
+<tr><td>LiteLLM</td><td>Open-source proxy</td><td>Multi-provider gateway, budgets</td><td>Free</td></tr>
+<tr><td>Datadog</td><td>Enterprise APM</td><td>Unified infra + LLM view</td><td>Usage-based</td></tr>
+<tr><td>Helicone</td><td>Proxy-based</td><td>One-line integration</td><td>Free tier (10K req/mo)</td></tr>
+<tr><td>Braintrust</td><td>Observability + evals</td><td>Eval alongside cost tracking</td><td>Free tier; $249/mo Pro</td></tr>
+<tr><td>CloudZero</td><td>FinOps platform</td><td>Unit-economics by customer</td><td>Enterprise</td></tr>
+<tr><td>Finout</td><td>Cloud cost mgmt</td><td>Cross-provider allocation</td><td>Enterprise</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>The Bigger Picture: A FinOps Discipline for AI</h2>
+
+<p>Model API spending doubled from $3.5 billion to $8.4 billion between late 2024 and mid-2025, and 72% of companies planned to increase their LLM spending further into 2026. The enterprise LLM market is projected to grow from $6.7 billion to $71.1 billion by 2034. These are not numbers that can be managed with spreadsheets and monthly invoice reviews.</p>
+
+<p>The organizations that succeed will be the ones that treat AI cost management the way the industry learned to treat cloud cost management a decade ago: as a first-class engineering discipline, not an afterthought. That means instrumenting from day one, attributing every dollar to a business outcome, building cost awareness into architectural decisions, and continuously benchmarking whether the model and tier you're using is actually the right one for each workload.</p>
+
+<p><strong>The price of intelligence is rising. The question is whether you're paying attention before or after the bill arrives.</strong></p>
+
+<div class="sources">
+<strong>Sources:</strong> Anthropic API pricing documentation (verified April 29, 2026); OpenAI API pricing documentation (verified April 30, 2026); reporting from Business Insider and Dataconomy on Claude Code cost estimate revisions; Datadog State of AI Engineering report (April 2026); analysis from Finout, CloudZero, MetaCTO, and Pluralsight; industry research from Gartner and ResearchAndMarkets.
+</div>
+
+</div>
+
+<script>
+(function() {
+  var NS = 'http://www.w3.org/2000/svg';
+  var isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  var textColor = isDark ? '#B4B2A9' : '#5F5E5A';
+  var gridColor = isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)';
+
+  function el(tag, attrs) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function txt(parent, x, y, content, opts) {
+    opts = opts || {};
+    var attrs = { x: x, y: y, fill: opts.fill || textColor, 'font-size': opts.size || 11 };
+    if (opts.anchor) attrs['text-anchor'] = opts.anchor;
+    if (opts.weight) attrs['font-weight'] = opts.weight;
+    if (opts.transform) attrs.transform = opts.transform;
+    var t = el('text', attrs);
+    t.textContent = content;
+    parent.appendChild(t);
+  }
+
+  // ---- Chart 1: Vertical grouped bars (Pricing) ----
+  (function() {
+    var svg = document.getElementById('pricingChart');
+    if (!svg) return;
+    var W = 720, H = 360, L = 70, R = 20, T = 20, B = 80;
+    var PW = W - L - R, PH = H - T - B;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+    var labels  = ['Opus 4.7','Sonnet 4.6','Haiku 4.5','GPT-5.5','GPT-5.4','GPT-5.4 Mini','GPT-5.4 Nano'];
+    var inputs  = [5, 3, 1, 5, 2.5, 0.75, 0.2];
+    var outputs = [25, 15, 5, 30, 15, 3, 1.25];
+    var yMax = 30, yStep = 5;
+    var yPx = function(v) { return T + PH - (v / yMax) * PH; };
+
+    txt(svg, 18, T + PH / 2, 'USD per million tokens', { anchor: 'middle', transform: 'rotate(-90, 18, ' + (T + PH / 2) + ')' });
+
+    for (var v = 0; v <= yMax; v += yStep) {
+      var y = yPx(v);
+      svg.appendChild(el('line', { x1: L, y1: y, x2: L + PW, y2: y, stroke: gridColor, 'stroke-width': 1 }));
+      txt(svg, L - 8, y + 4, '$' + v, { anchor: 'end' });
+    }
+
+    var slotW = PW / labels.length;
+    var barW = 22;
+    labels.forEach(function(label, i) {
+      var cx = L + slotW * (i + 0.5);
+      txt(svg, cx, T + PH + 18, label, { anchor: 'middle' });
+      var iy = yPx(inputs[i]);
+      svg.appendChild(el('rect', { x: cx - barW - 1, y: iy, width: barW, height: T + PH - iy, fill: '#534AB7', rx: 2 }));
+      var oy = yPx(outputs[i]);
+      svg.appendChild(el('rect', { x: cx + 1, y: oy, width: barW, height: T + PH - oy, fill: '#D85A30', rx: 2 }));
+    });
+  })();
+
+  // ---- Chart 2: Horizontal bars (Multipliers) ----
+  (function() {
+    var svg = document.getElementById('multipliersChart');
+    if (!svg) return;
+    var W = 720, H = 340, L = 230, R = 20, T = 20, B = 60;
+    var PW = W - L - R, PH = H - T - B;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+    var labels = ['Baseline (single prompt)','New tokenizer (Opus 4.7)','GPT-5.5 rate increase','Agentic reasoning loops','Multi-agent session (3 agents)','1M context window usage'];
+    var values = [1, 1.35, 2, 3.5, 7, 15];
+    var colors = ['#888780','#85B7EB','#85B7EB','#F0997B','#D85A30','#A32D2D'];
+    var xMax = 15, xStep = 3;
+    var xPx = function(v) { return L + (v / xMax) * PW; };
+
+    txt(svg, L + PW / 2, H - 12, 'Effective cost multiplier', { anchor: 'middle' });
+
+    for (var v = 0; v <= xMax; v += xStep) {
+      var x = xPx(v);
+      svg.appendChild(el('line', { x1: x, y1: T, x2: x, y2: T + PH, stroke: gridColor, 'stroke-width': 1 }));
+      txt(svg, x, T + PH + 18, v + 'x', { anchor: 'middle' });
+    }
+
+    var slotH = PH / labels.length;
+    var barH = 24;
+    labels.forEach(function(label, i) {
+      var cy = T + slotH * (i + 0.5);
+      txt(svg, L - 10, cy + 4, label, { anchor: 'end' });
+      var w = xPx(values[i]) - L;
+      svg.appendChild(el('rect', { x: L, y: cy - barH / 2, width: w, height: barH, fill: colors[i], rx: 2 }));
+      txt(svg, L + w + 6, cy + 4, values[i] + 'x', { fill: colors[i], weight: 600 });
+    });
+  })();
+
+  // ---- Chart 3: Horizontal grouped bars (Savings) ----
+  (function() {
+    var svg = document.getElementById('savingsChart');
+    if (!svg) return;
+    var W = 720, H = 320, L = 230, R = 30, T = 20, B = 60;
+    var PW = W - L - R, PH = H - T - B;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+    var labels = ['Prompt caching','Model routing / cascading','Migrate off legacy models','Batch API','Semantic caching','Prompt optimization'];
+    var maxData = [90, 80, 66, 50, 60, 40];
+    var typData = [50, 45, 66, 50, 30, 20];
+    var xMax = 100, xStep = 25;
+    var xPx = function(v) { return L + (v / xMax) * PW; };
+
+    txt(svg, L + PW / 2, H - 12, 'Potential cost reduction (%)', { anchor: 'middle' });
+
+    for (var v = 0; v <= xMax; v += xStep) {
+      var x = xPx(v);
+      svg.appendChild(el('line', { x1: x, y1: T, x2: x, y2: T + PH, stroke: gridColor, 'stroke-width': 1 }));
+      txt(svg, x, T + PH + 18, v + '%', { anchor: 'middle' });
+    }
+
+    var slotH = PH / labels.length;
+    var barH = 14;
+    labels.forEach(function(label, i) {
+      var slotMid = T + slotH * (i + 0.5);
+      txt(svg, L - 10, slotMid + 4, label, { anchor: 'end' });
+      var wMax = xPx(maxData[i]) - L;
+      var wTyp = xPx(typData[i]) - L;
+      svg.appendChild(el('rect', { x: L, y: slotMid - barH - 1, width: wMax, height: barH, fill: '#0F6E56', rx: 2 }));
+      svg.appendChild(el('rect', { x: L, y: slotMid + 1, width: wTyp, height: barH, fill: '#9FE1CB', rx: 2 }));
+      txt(svg, L + wMax + 6, slotMid - 1, maxData[i] + '%', { fill: '#0F6E56', weight: 600, size: 10 });
+      txt(svg, L + wTyp + 6, slotMid + barH + 2, typData[i] + '%', { fill: isDark ? '#9FE1CB' : '#5F5E5A', size: 10 });
+    });
+  })();
+})();
+</script>
+</body>
+</html>
