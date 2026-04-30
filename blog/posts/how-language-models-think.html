@@ -10,13 +10,15 @@
   --bg: #FAFAF8;
   --bg2: #F2F1ED;
   --bg3: #E8E7E3;
+  --surface: #FFFFFF;
   --text: #1A1A18;
   --text2: #5A5A56;
   --text3: #8A8A84;
+  --text-secondary: var(--text2);
   --border: rgba(0,0,0,.08);
   --border2: rgba(0,0,0,.14);
-  --purple-50: #E6FFF3; --purple-100: #B0FFD7; --purple-200: #66FFB3;
-  --purple-400: #1FE693; --purple-600: #00B863; --purple-800: #006B3A; --purple-900: #002D18;
+  --green-50: #E6FFF3; --green-100: #B0FFD7; --green-200: #66FFB3;
+  --green-400: #1FE693; --green-600: #00B863; --green-800: #006B3A; --green-900: #002D18;
   --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5;
   --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041; --teal-900: #04342C;
   --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B;
@@ -25,6 +27,11 @@
   --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
   --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-200: #B4B2A9;
   --gray-400: #888780; --gray-600: #5F5E5A; --gray-800: #444441;
+  --accent: var(--green-600);
+  --coral: var(--coral-400);
+  --teal: var(--teal-600);
+  --blue: #185FA5;
+  --red: #A32D2D;
   --font-display: 'Newsreader', Georgia, serif;
   --font-body: 'DM Sans', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -32,8 +39,14 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #141413; --bg2: #1E1E1C; --bg3: #2A2A28;
+    --surface: #242422;
     --text: #E8E7E3; --text2: #A8A8A2; --text3: #6A6A64;
     --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.14);
+    --accent: var(--green-400);
+    --coral: #F0997B;
+    --teal: #5DCAA5;
+    --blue: #85B7EB;
+    --red: #F09595;
   }
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -55,11 +68,11 @@ body {
   font-size: 12px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--purple-600);
+  color: var(--green-600);
   margin: 0 0 16px;
 }
 @media (prefers-color-scheme: dark) {
-  .article-eyebrow { color: var(--purple-200); }
+  .article-eyebrow { color: var(--green-200); }
 }
 .article-title {
   font-family: var(--font-display);
@@ -84,8 +97,8 @@ body {
   align-items: center;
   gap: 12px;
   padding: 16px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  border-top: 2px solid #00ff88;
+  border-bottom: 2px solid #00ff88;
   margin: 0 0 48px;
   font-size: 14px;
   color: var(--text3);
@@ -99,9 +112,21 @@ h2 {
   font-size: 32px;
   font-weight: 600;
   line-height: 1.25;
-  margin: 56px 0 20px;
+  margin: 4rem 0 1rem;
+  padding-top: 2.5rem;
+  border-top: 2px solid #00ff88;
   color: var(--text);
   letter-spacing: -.01em;
+}
+h2:first-of-type {
+  margin-top: 2.8rem;
+  padding-top: 0;
+  border-top: none;
+}
+hr {
+  border: none;
+  border-top: 2px solid #00ff88;
+  margin: 2.5rem 0;
 }
 h3 {
   font-family: var(--font-display);
@@ -120,7 +145,7 @@ p strong, li strong {
   font-weight: 500;
 }
 blockquote {
-  border-left: 3px solid var(--purple-400);
+  border-left: 3px solid var(--green-400);
   padding: 4px 0 4px 20px;
   margin: 28px 0;
   font-family: var(--font-display);
@@ -149,19 +174,19 @@ code {
   font-weight: 400;
   font-style: italic;
   line-height: 1.7;
-  color: var(--purple-800);
+  color: var(--green-800);
   margin: 40px 0;
   padding: 20px 24px 20px 28px;
-  border-left: 3px solid var(--purple-400);
-  background: var(--purple-50);
+  border-left: 3px solid var(--green-400);
+  background: var(--green-50);
   border-radius: 0 10px 10px 0;
   letter-spacing: 0;
 }
 @media (prefers-color-scheme: dark) {
   .pullquote {
-    color: var(--purple-100);
-    background: var(--purple-900);
-    border-left-color: var(--purple-400);
+    color: var(--green-100);
+    background: var(--green-900);
+    border-left-color: var(--green-400);
   }
 }
 .diagram-container {
@@ -189,7 +214,7 @@ code {
   content: '';
   width: 8px; height: 8px;
   border-radius: 50%;
-  background: var(--purple-400);
+  background: var(--green-400);
   display: inline-block;
 }
 .diagram-caption {
@@ -200,7 +225,7 @@ code {
 }
 .separator {
   width: 40px; height: 3px;
-  background: var(--purple-400);
+  background: var(--green-400);
   margin: 56px 0;
   border-radius: 2px;
 }
@@ -220,8 +245,8 @@ code {
 .tok.active rect{stroke-width:1.5!important}
 .zone-btn{border:1px solid var(--border2);background:var(--bg);border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;transition:all .15s;color:var(--text2);font-family:var(--font-body);font-weight:400}
 .zone-btn:hover{background:var(--bg3)}
-.zone-btn.active{background:var(--purple-50);color:var(--purple-800);border-color:var(--purple-200);font-weight:500}
-@media(prefers-color-scheme:dark){.zone-btn.active{background:var(--purple-900);color:var(--purple-100);border-color:var(--purple-600)}}
+.zone-btn.active{background:var(--green-50);color:var(--green-800);border-color:var(--green-200);font-weight:500}
+@media(prefers-color-scheme:dark){.zone-btn.active{background:var(--green-900);color:var(--green-100);border-color:var(--green-600)}}
 .zone-card{background:var(--bg);border-radius:12px;padding:20px 24px;min-height:140px;border:1px solid var(--border)}
 .zone-label{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--text3);margin:0 0 6px;text-transform:uppercase}
 .zone-title{font-family:var(--font-display);font-size:18px;font-weight:500;color:var(--text);margin:0 0 8px}
@@ -229,8 +254,8 @@ code {
 .zone-example{font-size:13px;font-family:var(--font-mono);color:var(--text3);margin:10px 0 0;padding:10px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)}
 .mode-pill{display:inline-flex;border:1px solid var(--border2);border-radius:12px;overflow:hidden}
 .mode-pill button{border:none;background:transparent;padding:8px 20px;font-size:13px;cursor:pointer;font-family:var(--font-body);color:var(--text2);transition:all .15s;font-weight:400}
-.mode-pill button.active{background:var(--purple-50);color:var(--purple-800);font-weight:500}
-@media(prefers-color-scheme:dark){.mode-pill button.active{background:var(--purple-900);color:var(--purple-100)}}
+.mode-pill button.active{background:var(--green-50);color:var(--green-800);font-weight:500}
+@media(prefers-color-scheme:dark){.mode-pill button.active{background:var(--green-900);color:var(--green-100)}}
 .step-row{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:8px;margin:0 0 6px;transition:all .25s;opacity:.3;transform:translateX(-8px)}
 .step-row.visible{opacity:1;transform:translateX(0)}
 .step-row.current{background:var(--bg)}
@@ -246,11 +271,11 @@ code {
 .badge{font-size:11px;padding:3px 10px;border-radius:6px;display:inline-block;font-weight:500;font-family:var(--font-mono)}
 .badge-teal{background:var(--teal-50);color:var(--teal-800)}
 .badge-coral{background:var(--coral-50);color:var(--coral-800)}
-.badge-purple{background:var(--purple-50);color:var(--purple-800)}
+.badge-purple{background:var(--green-50);color:var(--green-800)}
 @media(prefers-color-scheme:dark){
 .badge-teal{background:var(--teal-900);color:var(--teal-100)}
 .badge-coral{background:#4A1B0C;color:var(--coral-100)}
-.badge-purple{background:var(--purple-900);color:var(--purple-100)}
+.badge-purple{background:var(--green-900);color:var(--green-100)}
 }
 .metric-card{background:var(--bg);border-radius:8px;padding:12px 16px;text-align:center;border:1px solid var(--border)}
 .metric-card .val{font-size:20px;font-weight:500;color:var(--text);margin:0;font-family:var(--font-mono)}
@@ -266,9 +291,9 @@ svg .ts{font-family:'DM Sans',sans-serif;font-size:12px;fill:var(--text2)}
 svg .t{font-family:'DM Sans',sans-serif;font-size:14px;fill:var(--text)}
 svg .arr{stroke:var(--text3);stroke-width:1.5}
 svg .leader{stroke:var(--text3);stroke-width:0.5;stroke-dasharray:3 3}
-svg .c-purple>rect,svg .c-purple>circle,svg .c-purple>ellipse,svg rect.c-purple{fill:var(--purple-50);stroke:var(--purple-600)}
-svg .c-purple .th{fill:var(--purple-800)}
-svg .c-purple .ts{fill:var(--purple-600)}
+svg .c-green>rect,svg .c-green>circle,svg .c-green>ellipse,svg rect.c-green{fill:var(--green-50);stroke:var(--green-600)}
+svg .c-green .th{fill:var(--green-800)}
+svg .c-green .ts{fill:var(--green-600)}
 svg .c-teal>rect,svg .c-teal>circle,svg .c-teal>ellipse,svg rect.c-teal{fill:var(--teal-50);stroke:var(--teal-600)}
 svg .c-teal .th{fill:var(--teal-800)}
 svg .c-teal .ts{fill:var(--teal-600)}
@@ -282,9 +307,9 @@ svg .c-gray>rect,svg .c-gray>circle,svg .c-gray>ellipse,svg rect.c-gray{fill:var
 svg .c-gray .th{fill:var(--gray-800)}
 svg .c-gray .ts{fill:var(--gray-600)}
 @media(prefers-color-scheme:dark){
-svg .c-purple>rect,svg .c-purple>circle,svg .c-purple>ellipse,svg rect.c-purple{fill:var(--purple-900);stroke:var(--purple-200)}
-svg .c-purple .th{fill:var(--purple-100)}
-svg .c-purple .ts{fill:var(--purple-200)}
+svg .c-green>rect,svg .c-green>circle,svg .c-green>ellipse,svg rect.c-green{fill:var(--green-900);stroke:var(--green-200)}
+svg .c-green .th{fill:var(--green-100)}
+svg .c-green .ts{fill:var(--green-200)}
 svg .c-teal>rect,svg .c-teal>circle,svg .c-teal>ellipse,svg rect.c-teal{fill:var(--teal-900);stroke:var(--teal-200)}
 svg .c-teal .th{fill:var(--teal-100)}
 svg .c-teal .ts{fill:var(--teal-200)}
@@ -346,11 +371,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <g class="c-gray"><rect x="60" y="340" width="560" height="32" rx="6" stroke-width="0.5" opacity=".3"/></g>
 <text class="ts" x="340" y="394" text-anchor="middle">Embedding</text>
 <g id="layer-stack">
-<g><rect class="c-purple" x="60" y="250" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="270" dominant-baseline="central">Layer 1</text><text class="ts" x="600" y="270" dominant-baseline="central" text-anchor="end">Syntax</text></g>
-<g><rect class="c-purple" x="60" y="205" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="225" dominant-baseline="central">Layer 2</text><text class="ts" x="600" y="225" dominant-baseline="central" text-anchor="end">Routing</text></g>
+<g><rect class="c-green" x="60" y="250" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="270" dominant-baseline="central">Layer 1</text><text class="ts" x="600" y="270" dominant-baseline="central" text-anchor="end">Syntax</text></g>
+<g><rect class="c-green" x="60" y="205" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="225" dominant-baseline="central">Layer 2</text><text class="ts" x="600" y="225" dominant-baseline="central" text-anchor="end">Routing</text></g>
 <circle cx="340" cy="190" r="1.5" fill="var(--text3)"/><circle cx="340" cy="180" r="1.5" fill="var(--text3)"/><circle cx="340" cy="170" r="1.5" fill="var(--text3)"/>
-<g><rect class="c-purple" x="60" y="120" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="140" dominant-baseline="central">Layer N-1</text><text class="ts" x="600" y="140" dominant-baseline="central" text-anchor="end">Facts</text></g>
-<g><rect class="c-purple" x="60" y="75" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="95" dominant-baseline="central">Layer N</text><text class="ts" x="600" y="95" dominant-baseline="central" text-anchor="end">Sharpen</text></g>
+<g><rect class="c-green" x="60" y="120" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="140" dominant-baseline="central">Layer N-1</text><text class="ts" x="600" y="140" dominant-baseline="central" text-anchor="end">Facts</text></g>
+<g><rect class="c-green" x="60" y="75" width="560" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="80" y="95" dominant-baseline="central">Layer N</text><text class="ts" x="600" y="95" dominant-baseline="central" text-anchor="end">Sharpen</text></g>
 </g>
 <g id="attn-fan" opacity="0"></g>
 <g id="weight-spray" opacity="0"></g>
@@ -384,7 +409,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
 <rect id="z0" class="c-teal" x="10" y="290" width="100" height="50" rx="6" stroke-width="0.5"/>
 <text class="ts" x="60" y="318" text-anchor="middle" dominant-baseline="central">Parse</text>
-<rect id="z1" class="c-purple" x="10" y="200" width="100" height="50" rx="6" stroke-width="0.5"/>
+<rect id="z1" class="c-green" x="10" y="200" width="100" height="50" rx="6" stroke-width="0.5"/>
 <text class="ts" x="60" y="228" text-anchor="middle" dominant-baseline="central">Bind</text>
 <rect id="z2" class="c-amber" x="10" y="110" width="100" height="50" rx="6" stroke-width="0.5"/>
 <text class="ts" x="60" y="138" text-anchor="middle" dominant-baseline="central">Retrieve</text>
@@ -404,8 +429,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <p>So when a model follows an instruction, the forward pass is doing something like: parse what the user wants, route relevant knowledge from the context and from stored facts, integrate everything into the most probable next token. It's a fixed pipeline, but a deep and powerful one.</p>
 
 <p>This is also why a standard Transformer is, formally speaking, a <strong>constant-depth circuit</strong>. No matter how complex your instruction is, it gets the same fixed number of computational steps. This is a real limitation — there are formal results showing that constant-depth Transformers cannot solve problems that require unbounded sequential reasoning, like reliably tracing long chains of logical dependencies or performing multi-digit arithmetic from scratch.</p>
-
-<div class="separator"></div>
 
 <h2>Chain-of-Thought: Solving the Depth Problem</h2>
 
@@ -463,8 +486,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
 <p class="pullquote">In computational terms, CoT transforms a constant-depth computation into a variable-depth one. The model gets O(T) sequential forward passes instead of a single pass. This is a fundamentally different computational regime.</p>
 
-<div class="separator"></div>
-
 <h2>Trained Extended Reasoning</h2>
 
 <p>The next step is making CoT systematic rather than opportunistic.</p>
@@ -493,15 +514,15 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <rect x="40" y="28" width="600" height="200" rx="12" fill="none" stroke="var(--border2)" stroke-width="0.5" stroke-dasharray="6 4" opacity=".4"/>
 <text class="ts" x="340" y="20" text-anchor="middle" opacity=".4">Hidden thinking tokens</text>
 <g class="trace-node" id="n0"><rect class="c-gray" x="60" y="100" width="90" height="40" rx="8" stroke-width="0.5"/><text class="th" x="105" y="120" text-anchor="middle" dominant-baseline="central">Problem</text></g>
-<line class="trace-edge" id="e01" x1="150" y1="120" x2="178" y2="120" stroke="var(--purple-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
-<g class="trace-node" id="n1"><rect class="c-purple" x="180" y="100" width="100" height="40" rx="8" stroke-width="0.5"/><text class="th" x="230" y="120" text-anchor="middle" dominant-baseline="central">Decompose</text></g>
-<line class="trace-edge" id="e1a" x1="280" y1="108" x2="318" y2="68" stroke="var(--purple-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
-<line class="trace-edge" id="e1b" x1="280" y1="132" x2="318" y2="172" stroke="var(--purple-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
-<g class="trace-node" id="n2a"><rect class="c-purple" x="320" y="44" width="110" height="44" rx="8" stroke-width="0.5"/><text class="th" x="375" y="58" text-anchor="middle" dominant-baseline="central">Approach A</text><text class="ts" x="375" y="76" text-anchor="middle" dominant-baseline="central">Explore path</text></g>
+<line class="trace-edge" id="e01" x1="150" y1="120" x2="178" y2="120" stroke="var(--green-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
+<g class="trace-node" id="n1"><rect class="c-green" x="180" y="100" width="100" height="40" rx="8" stroke-width="0.5"/><text class="th" x="230" y="120" text-anchor="middle" dominant-baseline="central">Decompose</text></g>
+<line class="trace-edge" id="e1a" x1="280" y1="108" x2="318" y2="68" stroke="var(--green-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
+<line class="trace-edge" id="e1b" x1="280" y1="132" x2="318" y2="172" stroke="var(--green-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
+<g class="trace-node" id="n2a"><rect class="c-green" x="320" y="44" width="110" height="44" rx="8" stroke-width="0.5"/><text class="th" x="375" y="58" text-anchor="middle" dominant-baseline="central">Approach A</text><text class="ts" x="375" y="76" text-anchor="middle" dominant-baseline="central">Explore path</text></g>
 <line class="trace-edge" id="e2err" x1="430" y1="66" x2="458" y2="66" stroke="var(--coral-400)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
 <g class="trace-node" id="n3err"><rect class="c-coral" x="460" y="44" width="100" height="44" rx="8" stroke-width="0.5"/><text class="th" x="510" y="58" text-anchor="middle" dominant-baseline="central">Error found</text><text class="ts" x="510" y="76" text-anchor="middle" dominant-baseline="central">"Wait, no..."</text></g>
 <path class="trace-edge" id="e-back" d="M510 88 Q510 140 430 152 Q380 160 340 172" fill="none" stroke="var(--coral-400)" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#a4)"/>
-<g class="trace-node" id="n2b"><rect class="c-purple" x="320" y="150" width="110" height="44" rx="8" stroke-width="0.5"/><text class="th" x="375" y="164" text-anchor="middle" dominant-baseline="central">Approach B</text><text class="ts" x="375" y="182" text-anchor="middle" dominant-baseline="central">Better path</text></g>
+<g class="trace-node" id="n2b"><rect class="c-green" x="320" y="150" width="110" height="44" rx="8" stroke-width="0.5"/><text class="th" x="375" y="164" text-anchor="middle" dominant-baseline="central">Approach B</text><text class="ts" x="375" y="182" text-anchor="middle" dominant-baseline="central">Better path</text></g>
 <line class="trace-edge" id="e2v" x1="430" y1="172" x2="458" y2="172" stroke="var(--teal-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
 <g class="trace-node" id="n4v"><rect class="c-teal" x="460" y="150" width="100" height="44" rx="8" stroke-width="0.5"/><text class="th" x="510" y="164" text-anchor="middle" dominant-baseline="central">Self-verify</text><text class="ts" x="510" y="182" text-anchor="middle" dominant-baseline="central">Cross-check</text></g>
 <line class="trace-edge" id="e-final" x1="560" y1="172" x2="588" y2="172" stroke="var(--teal-600)" stroke-width="1" marker-end="url(#a4)" fill="none"/>
@@ -528,8 +549,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
 <p>There's a roughly log-linear relationship between the number of thinking tokens and performance on hard reasoning tasks: more thinking helps, but with diminishing returns. Each additional reasoning step can catch an error, explore an alternative, or refine an intermediate result — but the marginal value decreases as the obvious improvements get captured first.</p>
 
-<div class="separator"></div>
-
 <h2>So Is It Really Following Instructions, or Just Predicting Tokens?</h2>
 
 <p>Both. And that's not a contradiction.</p>
@@ -553,10 +572,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
 <p>That's how a next-token predictor follows your instructions.</p>
 
-<div class="separator"></div>
+<hr>
 
 <p style="color:var(--text3);font-size:14px;font-style:italic">— Teckxx, Founder of <span style="color:#00ff88">OK ROBOT</span></p>
-<p style="font-size:14px;color:var(--text2);margin-top:8px"><a href="/index.html#cta" style="color:var(--purple-600);border-bottom:1px solid var(--purple-200);text-decoration:none;font-weight:500">Sign up here</a> to receive updates on new Blog posts and all things <em><span style="color:#00ff88">OK-ROBOT</span></em></p>
+<p style="font-size:14px;color:var(--text2);margin-top:8px"><a href="/index.html#cta" style="color:var(--green-600);border-bottom:1px solid var(--green-200);text-decoration:none;font-weight:500">Sign up here</a> to receive updates on new Blog posts and all things <em><span style="color:#00ff88">OK-ROBOT</span></em></p>
 
 </article>
 
@@ -572,7 +591,7 @@ function selectToken(i){
   document.querySelectorAll('.tok').forEach((t,j)=>{
     t.classList.toggle('active',j===i);
     const r=t.querySelector('rect');
-    if(j===i){r.setAttribute('class','c-purple')}
+    if(j===i){r.setAttribute('class','c-green')}
     else if(j<=i){r.setAttribute('class','c-teal')}
     else{r.setAttribute('class','c-gray')}
   });
@@ -606,7 +625,7 @@ function selectToken(i){
     const p=document.createElementNS('http://www.w3.org/2000/svg','path');
     p.setAttribute('d',d);
     p.setAttribute('fill','none');
-    p.setAttribute('stroke','var(--purple-200)');
+    p.setAttribute('stroke','var(--green-200)');
     p.setAttribute('stroke-width',(0.5+Math.random()*0.8).toFixed(1));
     p.setAttribute('stroke-linecap','round');
     p.setAttribute('opacity',(0.12+Math.random()*0.16).toFixed(2));
@@ -615,7 +634,7 @@ function selectToken(i){
     endDot.setAttribute('cx',endX.toFixed(0));
     endDot.setAttribute('cy','56');
     endDot.setAttribute('r','2');
-    endDot.setAttribute('fill','var(--purple-200)');
+    endDot.setAttribute('fill','var(--green-200)');
     endDot.setAttribute('opacity','0.2');
     spray.appendChild(endDot);
   }

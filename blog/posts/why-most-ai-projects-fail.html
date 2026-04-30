@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Most AI Projects Fail (And How to Be the Exception)</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF8;
+  --bg2: #F2F1ED;
+  --bg3: #E8E7E3;
+  --surface: #FFFFFF;
+  --text: #1A1A18;
+  --text2: #5A5A56;
+  --text3: #8A8A84;
+  --text-secondary: var(--text2);
+  --border: rgba(0,0,0,.08);
+  --border2: rgba(0,0,0,.14);
+  --green-50: #E6FFF3; --green-100: #B0FFD7; --green-200: #66FFB3;
+  --green-400: #1FE693; --green-600: #00B863; --green-800: #006B3A; --green-900: #002D18;
+  --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5;
+  --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041; --teal-900: #04342C;
+  --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B;
+  --coral-400: #D85A30; --coral-600: #993C1D; --coral-800: #712B13;
+  --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-200: #EF9F27;
+  --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
+  --accent: var(--green-600);
+  --coral: var(--coral-400);
+  --teal: var(--teal-600);
+  --blue: #185FA5;
+  --red: #A32D2D;
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141413; --bg2: #1E1E1C; --bg3: #2A2A28;
+    --surface: #242422;
+    --text: #E8E7E3; --text2: #A8A8A2; --text3: #6A6A64;
+    --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.14);
+    --accent: var(--green-400);
+    --coral: #F0997B;
+    --teal: #5DCAA5;
+    --blue: #85B7EB;
+    --red: #F09595;
+  }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 19px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.dateline {
+  font-size: 0.85rem;
+  color: var(--text2);
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #00ff88;
+}
+h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  margin: 4rem 0 1rem;
+  padding-top: 2.5rem;
+  border-top: 2px solid #00ff88;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+h2:first-of-type {
+  margin-top: 2.8rem;
+  padding-top: 0;
+  border-top: none;
+}
+h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 2rem 0 0.6rem;
+  color: var(--text);
+}
+p { margin-bottom: 1.15rem; color: var(--text2); }
+p strong, li strong { color: var(--text); font-weight: 600; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+hr {
+  border: none;
+  border-top: 2px solid #00ff88;
+  margin: 2.5rem 0;
+}
+ul, ol {
+  margin: 0.5rem 0 1.4rem;
+  padding-left: 1.5rem;
+  color: var(--text2);
+}
+li { margin-bottom: 0.5rem; line-height: 1.7; }
+a { color: var(--green-600); text-decoration: none; border-bottom: 1px solid var(--green-200); transition: color .2s, border-color .2s; }
+a:hover { color: var(--green-800); border-bottom-color: var(--green-400); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0 1.8rem;
+  font-size: 0.88rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text2);
+  background: var(--surface);
+}
+td { vertical-align: top; color: var(--text); }
+tr:last-child td { border-bottom: none; }
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1.2rem 0 2rem;
+}
+.table-wrap table { margin: 0; }
+.table-caption {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text2);
+  padding: 0.7rem 0.75rem 0;
+  background: var(--surface);
+}
+.callout {
+  background: var(--green-50);
+  border-left: 3px solid var(--green-400);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 10px 10px 0;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+  .callout {
+    background: var(--green-900);
+    border-left-color: var(--green-400);
+    color: var(--green-100);
+  }
+}
+.callout-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg2);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  color: var(--text);
+}
+pre {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0 1.5rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  border-radius: 0;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Why Most AI Projects Fail (And How to Be the Exception)</h1>
+<div class="dateline">March 12, 2026</div>
+
+<p>After three decades in AI, I've watched hundreds of projects launch with fanfare and quietly die in a spreadsheet somewhere. The failure rate for enterprise AI initiatives hovers around <strong>80%</strong>, and it's not because the technology doesn't work. It's because teams make the same avoidable mistakes over and over.</p>
+
+<p>Here are the patterns I see — and what to do instead.</p>
+
+<h2>1. Starting with the Model Instead of the Problem</h2>
+
+<p>The most common mistake is falling in love with a solution before understanding the problem. Teams hear about GPT, or diffusion models, or retrieval-augmented generation, and immediately start looking for places to apply them.</p>
+
+<p>This is backwards.</p>
+
+<div class="callout callout-quote">
+The best AI projects start with someone saying "this process is broken" — not "let's use AI."
+</div>
+
+<p><strong>What to do instead:</strong> Start with a pain point that has measurable cost. A process that takes too long, a decision that's made inconsistently, a bottleneck that limits scale. <em>Then</em> ask whether AI is the right tool.</p>
+
+<h2>2. Underestimating the Data Problem</h2>
+
+<p>Everyone wants to talk about models. Nobody wants to talk about data pipelines. But here's the reality:</p>
+
+<div class="table-wrap">
+<div class="table-caption">Table 1 — Where AI project time actually goes</div>
+<table>
+<thead><tr><th>Activity</th><th>% of project time</th></tr></thead>
+<tbody>
+<tr><td>Data collection &amp; cleaning</td><td>40–60%</td></tr>
+<tr><td>Feature engineering</td><td>15–20%</td></tr>
+<tr><td>Model development</td><td>10–15%</td></tr>
+<tr><td>Deployment &amp; monitoring</td><td>15–20%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>That's right — the "AI part" is often the smallest slice. Projects that budget all their time for model development and treat data as an afterthought are setting themselves up to fail.</p>
+
+<p><strong>What to do instead:</strong> Before writing a single line of model code, answer these questions:</p>
+
+<ul>
+<li>Where does the data live?</li>
+<li>Who owns it?</li>
+<li>How clean is it?</li>
+<li>How often does it change?</li>
+<li>What are the privacy and compliance constraints?</li>
+</ul>
+
+<p>If you can't answer all five, you're not ready to build.</p>
+
+<h2>3. Skipping the Baseline</h2>
+
+<p>I've seen teams spend six months building a sophisticated deep learning system that performs 2% better than a rules-based approach they could have shipped in a week.</p>
+
+<p>A simple baseline does three things:</p>
+
+<ol>
+<li><strong>Sets expectations</strong> — now you know what "good" looks like</li>
+<li><strong>Exposes data issues early</strong> — if a logistic regression can't learn anything, your fancy model won't either</li>
+<li><strong>Gives you a fallback</strong> — something to ship while you iterate</li>
+</ol>
+
+<pre><code># This is not glamorous. It is useful.
+from sklearn.linear_model import LogisticRegression
+
+baseline = LogisticRegression()
+baseline.fit(X_train, y_train)
+print(f"Baseline accuracy: {baseline.score(X_test, y_test):.3f}")
+# Now you have a number to beat.</code></pre>
+
+<p><strong>What to do instead:</strong> Always ship the simplest thing that works first. Complexity is a cost, not a feature.</p>
+
+<h2>4. Building for the Demo, Not for Production</h2>
+
+<p>A model that works in a Jupyter notebook is not a product. The gap between "it works on my laptop" and "it works reliably at scale" is where most projects go to die.</p>
+
+<p>Production AI means thinking about:</p>
+
+<ul>
+<li><strong>Latency</strong> — Can it respond fast enough for real users?</li>
+<li><strong>Reliability</strong> — What happens when the model is wrong? What's the fallback?</li>
+<li><strong>Monitoring</strong> — How do you know when performance degrades?</li>
+<li><strong>Cost</strong> — Can you afford to run this at scale?</li>
+<li><strong>Maintenance</strong> — Who retrains the model when the data shifts?</li>
+</ul>
+
+<p><strong>What to do instead:</strong> Involve your infrastructure team from day one, not after the demo gets approved.</p>
+
+<h2>5. Ignoring the Humans in the Loop</h2>
+
+<p>AI doesn't replace workflows — it changes them. And if you don't design for the humans who will actually use the system, they'll find ways to work around it.</p>
+
+<p>The best AI systems I've seen share a common trait: they make the person using them feel <em>more</em> capable, not less relevant. They augment judgment rather than replacing it.</p>
+
+<p><strong>What to do instead:</strong> Sit with the end users. Watch them work. Understand what decisions they make and what information they need. Build the AI to serve <em>that</em>, not to impress a stakeholder in a conference room.</p>
+
+<h2>The Common Thread</h2>
+
+<p>Every one of these failures has the same root cause: <strong>treating AI as a technology project instead of a business project.</strong> The model is a component. The value comes from everything around it — the problem definition, the data strategy, the integration, the change management.</p>
+
+<p>Get those right, and the AI part is the easy part.</p>
+
+<hr>
+<p style="color:var(--text3);font-size:14px;font-style:italic">— Teckxx, Founder of <span style="color:#00ff88">OK ROBOT</span></p>
+<p style="font-size:14px;color:var(--text2);margin-top:8px"><a href="/index.html#cta" style="color:var(--green-600);border-bottom:1px solid var(--green-200);text-decoration:none;font-weight:500">Sign up here</a> to receive updates on new Blog posts and all things <em><span style="color:#00ff88">OK-ROBOT</span></em></p>
+
+</div>
+</body>
+</html>

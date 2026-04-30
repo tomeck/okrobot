@@ -23,7 +23,8 @@
     "date": "2026-04-21",
     "description": "The Transformer's attention mechanism has dominated AI for a decade. Now a wave of new architectures — SSMs, linear attention, xLSTM, and hybrids — is challenging its reign. Here's where the research stands.",
     "author": "Teckxx",
-    "tags": ["ai", "research", "architecture"]
+    "tags": ["ai", "research", "architecture"],
+    "format": "html"
   },
   {
     "slug": "why-most-ai-projects-fail",
@@ -31,7 +32,8 @@
     "date": "2026-03-12",
     "description": "The failure rate for enterprise AI is around 80%. After 30 years in the field, here are the five patterns I see over and over — and what to do instead.",
     "author": "Teckxx",
-    "tags": ["ai", "strategy", "lessons"]
+    "tags": ["ai", "strategy", "lessons"],
+    "format": "html"
   },
   {
     "slug": "welcome-to-ok-robot",
@@ -40,6 +42,7 @@
     "description": "Introducing our blog — where we share what we've learned building AI systems that actually work.",
     "author": "Teckxx",
     "tags": ["company", "announcement"],
-    "pinned": true
+    "pinned": true,
+    "format": "html"
   }
 ]

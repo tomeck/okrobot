@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Have We Reached Peak Attention?</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF8;
+  --bg2: #F2F1ED;
+  --bg3: #E8E7E3;
+  --surface: #FFFFFF;
+  --text: #1A1A18;
+  --text2: #5A5A56;
+  --text3: #8A8A84;
+  --text-secondary: var(--text2);
+  --border: rgba(0,0,0,.08);
+  --border2: rgba(0,0,0,.14);
+  --green-50: #E6FFF3; --green-100: #B0FFD7; --green-200: #66FFB3;
+  --green-400: #1FE693; --green-600: #00B863; --green-800: #006B3A; --green-900: #002D18;
+  --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5;
+  --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041; --teal-900: #04342C;
+  --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B;
+  --coral-400: #D85A30; --coral-600: #993C1D; --coral-800: #712B13;
+  --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-200: #EF9F27;
+  --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
+  --accent: var(--green-600);
+  --coral: var(--coral-400);
+  --teal: var(--teal-600);
+  --blue: #185FA5;
+  --red: #A32D2D;
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141413; --bg2: #1E1E1C; --bg3: #2A2A28;
+    --surface: #242422;
+    --text: #E8E7E3; --text2: #A8A8A2; --text3: #6A6A64;
+    --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.14);
+    --accent: var(--green-400);
+    --coral: #F0997B;
+    --teal: #5DCAA5;
+    --blue: #85B7EB;
+    --red: #F09595;
+  }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 19px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.dateline {
+  font-size: 0.85rem;
+  color: var(--text2);
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #00ff88;
+}
+h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  margin: 4rem 0 1rem;
+  padding-top: 2.5rem;
+  border-top: 2px solid #00ff88;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+h2:first-of-type {
+  margin-top: 2.8rem;
+  padding-top: 0;
+  border-top: none;
+}
+h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 2rem 0 0.6rem;
+  color: var(--text);
+}
+p { margin-bottom: 1.15rem; color: var(--text2); }
+p strong, li strong { color: var(--text); font-weight: 600; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+hr {
+  border: none;
+  border-top: 2px solid #00ff88;
+  margin: 2.5rem 0;
+}
+ul, ol {
+  margin: 0.5rem 0 1.4rem;
+  padding-left: 1.5rem;
+  color: var(--text2);
+}
+li { margin-bottom: 0.5rem; line-height: 1.7; }
+a { color: var(--green-600); text-decoration: none; border-bottom: 1px solid var(--green-200); transition: color .2s, border-color .2s; }
+a:hover { color: var(--green-800); border-bottom-color: var(--green-400); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0 1.8rem;
+  font-size: 0.88rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text2);
+  background: var(--surface);
+}
+td { vertical-align: top; color: var(--text); }
+tr:last-child td { border-bottom: none; }
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1.2rem 0 2rem;
+}
+.table-wrap table { margin: 0; }
+.table-caption {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text2);
+  padding: 0.7rem 0.75rem 0;
+  background: var(--surface);
+}
+.callout {
+  background: var(--green-50);
+  border-left: 3px solid var(--green-400);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 10px 10px 0;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+  .callout {
+    background: var(--green-900);
+    border-left-color: var(--green-400);
+    color: var(--green-100);
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Have We Reached Peak Attention?</h1>
+<div class="dateline">April 21, 2026</div>
+
+<p>The Transformer's self-attention mechanism has dominated AI for nearly a decade. It powered the revolution from BERT to GPT-4 to Claude. But attention has a fundamental problem: it scales quadratically with sequence length. Double your context window and you quadruple the compute. That tax is now the single biggest bottleneck in scaling language models — and a wave of new architectures is betting that we can do better.</p>
+
+<p>The question isn't whether attention <em>works</em>. It does. The question is whether it's the <em>only</em> thing that works — and the answer, increasingly, is no.</p>
+
+<h2>The Quadratic Wall</h2>
+
+<p>Standard self-attention computes a score between every pair of tokens in a sequence. For a context window of length <em>N</em>, that's <em>O(N²)</em> operations and <em>O(N)</em> memory for the key-value cache. At 4K tokens, this is manageable. At 128K, it's expensive. At 1M+, it's a brick wall.</p>
+
+<p>Every major scaling challenge in LLMs today traces back to this:</p>
+
+<ul>
+<li><strong>Inference cost</strong> — the KV cache grows linearly with context, consuming GPU memory</li>
+<li><strong>Latency</strong> — each new token must attend to every previous token</li>
+<li><strong>Training cost</strong> — long-context training is prohibitively expensive</li>
+<li><strong>Deployment</strong> — serving long-context models requires massive hardware</li>
+</ul>
+
+<p>Researchers have been chipping away at this for years with approximations like FlashAttention, sparse attention, and sliding windows. But a growing cohort is asking a more radical question: <em>what if we just replace attention entirely?</em></p>
+
+<h2>The Contenders</h2>
+
+<h3>State Space Models: The Mamba Family</h3>
+
+<p>The most prominent challenger is the <strong>Mamba</strong> family of state space models (SSMs), developed by Albert Gu and Tri Dao. The core insight: instead of computing pairwise relationships between all tokens, propagate information through a continuous-time state that evolves as it processes each token. Complexity drops from <em>O(N²)</em> to <em>O(N)</em> — linear time.</p>
+
+<p><strong>Mamba</strong> (December 2023) introduced <em>selective state spaces</em> — where the model's parameters are functions of the input, enabling content-based reasoning that earlier SSMs lacked. <strong>Mamba-2</strong> (May 2024) revealed the surprising mathematical insight that transformers and SSMs are actually two sides of the same coin — a result called "State Space Duality."</p>
+
+<p>Then came <strong>Mamba-3</strong> (March 2026, published at ICLR 2026), with three key innovations: exponential-trapezoidal discretization, complex-valued state spaces for better state tracking, and multi-input multi-output (MIMO) architecture. The results are striking: at 8K context, Mamba-3 7B is roughly 1.5x cheaper per token than an equivalent transformer. <strong>At 64K context, it's 7x cheaper.</strong> And it skips the KV cache problem entirely.</p>
+
+<h3>RWKV: The RNN That Trains Like a Transformer</h3>
+
+<p><strong>RWKV</strong> takes a different path — it's a pure recurrent architecture that can nonetheless be trained in parallel, like a transformer, using an algebraic reformulation of its recurrence. At inference time, it runs as a true RNN: constant memory, constant time per token.</p>
+
+<p><strong>RWKV-7 "Goose"</strong> (March 2025) achieved state-of-the-art multilingual performance at 2.9B parameters, matching Qwen2.5's English performance despite training on less than a third of the data. The more recent <strong>RWKV-X</strong> (May 2025) adds sparse attention blocks to the mix, achieving near-perfect accuracy on 64K passkey retrieval — historically a weakness of recurrent models.</p>
+
+<p>RWKV is already integrated into Windows and Office runtimes and is a Linux Foundation AI project. It's perhaps the most production-ready pure alternative to attention, though it hasn't yet been scaled past the 3B parameter range.</p>
+
+<h3>Linear Attention: Softmax Is the Problem</h3>
+
+<p>A family of approaches asks: what if attention itself is fine, but it's the <em>softmax</em> that's the bottleneck? By replacing the softmax kernel with linear alternatives, you can reformulate attention as a recurrence — collapsing <em>O(N²)</em> back to <em>O(N)</em>.</p>
+
+<p>The breakout result here is <strong>Gated DeltaNet</strong> (ICLR 2025, from NVIDIA), which combines Mamba-style gating with the delta rule for targeted memory updates. It consistently surpasses Mamba-2 across language modeling, reasoning, and retrieval tasks. Gated DeltaNet has become the <strong>de facto linear attention layer</strong> — it now powers Alibaba's Qwen3-Next, Qwen3.5, Qwen3.6, Moonshot AI's Kimi Linear, and Allen AI's OLMo Hybrid.</p>
+
+<p><strong>Gated Linear Attention (GLA)</strong> from ICML 2024 showed that linear attention can actually be <em>faster than FlashAttention-2</em> even on short sequences — debunking the assumption that linear attention only wins on long contexts.</p>
+
+<p>And for those who want a middle ground, <strong>Log-Linear Attention</strong> (ICLR 2026) lets the hidden state grow logarithmically with sequence length, bridging fixed-state linear attention and full softmax attention.</p>
+
+<h3>xLSTM: The LSTM Strikes Back</h3>
+
+<p>In a twist that nobody expected, <strong>Sepp Hochreiter</strong> — the inventor of the original LSTM in 1997 — returned with <strong>xLSTM</strong> (NeurIPS 2024 Spotlight). The architecture modernizes LSTMs with exponential gating and two variants: sLSTM (scalar memory with new memory mixing) and mLSTM (fully parallelizable matrix memory).</p>
+
+<p>xLSTM 7B (March 2025) established itself as one of the fastest and most efficient 7B models, matching Llama and Mamba on downstream tasks while providing significantly faster inference. The scaling law paper at ICLR 2026 showed that <strong>xLSTM consistently Pareto-dominates transformers</strong> — delivering lower cross-entropy loss for the same compute budget.</p>
+
+<p>The Austrian government is taking this seriously: a dedicated AI Factory for xLSTM development opened in Vienna in January 2026. The LSTM is not dead — it's evolving.</p>
+
+<h3>Test-Time Training: A Completely Different Bet</h3>
+
+<p>While most approaches redesign the architecture, <strong>Test-Time Training (TTT)</strong> reframes the problem entirely. Developed by Yu Sun at Stanford, TTT layers update the model's own weights at inference time, compressing context into parameters rather than caching it as key-value pairs.</p>
+
+<p><strong>TTT-E2E</strong> (December 2025) is the breakthrough version. For 3B models, it scales with context length identically to full attention — while Mamba-2 and Gated DeltaNet do not. The kicker: inference latency is <strong>constant</strong> regardless of context length. At 128K context, it's 2.7x faster than full attention. <strong>At 2M context, it's 35x faster.</strong></p>
+
+<p>TTT is architecturally orthogonal to everything else on this list. It works <em>with</em> existing transformers and could potentially be combined with SSMs or linear attention. It suggests the attention problem might be solvable at the systems level rather than requiring a new architecture.</p>
+
+<h3>Other Notable Approaches</h3>
+
+<p><strong>Google's Titans</strong> (January 2026) introduces a memory-driven architecture with three modules: short-term (attention), long-term (neural memory), and persistent (learned parameters). It handles 2M+ token contexts and outperforms transformers on needle-in-a-haystack retrieval.</p>
+
+<p><strong>Google DeepMind's Griffin</strong> mixes gated linear recurrences with local attention. The production version, <strong>RecurrentGemma</strong>, matches standard Gemma quality with substantially higher throughput, especially on long sequences.</p>
+
+<p><strong>Meta's Byte Latent Transformer</strong> (December 2024) sidesteps the problem from a different angle: skip tokenization entirely and process raw bytes using dynamically sized patches. It matches LLaMA 3 performance with up to 50% fewer inference FLOPs.</p>
+
+<h2>The Hybrid Consensus</h2>
+
+<p>Here's the real story of 2025-2026: <strong>the field has converged on hybrid architectures</strong>, not pure replacements.</p>
+
+<p>The dominant pattern emerging independently across multiple labs is a <strong>3:1 ratio</strong> — three linear/recurrent layers for every one full attention layer:</p>
+
+<div class="table-wrap">
+<div class="table-caption">Table 1 — Hybrid architecture deployments in production models</div>
+<table>
+<thead><tr><th>Model</th><th>Organization</th><th>Architecture</th></tr></thead>
+<tbody>
+<tr><td>Qwen3-Next 80B</td><td>Alibaba</td><td>Gated DeltaNet + full attention</td></tr>
+<tr><td>Kimi Linear 48B</td><td>Moonshot AI</td><td>KDA + MLA (75% KV cache reduction)</td></tr>
+<tr><td>OLMo Hybrid</td><td>Allen AI</td><td>Gated DeltaNet + multihead attention</td></tr>
+<tr><td>Jamba 1.5 398B</td><td>AI21 Labs</td><td>Mamba + attention (7:1 ratio)</td></tr>
+<tr><td>Granite 4.0</td><td>IBM</td><td>Mamba-2 + attention (9:1 ratio)</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>AI21's Jamba</strong> proved the concept first — a production model interleaving Mamba SSM layers with transformer attention layers, achieving 3x throughput on long contexts versus Mixtral while maintaining a 256K context window. IBM's <strong>Granite 4.0</strong> pushed the ratio even further, with 9 Mamba blocks per transformer block, delivering 70%+ RAM reduction for long inputs.</p>
+
+<p>Allen AI's <strong>OLMo Hybrid</strong> paper provides the theoretical justification: there exist problems that neither transformers nor linear models can solve alone, but which hybrid models can represent and learn. The hybrid isn't a compromise — it's provably more expressive than either component.</p>
+
+<h2>What the Frontier Labs Are Doing</h2>
+
+<p>The major labs are placing different bets:</p>
+
+<ul>
+<li><strong>Alibaba (Qwen)</strong> is the most aggressive adopter — Qwen3-Next, 3.5, and 3.6 all use Gated DeltaNet hybrids in production</li>
+<li><strong>Google</strong> released RecurrentGemma (Griffin-based) and published Titans, but Gemini remains transformer-based</li>
+<li><strong>Microsoft</strong> developed RetNet and YOCO but hasn't deployed either at frontier scale</li>
+<li><strong>Meta</strong> is exploring tokenizer-free approaches (BLT) rather than attention alternatives</li>
+<li><strong>OpenAI and Anthropic</strong> haven't publicly disclosed plans to move beyond attention</li>
+</ul>
+
+<p>The pattern: research labs are exploring aggressively, but production frontier models remain transformer-dominant — for now.</p>
+
+<h2>So, Have We Reached Peak Attention?</h2>
+
+<p>Not exactly. We've reached <strong>peak <em>pure</em> attention</strong>.</p>
+
+<p>The evidence from the past two years is clear: attention is necessary but not sufficient. A small number of attention layers handles the retrieval-intensive, high-precision reasoning that recurrent and linear models still struggle with. But the other 75-90% of layers? Those can be SSMs, linear attention, or recurrent variants — at a fraction of the computational cost.</p>
+
+<div class="callout">
+<strong>The endgame</strong> isn't "attention vs. everything else." It's a recognition that attention is an expensive tool, and like any expensive tool, you don't use it for every job. The winning architectures are the ones that figure out <em>where</em> attention matters and apply it surgically.
+</div>
+
+<p>What does this mean practically?</p>
+
+<ul>
+<li><strong>Inference costs will drop significantly</strong> as hybrid architectures mature — especially for long-context applications</li>
+<li><strong>Context windows will continue expanding</strong> now that the quadratic wall has workarounds</li>
+<li><strong>Edge deployment</strong> of capable models becomes realistic when 75%+ of layers are linear-time</li>
+<li><strong>The transformer isn't going away</strong> — but it's becoming one ingredient in a more sophisticated recipe</li>
+</ul>
+
+<p>We're watching a fundamental shift in how we think about sequence modeling. The attention mechanism was the breakthrough that started the LLM era. The next era will be defined by knowing when <em>not</em> to use it.</p>
+
+<hr>
+<p style="color:var(--text3);font-size:14px;font-style:italic">— Teckxx, Founder of <span style="color:#00ff88">OK ROBOT</span></p>
+<p style="font-size:14px;color:var(--text2);margin-top:8px"><a href="/index.html#cta" style="color:var(--green-600);border-bottom:1px solid var(--green-200);text-decoration:none;font-weight:500">Sign up here</a> to receive updates on new Blog posts and all things <em><span style="color:#00ff88">OK-ROBOT</span></em></p>
+
+</div>
+</body>
+</html>
