@@ -4,28 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Escalating Price of Intelligence — LLM Costs in 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #FAFAF8;
+  --bg2: #F2F1ED;
+  --bg3: #E8E7E3;
   --surface: #FFFFFF;
-  --text: #1a1a18;
-  --text-secondary: #5F5E5A;
-  --border: #E2E0D8;
-  --accent: #534AB7;
-  --coral: #D85A30;
-  --teal: #0F6E56;
+  --text: #1A1A18;
+  --text2: #5A5A56;
+  --text3: #8A8A84;
+  --text-secondary: var(--text2);
+  --border: rgba(0,0,0,.08);
+  --border2: rgba(0,0,0,.14);
+  --green-50: #E6FFF3; --green-100: #B0FFD7; --green-200: #66FFB3;
+  --green-400: #1FE693; --green-600: #00B863; --green-800: #006B3A; --green-900: #002D18;
+  --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5;
+  --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041; --teal-900: #04342C;
+  --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B;
+  --coral-400: #D85A30; --coral-600: #993C1D; --coral-800: #712B13;
+  --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-200: #EF9F27;
+  --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
+  --accent: var(--green-600);
+  --coral: var(--coral-400);
+  --teal: var(--teal-600);
   --blue: #185FA5;
   --red: #A32D2D;
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1a1a18;
+    --bg: #141413; --bg2: #1E1E1C; --bg3: #2A2A28;
     --surface: #242422;
-    --text: #E8E6DE;
-    --text-secondary: #B4B2A9;
-    --border: #3a3a38;
-    --accent: #AFA9EC;
+    --text: #E8E7E3; --text2: #A8A8A2; --text3: #6A6A64;
+    --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.14);
+    --accent: var(--green-400);
     --coral: #F0997B;
     --teal: #5DCAA5;
     --blue: #85B7EB;
@@ -33,12 +48,13 @@
   }
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 19px; scroll-behavior: smooth; }
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
   line-height: 1.75;
-  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
 }
 .container {
   max-width: 760px;
@@ -46,38 +62,52 @@ body {
   padding: 3rem 1.5rem 5rem;
 }
 h1 {
-  font-family: 'Source Serif 4', serif;
-  font-size: 2.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 .dateline {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: var(--text2);
   margin-bottom: 2.5rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid var(--border);
 }
 h2 {
-  font-family: 'Source Serif 4', serif;
-  font-size: 1.55rem;
+  font-family: var(--font-display);
+  font-size: 32px;
   font-weight: 600;
-  margin: 2.8rem 0 1rem;
-  line-height: 1.3;
+  margin: 4rem 0 1rem;
+  padding-top: 2.5rem;
+  border-top: 2px solid #00ff88;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+h2:first-of-type {
+  margin-top: 2.8rem;
+  padding-top: 0;
+  border-top: none;
 }
 h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
   margin: 2rem 0 0.6rem;
+  color: var(--text);
 }
-p { margin-bottom: 1.15rem; }
+p { margin-bottom: 1.15rem; color: var(--text2); }
+p strong, li strong { color: var(--text); font-weight: 600; }
 strong { font-weight: 600; }
 em { font-style: italic; }
 hr {
   border: none;
-  border-top: 1px solid var(--border);
+  border-top: 2px solid #00ff88;
   margin: 2.5rem 0;
 }
 table {
@@ -96,15 +126,15 @@ th {
   font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--text-secondary);
+  color: var(--text2);
   background: var(--surface);
 }
-td { vertical-align: top; }
+td { vertical-align: top; color: var(--text); }
 tr:last-child td { border-bottom: none; }
 .table-wrap {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   margin: 1.2rem 0 2rem;
 }
@@ -112,14 +142,14 @@ tr:last-child td { border-bottom: none; }
 .table-caption {
   font-size: 0.82rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text2);
   padding: 0.7rem 0.75rem 0;
   background: var(--surface);
 }
 .chart-section {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 1.5rem;
   margin: 2rem 0;
 }
@@ -127,10 +157,11 @@ tr:last-child td { border-bottom: none; }
   font-size: 0.92rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
+  color: var(--text);
 }
 .chart-subtitle {
   font-size: 0.78rem;
-  color: var(--text-secondary);
+  color: var(--text2);
   margin-bottom: 1rem;
 }
 .chart-legend {
@@ -138,7 +169,7 @@ tr:last-child td { border-bottom: none; }
   flex-wrap: wrap;
   gap: 14px;
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  color: var(--text2);
   margin-bottom: 10px;
 }
 .chart-legend span {
@@ -153,16 +184,24 @@ tr:last-child td { border-bottom: none; }
   display: inline-block;
 }
 .callout {
-  background: var(--surface);
-  border-left: 3px solid var(--accent);
+  background: var(--green-50);
+  border-left: 3px solid var(--green-400);
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 10px 10px 0;
   font-size: 0.95rem;
+  color: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+  .callout {
+    background: var(--green-900);
+    border-left-color: var(--green-400);
+    color: var(--green-100);
+  }
 }
 .sources {
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: var(--text2);
   line-height: 1.6;
   margin-top: 3rem;
   padding-top: 1.5rem;
@@ -209,7 +248,7 @@ tr:last-child td { border-bottom: none; }
   <div class="chart-title">Flagship model pricing comparison</div>
   <div class="chart-subtitle">Per million tokens, USD — Anthropic and OpenAI, April 2026</div>
   <div class="chart-legend">
-    <span><span class="dot" style="background: #534AB7;"></span>Input (per MTok)</span>
+    <span><span class="dot" style="background: #00B863;"></span>Input (per MTok)</span>
     <span><span class="dot" style="background: #D85A30;"></span>Output (per MTok)</span>
   </div>
   <svg id="pricingChart" role="img" aria-label="Bar chart comparing input and output pricing per million tokens across 7 LLM models" style="width:100%;height:auto;display:block;font-family:'DM Sans',sans-serif"></svg>
@@ -233,6 +272,8 @@ tr:last-child td { border-bottom: none; }
 </table>
 </div>
 
+<p>Companies still running legacy Claude Opus 3 or Opus 4.1 models are paying three times what current-generation models charge for inferior performance. Migrating off legacy models is often the single highest-ROI change an organization can make to its AI budget.</p>
+
 <div class="table-wrap">
 <div class="table-caption">Table 2 — Legacy model pricing: where the savings (and traps) hide</div>
 <table>
@@ -245,8 +286,6 @@ tr:last-child td { border-bottom: none; }
 </tbody>
 </table>
 </div>
-
-<p>Companies still running legacy Claude Opus 3 or Opus 4.1 models are paying three times what current-generation models charge for inferior performance. Migrating off legacy models is often the single highest-ROI change an organization can make to its AI budget.</p>
 
 <h2>What's Actually Driving Costs Higher</h2>
 
@@ -306,6 +345,22 @@ tr:last-child td { border-bottom: none; }
 <h3>Step 2: Attribute costs to features, teams, and users</h3>
 <p>Tools built on <strong>OpenTelemetry</strong> — the industry standard for distributed tracing — can automatically link LLM costs to user journeys. Platforms like <strong>Langfuse</strong> (open-source) and <strong>Datadog LLM Observability</strong> (enterprise) provide per-trace cost breakdowns, custom tagging, and session-level spend analysis.</p>
 
+<div class="table-wrap">
+<div class="table-caption">Table 4 — LLM cost observability tooling landscape (2026)</div>
+<table>
+<thead><tr><th>Tool</th><th>Type</th><th>Key Strength</th><th>Pricing</th></tr></thead>
+<tbody>
+<tr><td>Langfuse</td><td>Open-source</td><td>Trace-level cost attribution</td><td>Free (self-hosted); $29+/mo</td></tr>
+<tr><td>LiteLLM</td><td>Open-source proxy</td><td>Multi-provider gateway, budgets</td><td>Free</td></tr>
+<tr><td>Datadog</td><td>Enterprise APM</td><td>Unified infra + LLM view</td><td>Usage-based</td></tr>
+<tr><td>Helicone</td><td>Proxy-based</td><td>One-line integration</td><td>Free tier (10K req/mo)</td></tr>
+<tr><td>Braintrust</td><td>Observability + evals</td><td>Eval alongside cost tracking</td><td>Free tier; $249/mo Pro</td></tr>
+<tr><td>CloudZero</td><td>FinOps platform</td><td>Unit-economics by customer</td><td>Enterprise</td></tr>
+<tr><td>Finout</td><td>Cloud cost mgmt</td><td>Cross-provider allocation</td><td>Enterprise</td></tr>
+</tbody>
+</table>
+</div>
+
 <h3>Step 3: Implement intelligent model routing</h3>
 <p>Not every request needs a frontier model. The price difference between GPT-5.4 Nano ($0.20/MTok input) and GPT-5.4 Standard ($2.50/MTok input) is 12x. A cascading architecture — where requests first route through a lightweight model and escalate only when complexity demands it — can reduce costs by 60–80%.</p>
 
@@ -330,7 +385,7 @@ tr:last-child td { border-bottom: none; }
 </div>
 
 <div class="table-wrap">
-<div class="table-caption">Table 4 — Cost optimization techniques: impact and complexity</div>
+<div class="table-caption">Table 5 — Cost optimization techniques: impact and complexity</div>
 <table>
 <thead><tr><th>Technique</th><th>Potential Savings</th><th>Effort</th><th>Best For</th></tr></thead>
 <tbody>
@@ -344,22 +399,6 @@ tr:last-child td { border-bottom: none; }
 </table>
 </div>
 
-<div class="table-wrap">
-<div class="table-caption">Table 5 — LLM cost observability tooling landscape (2026)</div>
-<table>
-<thead><tr><th>Tool</th><th>Type</th><th>Key Strength</th><th>Pricing</th></tr></thead>
-<tbody>
-<tr><td>Langfuse</td><td>Open-source</td><td>Trace-level cost attribution</td><td>Free (self-hosted); $29+/mo</td></tr>
-<tr><td>LiteLLM</td><td>Open-source proxy</td><td>Multi-provider gateway, budgets</td><td>Free</td></tr>
-<tr><td>Datadog</td><td>Enterprise APM</td><td>Unified infra + LLM view</td><td>Usage-based</td></tr>
-<tr><td>Helicone</td><td>Proxy-based</td><td>One-line integration</td><td>Free tier (10K req/mo)</td></tr>
-<tr><td>Braintrust</td><td>Observability + evals</td><td>Eval alongside cost tracking</td><td>Free tier; $249/mo Pro</td></tr>
-<tr><td>CloudZero</td><td>FinOps platform</td><td>Unit-economics by customer</td><td>Enterprise</td></tr>
-<tr><td>Finout</td><td>Cloud cost mgmt</td><td>Cross-provider allocation</td><td>Enterprise</td></tr>
-</tbody>
-</table>
-</div>
-
 <h2>The Bigger Picture: A FinOps Discipline for AI</h2>
 
 <p>Model API spending doubled from $3.5 billion to $8.4 billion between late 2024 and mid-2025, and 72% of companies planned to increase their LLM spending further into 2026. The enterprise LLM market is projected to grow from $6.7 billion to $71.1 billion by 2034. These are not numbers that can be managed with spreadsheets and monthly invoice reviews.</p>
@@ -367,6 +406,10 @@ tr:last-child td { border-bottom: none; }
 <p>The organizations that succeed will be the ones that treat AI cost management the way the industry learned to treat cloud cost management a decade ago: as a first-class engineering discipline, not an afterthought. That means instrumenting from day one, attributing every dollar to a business outcome, building cost awareness into architectural decisions, and continuously benchmarking whether the model and tier you're using is actually the right one for each workload.</p>
 
 <p><strong>The price of intelligence is rising. The question is whether you're paying attention before or after the bill arrives.</strong></p>
+
+<hr>
+<p style="color:var(--text3);font-size:14px;font-style:italic">— Teckxx, Founder of <span style="color:#00ff88">OK ROBOT</span></p>
+<p style="font-size:14px;color:var(--text2);margin-top:8px"><a href="/index.html#cta" style="color:var(--green-600);border-bottom:1px solid var(--green-200);text-decoration:none;font-weight:500">Sign up here</a> to receive updates on new Blog posts and all things <em><span style="color:#00ff88">OK-ROBOT</span></em></p>
 
 <div class="sources">
 <strong>Sources:</strong> Anthropic API pricing documentation (verified April 29, 2026); OpenAI API pricing documentation (verified April 30, 2026); reporting from Business Insider and Dataconomy on Claude Code cost estimate revisions; Datadog State of AI Engineering report (April 2026); analysis from Finout, CloudZero, MetaCTO, and Pluralsight; industry research from Gartner and ResearchAndMarkets.
@@ -425,7 +468,7 @@ tr:last-child td { border-bottom: none; }
       var cx = L + slotW * (i + 0.5);
       txt(svg, cx, T + PH + 18, label, { anchor: 'middle' });
       var iy = yPx(inputs[i]);
-      svg.appendChild(el('rect', { x: cx - barW - 1, y: iy, width: barW, height: T + PH - iy, fill: '#534AB7', rx: 2 }));
+      svg.appendChild(el('rect', { x: cx - barW - 1, y: iy, width: barW, height: T + PH - iy, fill: '#00B863', rx: 2 }));
       var oy = yPx(outputs[i]);
       svg.appendChild(el('rect', { x: cx + 1, y: oy, width: barW, height: T + PH - oy, fill: '#D85A30', rx: 2 }));
     });
