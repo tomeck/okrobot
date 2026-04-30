@@ -42,7 +42,7 @@
     "description": "Introducing our blog — where we share what we've learned building AI systems that actually work.",
     "author": "Teckxx",
     "tags": ["company", "announcement"],
-    "pinned": true,
+    "pinned": false,
     "format": "html"
   }
 ]

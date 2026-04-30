@@ -62,7 +62,32 @@ nav {
   color: var(--accent);
 }
 
-.nav-logo a { text-decoration: none; }
+.nav-logo a {
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+
+/* Green corner brackets framing the nav logo */
+.nav-logo a::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  pointer-events: none;
+  --c: #00ff88;
+  --t: 2px;
+  --l: 14px;
+  background:
+    linear-gradient(var(--c), var(--c)) top    left  / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) top    left  / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) top    right / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) top    right / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left  / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left  / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--t) var(--l) no-repeat;
+}
 
 .nav-links a {
   color: var(--text-secondary);
