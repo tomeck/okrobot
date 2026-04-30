@@ -110,6 +110,12 @@ document.querySelectorAll('.nav-links a').forEach(function(link) {
     var el = document.getElementById(id);
     if (el) sections.push({ id: id, link: a, el: el });
   });
+  // Hero section maps to the Home link (no #anchor href)
+  var homeLink = document.querySelector('.nav-links a[href="index.html"]');
+  var heroEl = document.getElementById('hero');
+  if (homeLink && heroEl) {
+    sections.push({ id: 'hero', link: homeLink, el: heroEl });
+  }
   if (!sections.length) return;
 
   function setActive(id) {
