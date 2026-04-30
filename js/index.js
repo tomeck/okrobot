@@ -101,6 +101,38 @@ document.querySelectorAll('.nav-links a').forEach(function(link) {
   });
 });
 
+// ---- NAV SCROLL-SPY ----
+(function() {
+  var allNavLinks = document.querySelectorAll('.nav-links a');
+  var sections = [];
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(a) {
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, link: a, el: el });
+  });
+  if (!sections.length) return;
+
+  function setActive(id) {
+    allNavLinks.forEach(function(a) {
+      a.classList.remove('active');
+      a.removeAttribute('aria-current');
+    });
+    var match = sections.find(function(s) { return s.id === id; });
+    if (match) {
+      match.link.classList.add('active');
+      match.link.setAttribute('aria-current', 'true');
+    }
+  }
+
+  var spyObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) setActive(entry.target.id);
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+  sections.forEach(function(s) { spyObserver.observe(s.el); });
+})();
+
 // ---- SCROLL REVEAL ----
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
