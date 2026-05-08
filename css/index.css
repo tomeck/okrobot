@@ -15,7 +15,11 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem 3rem;
+  padding: 8rem 3rem 3rem;
+}
+
+main > section:first-of-type {
+  padding-top: 10rem;
 }
 
 .section-inner {
@@ -36,7 +40,7 @@ section {
   background: #181818;
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 1.5rem 2rem;
+  padding: 0.75rem 2rem 1.5rem;
   margin-bottom: 4rem;
   text-align: left;
   font-family: var(--font-mono);
@@ -44,10 +48,12 @@ section {
   line-height: 1.8;
   min-width: 560px;
   max-width: 100%;
+  height: 6.75rem;
   margin-left: auto;
   margin-right: auto;
   opacity: 0;
   animation: fadeUp 0.8s ease 0.3s forwards;
+  overflow: hidden;
 }
 
 .chat-tts-toggle {
@@ -135,9 +141,31 @@ section {
 
 .hero-tagline em { color: var(--text-primary); font-style: normal; }
 
+.hero-descriptor {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 820px;
+  margin: 1.75rem auto 0;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1s forwards;
+}
+
+.thesis-body {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 1.25rem;
+}
+
+.thesis-body em { color: var(--text-primary); font-style: italic; }
+
 .scroll-hint {
   position: absolute;
-  bottom: 2.5rem;
+  bottom: calc(0.75rem - 30px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -163,7 +191,18 @@ section {
   animation: pulse 2s ease-in-out infinite;
 }
 
-/* ---- MISSION ---- */
+.scroll-hint::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  width: 100vw;
+  height: 1px;
+  background: var(--border);
+  transform: translateX(-50%);
+}
+
+/* ---- MISSION / THESIS ---- */
 #mission { border-top: 1px solid var(--border); }
 
 .mission-content { max-width: 700px; }
@@ -238,6 +277,9 @@ section {
   line-height: 1.6;
   font-weight: 300;
 }
+
+#approach .principle-number { color: #ffffff; }
+#approach .principle-headline { color: var(--accent); }
 
 /* ---- TEAM ---- */
 #team { border-top: 1px solid var(--border); }
@@ -495,7 +537,8 @@ section {
 
 /* ---- INDEX MOBILE ---- */
 @media (max-width: 768px) {
-  section { padding: 5rem 1.5rem; }
+  section { padding: 7rem 1.5rem 3rem; }
+  main > section:first-of-type { padding-top: 8rem; }
   .principle { grid-template-columns: 1fr; gap: 0.5rem; }
   .principle-number { display: none; }
   .founder-card { flex-direction: column; text-align: center; }

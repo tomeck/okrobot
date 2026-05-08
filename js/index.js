@@ -244,12 +244,12 @@ document.getElementById('ttsMuteBtn').addEventListener('click', toggleTtsMute);
 // ---- CHAT ANIMATION ----
 (function() {
   const conversations = [
-    { user: 'Who is this company?',   reply: 'We are OK Robot.' },
-    { user: 'I\'ve never heard about you.',    reply: 'Oh, you will soon.' },
-    { user: 'What do you do?', reply: 'We help executives and teams understand AI and how best to leverage it for significant impact.' },
-    { user: 'Do you offer anything else?', reply: 'Yes!  For example we can take on any AI-related project for you.' },
+    { user: 'Hi! Who is this company?',   reply: 'Hello. We are OK ROBOT.' },
+    { user: 'What is your purpose?',    reply: 'We are a boutique AI advisory practice providing guidance and engineering for companies serious about applying AI responsibly, thoroughly, and to outcomes that move the business.' },
+    { user: 'How do you achieve this?', reply: 'We provide senior judgment and end-to-end ownership. Both. Every engagement.' },
+    { user: 'What types of clients are you seeking?', reply: 'We prefer to work with companies who become true partners, through which we build a true AI partnership.' },
     { user: 'What qualifies you to do this?',       reply: 'The Team has extensive experience in AI research, safety and applications.' },
-    { user: 'Can you prove this?',       reply: 'Certainly!  Take a look at our samples.' },
+    { user: 'Can I see some of your work?',       reply: 'Surely.  Start by taking a look at our samples.' },
     { user: 'How can I get involved or find out more?',   reply: 'Just fill in the form at the bottom of the page.' },
   ];
   let currentIndex = 0;
