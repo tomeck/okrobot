@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://ok-robot.co/</loc>
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://ok-robot.co/images/ok_robot_logo_400.png</image:loc>
+      <image:title>OK ROBOT</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://ok-robot.co/services.html</loc>
@@ -26,15 +31,27 @@
   </url>
   <url>
     <loc>https://ok-robot.co/samples.html</loc>
-    <lastmod>2026-04-21</lastmod>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ok-robot.co/blog.html</loc>
-    <lastmod>2026-04-21</lastmod>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ok-robot.co/blog-post.html?post=rising-costs-of-proprietary-llms</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ok-robot.co/blog-post.html?post=how-language-models-think</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ok-robot.co/blog-post.html?post=have-we-reached-peak-attention</loc>
@@ -44,14 +61,45 @@
   </url>
   <url>
     <loc>https://ok-robot.co/blog-post.html?post=why-most-ai-projects-fail</loc>
-    <lastmod>2026-04-21</lastmod>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ok-robot.co/blog-post.html?post=welcome-to-ok-robot</loc>
-    <lastmod>2026-04-21</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <!-- Direct standalone blog post URLs (independently discoverable) -->
+  <url>
+    <loc>https://ok-robot.co/blog/posts/rising-costs-of-proprietary-llms.html</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ok-robot.co/blog/posts/how-language-models-think.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ok-robot.co/blog/posts/have-we-reached-peak-attention.html</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ok-robot.co/blog/posts/why-most-ai-projects-fail.html</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ok-robot.co/blog/posts/welcome-to-ok-robot.html</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

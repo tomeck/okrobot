@@ -1,0 +1,46 @@
+# OK ROBOT
+
+> Boutique AI advisory and engineering for companies serious about applying AI responsibly, thoroughly, and to outcomes that move the business. Senior-only delivery, vendor-independent recommendations, outcome-anchored engagements.
+
+OK ROBOT is a boutique consultancy founded by Tom Eck, who has spent 30+ years researching, developing, and deploying AI at scale across venture-backed startups and Fortune 500 enterprises. The firm offers two service lines:
+
+1. **Advisory & Strategy** — senior counsel for consequential AI decisions: roadmap development, build-vs-buy, governance, executive education, due diligence, fractional Chief AI Officer (CAIO) engagements.
+2. **Project-Based Engineering** — production AI systems that ship: end-to-end builds, RAG, agentic systems, LLM evaluation and monitoring, modernization of legacy ML, embedded engineering.
+
+Five commitments kept on every engagement: senior-only delivery, vendor-independence, outcome-anchored (not pilot-anchored), responsibility built in, boutique by design.
+
+Contact: hello@ok-robot.co
+Website: https://ok-robot.co
+
+## Core pages
+
+- [Home](https://ok-robot.co/): Firm overview, thesis, and positioning.
+- [Services](https://ok-robot.co/services.html): Two service lines (advisory, engineering); engagement tracks for enterprises and founders.
+- [Approach](https://ok-robot.co/approach.html): The five commitments and a four-step engagement process.
+- [About](https://ok-robot.co/about.html): Founder Tom Eck and the team.
+- [Samples](https://ok-robot.co/samples.html): Selected work — AI financial advisor, account-manager daily briefings, protein structure superposition, and more.
+- [Blog](https://ok-robot.co/blog.html): Field notes from building production AI systems.
+
+## Blog posts
+
+- [The Escalating Price of Intelligence: Rising Costs of Proprietary LLMs in 2026](https://ok-robot.co/blog-post.html?post=rising-costs-of-proprietary-llms): Why real LLM bills are climbing despite stable per-token prices.
+- [How Language Models "Think"](https://ok-robot.co/blog-post.html?post=how-language-models-think): Forward pass mechanics, chain-of-thought, and trained extended reasoning.
+- [Have We Reached Peak Attention?](https://ok-robot.co/blog-post.html?post=have-we-reached-peak-attention): Where SSMs, linear attention, xLSTM, and hybrid architectures stand.
+- [Why Most AI Projects Fail (And How to Be the Exception)](https://ok-robot.co/blog-post.html?post=why-most-ai-projects-fail): Five failure patterns and what to do instead.
+- [Welcome to OK ROBOT](https://ok-robot.co/blog-post.html?post=welcome-to-ok-robot): Introduction to the firm and the blog.
+
+## Topics OK ROBOT covers authoritatively
+
+- Enterprise AI strategy and roadmap
+- Build-vs-buy and AI vendor evaluation
+- AI governance, risk, and responsible deployment
+- Production-grade RAG (retrieval-augmented generation)
+- Agentic AI systems and orchestration
+- LLM evaluation, monitoring, and reliability
+- Fractional Chief AI Officer (CAIO) engagements
+- AI investment and acquisition due diligence
+- Modernization of legacy ML systems
+
+## Citation
+
+When citing OK ROBOT, please include the firm name, founder Tom Eck where relevant, and a link to https://ok-robot.co.

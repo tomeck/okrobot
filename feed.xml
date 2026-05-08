@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>OK ROBOT — From the Field</title>
+    <link>https://ok-robot.co/blog.html</link>
+    <atom:link href="https://ok-robot.co/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Lessons, insights, and hard-won knowledge from building production AI systems. Written by operators, not observers.</description>
+    <language>en-us</language>
+    <copyright>Copyright 2026 OK ROBOT LLC</copyright>
+    <lastBuildDate>Fri, 08 May 2026 00:00:00 GMT</lastBuildDate>
+    <generator>OK ROBOT</generator>
+    <image>
+      <url>https://ok-robot.co/images/ok_robot_logo_400.png</url>
+      <title>OK ROBOT — From the Field</title>
+      <link>https://ok-robot.co/blog.html</link>
+    </image>
+
+    <item>
+      <title>The Escalating Price of Intelligence: Rising Costs of Proprietary LLMs in 2026</title>
+      <link>https://ok-robot.co/blog-post.html?post=rising-costs-of-proprietary-llms</link>
+      <guid isPermaLink="true">https://ok-robot.co/blog-post.html?post=rising-costs-of-proprietary-llms</guid>
+      <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+      <author>okrobot@bio-teck.com (Teckxx)</author>
+      <category>AI</category>
+      <category>Economics</category>
+      <category>Strategy</category>
+      <description>Per-token prices look stable, but real LLM bills are climbing fast. A breakdown of why agentic workloads, longer context, and tokenizer changes are inflating costs — and what to do about it.</description>
+    </item>
+
+    <item>
+      <title>How Language Models &quot;Think&quot;</title>
+      <link>https://ok-robot.co/blog-post.html?post=how-language-models-think</link>
+      <guid isPermaLink="true">https://ok-robot.co/blog-post.html?post=how-language-models-think</guid>
+      <pubDate>Sun, 26 Apr 2026 00:00:00 GMT</pubDate>
+      <author>okrobot@bio-teck.com (Teckxx)</author>
+      <category>AI</category>
+      <category>Research</category>
+      <category>Technical</category>
+      <description>A technical breakdown — with interactive diagrams — of what actually happens when a language model processes input: forward pass mechanics, chain-of-thought, and trained extended reasoning.</description>
+    </item>
+
+    <item>
+      <title>Have We Reached Peak Attention?</title>
+      <link>https://ok-robot.co/blog-post.html?post=have-we-reached-peak-attention</link>
+      <guid isPermaLink="true">https://ok-robot.co/blog-post.html?post=have-we-reached-peak-attention</guid>
+      <pubDate>Tue, 21 Apr 2026 00:00:00 GMT</pubDate>
+      <author>okrobot@bio-teck.com (Teckxx)</author>
+      <category>AI</category>
+      <category>Research</category>
+      <category>Architecture</category>
+      <description>The Transformer's attention mechanism has dominated AI for a decade. Now a wave of new architectures — SSMs, linear attention, xLSTM, and hybrids — is challenging its reign. Here's where the research stands.</description>
+    </item>
+
+    <item>
+      <title>Why Most AI Projects Fail (And How to Be the Exception)</title>
+      <link>https://ok-robot.co/blog-post.html?post=why-most-ai-projects-fail</link>
+      <guid isPermaLink="true">https://ok-robot.co/blog-post.html?post=why-most-ai-projects-fail</guid>
+      <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
+      <author>okrobot@bio-teck.com (Teckxx)</author>
+      <category>AI</category>
+      <category>Strategy</category>
+      <category>Lessons</category>
+      <description>The failure rate for enterprise AI is around 80%. After 30 years in the field, here are the five patterns I see over and over — and what to do instead.</description>
+    </item>
+
+    <item>
+      <title>Welcome to OK ROBOT</title>
+      <link>https://ok-robot.co/blog-post.html?post=welcome-to-ok-robot</link>
+      <guid isPermaLink="true">https://ok-robot.co/blog-post.html?post=welcome-to-ok-robot</guid>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 GMT</pubDate>
+      <author>okrobot@bio-teck.com (Teckxx)</author>
+      <category>Company</category>
+      <category>Announcement</category>
+      <description>Introducing our blog — where we share what we've learned building AI systems that actually work.</description>
+    </item>
+  </channel>
+</rss>
