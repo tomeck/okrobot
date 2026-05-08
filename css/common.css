@@ -138,6 +138,32 @@ nav {
   margin-bottom: 3rem;
 }
 
+/* ---- PAGE LOAD ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-title,
+.page-subtitle,
+.blog-card,
+.sample-card {
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.page-title    { animation-delay: 0.05s; }
+.page-subtitle { animation-delay: 0.2s; }
+
+.sample-card:nth-child(1) { animation-delay: 0.35s; }
+.sample-card:nth-child(2) { animation-delay: 0.45s; }
+.sample-card:nth-child(3) { animation-delay: 0.55s; }
+.sample-card:nth-child(4) { animation-delay: 0.65s; }
+.sample-card:nth-child(5) { animation-delay: 0.75s; }
+.sample-card:nth-child(6) { animation-delay: 0.85s; }
+
+.blog-card { animation-delay: 0.3s; }
+
 /* ---- FOOTER ---- */
 footer {
   position: relative;

@@ -22,6 +22,10 @@ main > section:first-of-type {
   padding-top: 10rem;
 }
 
+#about { align-items: flex-start; padding-top: calc(10rem + 12px); padding-bottom: 2rem; min-height: 0; }
+
+#engage { padding-top: 2rem; min-height: 0; align-items: flex-start; }
+
 .section-inner {
   max-width: 900px;
   width: 100%;
@@ -282,7 +286,7 @@ main > section:first-of-type {
 #approach .principle-headline { color: var(--accent); }
 
 /* ---- TEAM ---- */
-#team { border-top: 1px solid var(--border); }
+#team { border-top: 1px solid var(--border); padding-top: 2rem; min-height: 0; }
 
 .team-label {
   font-family: var(--font-mono);
@@ -345,7 +349,13 @@ main > section:first-of-type {
 }
 
 /* ---- CTA ---- */
-#cta { border-top: 1px solid var(--border); text-align: center; }
+#cta {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  min-height: 0;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
 
 .cta-headline {
   font-weight: 900;

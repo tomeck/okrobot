@@ -54,7 +54,10 @@
 }
 </script>
 <link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/index.css">
 <link rel="stylesheet" href="css/blog.css">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('yDr_cdCk4D20-NkBj');</script>
 </head>
 <body>
 
@@ -87,7 +90,50 @@
     <div class="blog-empty">Loading posts...</div>
   </div>
 </div>
+
+<!-- CTA -->
+<section id="cta" aria-labelledby="cta-heading">
+  <div class="section-inner reveal" style="text-align:center;">
+    <h2 id="cta-heading" class="cta-headline">Start a conversation.</h2>
+    <p class="cta-sub" style="color:#00ff88">A real partner. For real AI partnership.</p>
+    <a href="#" onclick="openModal(event)" class="cta-button">Get in touch</a>
+  </div>
+</section>
 </main>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+    <div id="formContent">
+      <div class="modal-title" id="modalTitle">Start a conversation.</div>
+      <div class="modal-subtitle">Thirty minutes on what you're trying to do and whether we're the right partner for it.</div>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="formName" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="formEmail" placeholder="you@company.com" />
+      </div>
+      <div class="form-group">
+        <label>Interested in</label>
+        <select id="formInterest">
+          <option value="" disabled selected>Select one...</option>
+          <option value="Advisory &amp; Strategy">Advisory &amp; Strategy</option>
+          <option value="Project-Based Engineering">Project-Based Engineering</option>
+          <option value="Fractional CAIO">Fractional CAIO</option>
+          <option value="General Interest">General Interest</option>
+        </select>
+      </div>
+      <button class="form-submit" id="formSubmit" onclick="submitForm()">Submit</button>
+    </div>
+    <div id="formSuccess" class="form-success" style="display:none;">
+      <div class="checkmark">&#10003;</div>
+      <p><strong>Got it.</strong><br/>We'll be in touch shortly.</p>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -96,6 +142,7 @@
 </footer>
 
 <script src="js/blog.js"></script>
+<script src="js/common.js"></script>
 
 </body>
 </html>
